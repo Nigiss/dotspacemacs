@@ -1,0 +1,206 @@
+;; ;;; packages.el --- synelics-completion Layer packages File for Spacemacs
+;; ;;
+;; ;; Copyright (c) 2012-2016 Sylvain Benner & Contributors
+;; ;;
+;; ;; Author: Sylvain Benner <sylvain.benner@gmail.com>
+;; ;; URL: https://github.com/syl20bnr/spacemacs
+;; ;;
+;; ;; This file is not part of GNU Emacs.
+;; ;;
+;; ;;; License: GPLv3
+
+(setq synelics-completion-packages
+      '(
+        ;; ivy
+        company
+        company-etags
+        company-flx
+        ))
+
+;; (defun auto-completion/init-company ()
+;;   (use-package company
+;;     :defer t
+;;     :init
+;;     (progn
+;;       (setq company-idle-delay 0.2
+;;             company-minimum-prefix-length 2
+;;             company-require-match nil
+;;             company-dabbrev-ignore-case nil
+;;             company-dabbrev-downcase nil)
+
+;;       (add-hook 'company-completion-started-hook 'company-turn-off-fci)
+;;       (add-hook 'company-completion-finished-hook 'company-maybe-turn-on-fci)
+;;       (add-hook 'company-completion-cancelled-hook 'company-maybe-turn-on-fci))
+;;     :config
+;;     (progn
+;;       (spacemacs|diminish company-mode " ⓐ" " a")
+
+;;       ;; key bindings
+;;       (defun spacemacs//company-complete-common-or-cycle-backward ()
+;;         "Complete common prefix or cycle backward."
+;;         (interactive)
+;;         (company-complete-common-or-cycle -1))
+;;       (spacemacs//auto-completion-set-RET-key-behavior 'company)
+;;       (spacemacs//auto-completion-set-TAB-key-behavior 'company)
+;;       (spacemacs//auto-completion-setup-key-sequence 'company)
+
+;;       (let ((map company-active-map))
+;;         (define-key map (kbd "C-/")   'company-search-candidates)
+;;         (define-key map (kbd "C-M-/") 'company-filter-candidates)
+;;         (define-key map (kbd "C-d")   'company-show-doc-buffer))
+;;       (add-hook 'spacemacs-editing-style-hook 'spacemacs//company-active-navigation)
+;;       ;; ensure that the correct bindings are set at startup
+;;       (spacemacs//company-active-navigation dotspacemacs-editing-style)
+
+;;       (setq company-transformers '(spacemacs//company-transformer-cancel
+;;                                    company-sort-by-occurrence)))))
+
+(defun synelics-completion/post-init-company ()
+  (use-package company
+    :defer t
+    :init
+    (progn
+      (setq company-idle-delay 0.2
+            company-minimum-prefix-length 3
+            completion-cycle-threshold 5)
+      (add-hook 'after-init-hook 'global-company-mode))
+    :config
+    (progn
+      (setq company-backends '((company-keywords company-capf company-dabbrev-code)
+                               company-files
+                               company-dabbrev))
+      (let ((map company-active-map))
+        (define-key map (kbd "C-w")   'clean-aindent--bsunindent)))))
+
+(defun synelics-completion/init-company-flx ()
+  (use-package company-flx
+    :defer t
+    :init
+    (progn
+      (with-eval-after-load 'company
+        (company-flx-mode +1))))))
+
+(defun synelics-completion/post-init-company-etags ()
+  (use-package company-etags
+    :defer t
+    :init
+    (progn
+      (message "%s" "before")
+      (with-eval-after-load 'company
+        (progn
+          (message "%s" "after")
+          (setq company-etags-everywhere t
+                company-etags-ignore-case t)
+          (add-to-list 'company-backends 'company-etags))))))
+
+;; (DEFUN synelics-completion/post-init-ivy ()
+;;   (use-package helm-company
+;;     :if (configuration-layer/package-usedp 'company)
+;;     :defer t
+;;     :init
+;;     (progn
+;;       (defun synelics/ivy-company ()
+;;         "Select `company-complete' candidates by `ivy'."
+;;         (interactive)
+
+;;         ;; Start complete
+;;         (let ((complete-start-pos (point))    ; Since company will auto complete common part
+;;               candidate-prefix candidates)
+
+;;           ;; Company first
+;;           (unless company-candidates
+;;             (company-complete))
+
+;;           ;; Then record states, and quit default frontend
+;;           (when company-point
+;;             (setq candidate-prefix company-prefix)
+;;             (setq candidates company-candidates)
+;;             (company-abort))
+
+;;           ;; Show as ido
+;;           (when candidates
+;;             (let ((pos (point)))
+;;               (insert (ivy-read "Compeletion: " candidates nil nil candidate-prefix))
+;;               (if (> (length candidate-prefix) 0)
+;;                   (delete-region (- complete-start-pos (length candidate-prefix)) pos))))))
+
+;;       (add-to-list 'completion-at-point-functions 'synelics/ivy-company))))
+
+
+
+;; ;; (DEFUNk synelics-completion/init-yasnippet ()
+;; ;;   (use-package yasnippet
+;; ;;     :commands (yas-global-mode yas-minor-mode)
+;; ;;     :init
+;; ;;     (progn
+;; ;;       ;; We don't want undefined variable errors
+;; ;;       (defvar yas-global-mode nil)
+;; ;;       (setq yas-triggers-in-field t
+;; ;;             yas-wrap-around-region t
+;; ;;             helm-yas-display-key-on-candidate t)
+;; ;;       ;; on multiple keys, fall back to completing read
+;; ;;       ;; typically this means helm
+;; ;;       (setq yas-prompt-functions '(yas-completing-prompt))
+;; ;;       ;; disable yas minor mode map
+;; ;;       ;; use hippie-expand instead
+;; ;;       (setq yas-minor-mode-map (make-sparse-keymap))
+;; ;;       ;; this makes it easy to get out of a nested expansion
+;; ;;       (define-key yas-minor-mode-map (kbd "M-s-/") 'yas-next-field)
+;; ;;       ;; configure snippet directories
+;; ;;       (let* ((spacemacs--synelics-completion-dir
+;; ;;               (configuration-layer/get-layer-property 'synelics-completion :dir))
+;; ;;              (private-yas-dir (if synelics-completion-private-snippets-directory
+;; ;;                                   synelics-completion-private-snippets-directory
+;; ;;                                 (concat
+;; ;;                                  configuration-layer-private-directory
+;; ;;                                  "snippets/")))
+;; ;;              (spacemacs-layer-snippets-dir (expand-file-name
+;; ;;                                       "snippets"
+;; ;;                                       spacemacs--synelics-completion-dir))
+;; ;;              (dotspacemacs-directory-snippets-dir (when dotspacemacs-directory
+;; ;;                                                     (expand-file-name
+;; ;;                                                      "snippets"
+;; ;;                                                      dotspacemacs-directory))))
+;; ;;         (setq yas-snippet-dirs nil)
+;; ;;         ;; ~/.emacs.d/layers/synelics-completion/snippets
+;; ;;         (push spacemacs-layer-snippets-dir yas-snippet-dirs)
+;; ;;         ;; ~/.emacs.d/elpa/yasnippet-xxxxx/snippets
+;; ;;         (push 'yas-installed-snippets-dir yas-snippet-dirs)
+;; ;;         ;; ~/.spacemacs.d/snippets
+;; ;;         (when dotspacemacs-directory-snippets-dir
+;; ;;           (push dotspacemacs-directory-snippets-dir yas-snippet-dirs))
+;; ;;         ;; arbitrary directories in `synelics-completion-private-snippets-directory'
+;; ;;         (when private-yas-dir
+;; ;;           (if (listp private-yas-dir)
+;; ;;               (setq yas-snippet-dirs (append yas-snippet-dirs private-yas-dir))
+;; ;;             (push private-yas-dir yas-snippet-dirs))))
+
+;; ;;       (spacemacs/add-to-hooks 'spacemacs/load-yasnippet '(prog-mode-hook
+;; ;;                                                           markdown-mode-hook
+;; ;;                                                           org-mode-hook))
+;; ;;       (spacemacs|add-toggle yasnippet
+;; ;;         :mode yas-minor-mode
+;; ;;         :documentation "Enable snippets."
+;; ;;         :evil-leader "ty")
+
+;; ;;       (spacemacs/add-to-hooks
+;; ;;        'spacemacs/force-yasnippet-off '(term-mode-hook
+;; ;;                                         shell-mode-hook
+;; ;;                                         eshell-mode-hook)))
+;; ;;     :config (spacemacs|diminish yas-minor-mode " ⓨ" " y")))
+
+;; (defun synelics-completion/init-smartparens ()
+;;   (with-eval-after-load 'smartparens
+;;     ;;  We need to know whether the smartparens was enabled, see
+;;     ;; `yas-before-expand-snippet-hook' below.
+;;     (defvar smartparens-enabled-initially t
+;;       "Stored whether smartparens is originally enabled or not.")
+;;     (add-hook 'yas-before-expand-snippet-hook
+;;               (lambda ()
+;;                 ;; If enabled, smartparens will mess snippets expanded by `hippie-expand`
+;;                 (setq smartparens-enabled-initially smartparens-mode)
+;;                 (smartparens-mode -1)))
+;;     (add-hook 'yas-after-exit-snippet-hook
+;;               (lambda ()
+;;                 (when smartparens-enabled-initially
+;;                   (smartparens-mode 1))))))

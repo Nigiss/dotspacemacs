@@ -1,0 +1,51 @@
+;; ;;; packages.el --- synelics-completion Layer packages File for Spacemacs
+;; ;;
+;; ;; Copyright (c) 2012-2016 Sylvain Benner & Contributors
+;; ;;
+;; ;; Author: Sylvain Benner <sylvain.benner@gmail.com>
+;; ;; URL: https://github.com/syl20bnr/spacemacs
+;; ;;
+;; ;; This file is not part of GNU Emacs.
+;; ;;
+;; ;;; License: GPLv3
+
+(setq synelics-project-packages
+      '(
+        projectile
+        ))
+
+(defun synelics-project/post-init-projectile ()
+  (use-package projectile
+    :defer t
+    :config
+    (progn
+      (evil-leader/set-key
+        "fm" 'ivy-recentf
+        "fp" 'projectile-find-file
+        "px" 'projectile-run-shell
+        "sp" 'spacemacs/search-project-auto-region-or-symbol
+        "sP" 'spacemacs/search-project-auto))))
+
+
+(projectile-dir-files (file-name-directory buffer-file-name))
+
+(projectile-project-root)
+
+(mapcar (lambda (file-name-in-root)
+          (concat (projectile-project-root) file-name-in-root))
+        (projectile-dir-files (file-name-directory buffer-file-name)))
+
+(defun my-ivy-files ()
+  "Find a file on current dir, recent list or project files."
+  (interactive)
+  (ivy-read "Files: " (cl-union recentf-list (mapcar #'(lambda (file-name-in-root)
+                                                         (concat (projectile-project-root) file-name-in-root))
+                                                     (projectile-dir-files (file-name-directory buffer-file-name))))
+            :action (lambda (f)
+                      (with-ivy-window
+                        (find-file f)))))
+
+;; (cl-remove-duplicates '(1 2 2 3))
+(cl-union recentf-list (mapcar #'(lambda (file-name-in-root)
+                                   (concat (projectile-project-root) file-name-in-root))
+                               (projectile-dir-files (file-name-directory buffer-file-name))))

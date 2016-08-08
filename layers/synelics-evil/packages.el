@@ -1,0 +1,192 @@
+;; ;;; packages.el --- synelics-completion Layer packages File for Spacemacs
+;; ;;
+;; ;; Copyright (c) 2012-2016 Sylvain Benner & Contributors
+;; ;;
+;; ;; Author: Sylvain Benner <sylvain.benner@gmail.com>
+;; ;; URL: https://github.com/syl20bnr/spacemacs
+;; ;;
+;; ;; This file is not part of GNU Emacs.
+;; ;;
+;; ;;; License: GPLv3
+
+(setq synelics-evil-packages '(
+                               ;; ivy
+                               evil
+                               projectile
+                               ;; evil-textobj-line
+                               ;; evil-textobj-anyblock
+                               paredit
+                               paredit-everywhere
+                               magit
+                               ))
+
+;; (defun synelics-evil/post-init-ivy ()
+;;   (use-package ivy
+;;     :defer t
+;;     :config
+;;     (progn
+;;       (define-key ivy-minibuffer-map (kbd "C-c C-c") 'ivy-exit)
+;;       (with-eval-after-load 'evil
+;;         (define-key ivy-minibuffer-map (kbd "esc") 'ivy-exit))
+;;       ;; (define-key ivy-occur-mode-map (kbd "ESC") 'keyboard-escape-quit)
+;;       )))
+
+(defun synelics-evil/post-init-evil ()
+  (progn
+    ;; Initialization
+    (setq-default evil-escape-key-sequence "C-c C-g")
+
+    ;; Edit
+    (define-key evil-insert-state-map (kbd "C-w") 'ivy-backward-kill-word)
+    (define-key evil-visual-state-map (kbd "Q") 'anzu-query-replace)
+
+    ;; Move
+    (define-key evil-normal-state-map (kbd "0") 'mwim-beginning-of-code-or-line)
+    ;; (define-key evil-emacs-state-map (kbd "0") 'mwim-beginning-of-code-or-line)
+    (define-key evil-motion-state-map (kbd "0") 'mwim-beginning-of-code-or-line)
+    (define-key evil-visual-state-map (kbd "0") 'mwim-beginning-of-code-or-line)
+    (define-key evil-operator-state-map (kbd "0") 'mwim-beginning-of-code-or-line)
+
+    (define-key evil-normal-state-map (kbd "j") 'evil-next-visual-line)
+    ;; (define-key evil-emacs-state-map (kbd "j") 'evil-next-visual-line)
+    (define-key evil-motion-state-map (kbd "j") 'evil-next-visual-line)
+    (define-key evil-visual-state-map (kbd "j") 'evil-next-visual-line)
+    (define-key evil-operator-state-map (kbd "j") 'evil-next-visual-line)
+
+    (define-key evil-normal-state-map (kbd "k") 'evil-previous-visual-line)
+    ;; (define-key evil-emacs-state-map (kbd "k") 'evil-next-visual-line)
+    (define-key evil-motion-state-map (kbd "k") 'evil-previous-visual-line)
+    (define-key evil-visual-state-map (kbd "k") 'evil-previous-visual-line)
+    (define-key evil-operator-state-map (kbd "k") 'evil-previous-visual-line)
+
+    (define-key evil-normal-state-map (kbd "gj") 'evil-next-line)
+    ;; (define-key evil-emacs-state-map (kbd "gj") 'evil-next-line)
+    (define-key evil-motion-state-map (kbd "gj") 'evil-next-line)
+    (define-key evil-visual-state-map (kbd "gj") 'evil-next-line)
+    (define-key evil-operator-state-map (kbd "gj") 'evil-next-lin)
+
+    (define-key evil-normal-state-map (kbd "gk") 'evil-previous-line)
+    ;; (define-key evil-emacs-state-map (kbd "gk") 'evil-previous-line)
+    (define-key evil-motion-state-map (kbd "gk") 'evil-previous-line)
+    (define-key evil-visual-state-map (kbd "gk") 'evil-previous-line)
+    (define-key evil-operator-state-map (kbd "gk") 'evil-previous-line)
+
+    ;; comment
+    (define-key evil-normal-state-map (kbd "gm") 'evilnc-comment-operator)
+    (define-key evil-visual-state-map (kbd "gm") 'evilnc-comment-operator)
+
+    ;; register
+    (define-key evil-normal-state-map (kbd "'") 'evil-use-register)
+    (define-key evil-motion-state-map (kbd "'") 'evil-use-register)
+    (define-key evil-visual-state-map (kbd "'") 'evil-use-register)
+    (define-key evil-operator-state-map (kbd "'") 'evil-use-register)
+
+    (define-key evil-normal-state-map (kbd "\"") 'evil-goto-mark-line)
+    (define-key evil-motion-state-map (kbd "\"") 'evil-goto-mark-line)
+    (define-key evil-visual-state-map (kbd "\"") 'evil-goto-mark-line)
+    (define-key evil-operator-state-map (kbd "\"") 'evil-goto-mark-line)
+
+    ;; Custom line object
+    (defun evil-line-range (count beg end type &optional inclusive)
+      (if inclusive
+          (evil-range (line-beginning-position) (line-end-position))
+        (let ((start (save-excursion
+                       (back-to-indentation)
+                       (point)))
+              (end (save-excursion
+                     (goto-char (line-end-position))
+                     (skip-syntax-backward " " (line-beginning-position))
+                     (point))))
+          (evil-range start end))))
+
+    (evil-define-text-object evil-a-line (count &optional beg end type)
+      "Select range between a character by which the command is followed."
+      (evil-line-range count beg end type t))
+    (evil-define-text-object evil-inner-line (count &optional beg end type)
+      "Select inner range between a character by which the command is followed."
+      (evil-line-range count beg end type))
+
+    (define-key evil-outer-text-objects-map "l" 'evil-a-line)
+    (define-key evil-inner-text-objects-map "l" 'evil-inner-line)
+
+    (define-key evil-outer-text-objects-map "m" 'evil-a-curly)
+    (define-key evil-inner-text-objects-map "m" 'evil-inner-curly)
+
+    (setq evil-normal-state-tag
+          (propertize "[N]" 'face '((:background "DarkGoldenrod2" :foreground "black")))
+
+          evil-emacs-state-tag
+          (propertize "[E]" 'face '((:background "SkyBlue2" :foreground "black")))
+
+          evil-insert-state-tag
+          (propertize "[I]" 'face '((:background "chartreuse3") :foreground "white"))
+
+          evil-motion-state-tag
+          (propertize "[M]" 'face '((:background "plum3") :foreground "white"))
+
+          evil-visual-state-tag
+          (propertize "[V]" 'face '((:background "gray" :foreground "black")))
+
+          evil-operator-state-tag
+          (propertize "[O]" 'face '((:background "purple"))))))
+
+;; (defun synelics-evil/init-paredit ()
+;;   (use-package paredit
+;;     :defer t
+;;     :config
+;;     (progn
+;;       (enable-paredit-mode)
+;;       (define-key evil-normal-state-map (kbd "s") 'paredit-forward)
+;;       (define-key evil-emacs-state-map (kbd "s") 'paredit-forward)
+;;       (define-key evil-motion-state-map (kbd "s") 'paredit-forward)
+;;       (define-key evil-visual-state-map (kbd "s") 'paredit-forward)
+;;       (define-key evil-operator-state-map (kbd "s") 'paredit-forward)
+
+;;       (define-key evil-normal-state-map (kbd "m") 'paredit-backward)
+;;       (define-key evil-emacs-state-map (kbd "m") 'paredit-backward)
+;;       (define-key evil-motion-state-map (kbd "m") 'paredit-backward)
+;;       (define-key evil-visual-state-map (kbd "m") 'paredit-backward)
+;;       (define-key evil-operator-state-map (kbd "m") 'paredit-backward))))
+
+(defun synelics-evil/init-paredit-everywhere ()
+  (use-package paredit-everywhere
+    :defer t
+    :config
+    (progn
+      (paredit-everywhere-mode t))))
+
+;; (defun synelics-evil/init-evil-textobj-line ()
+;;   (use-package evil-textobj-line
+;;     :defer t
+;;     :config
+;;     (progn
+;;       (message "%s" "test-line"))))
+
+;; (defun synelics-evil/init-evil-textobj-anyblock ()
+;;   (use-package evil-textobj-anyblock
+;;     :defer t
+;;     :config
+;;     (progn
+;;       (evil-define-text-object my-evil-textobj-anyblock-inner-quote
+;;         (count &optional beg end type)
+;;         "Select the closest outer quote."
+;;         (let ((evil-textobj-anyblock-blocks
+;;                '(("'" . "'")
+;;                  ("\"" . "\"")
+;;                  ("`" . "'")
+;;                  ("“" . "”"))))
+;;           (evil-textobj-anyblock--make-textobj beg end type count nil)))
+
+;;       (evil-define-text-object my-evil-textobj-anyblock-a-quote
+;;         (count &optional beg end type)
+;;         "Select the closest outer quote."
+;;         (let ((evil-textobj-anyblock-blocks
+;;                '(("'" . "'")
+;;                  ("\"" . "\"")
+;;                  ("`" . "'")
+;;                  ("“" . "”"))))
+;;           (evil-textobj-anyblock--make-textobj beg end type count t)))
+
+;;       (define-key evil-inner-text-objects-map "m" 'my-evil-textobj-anyblock-inner-quote)
+;;       (define-key evil-outer-text-objects-map "q" 'my-evil-textobj-anyblock-a-quote)
+;;       )))
