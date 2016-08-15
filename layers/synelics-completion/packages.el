@@ -29,8 +29,10 @@
     (progn
       (setq tab-always-indent 'complete)
       (setq company-idle-delay 0.3
-            company-minimum-prefix-length 3
+            company-minimum-prefix-length 2
             completion-cycle-threshold 5
+
+            ;; etags
             company-etags-everywhere t
             company-etags-ignore-case t)
       (add-hook 'after-init-hook 'global-company-mode))
@@ -69,9 +71,7 @@
             (minibuffer-complete)
           (if (or (not yas/minor-mode)
                   (null (do-yas-expand)))
-              (if (check-expansion)
-                  (company-complete-common)
-                (indent-for-tab-command)))))
+              (indent-for-tab-command))))
         (define-key evil-insert-state-map (kbd "TAB") 'tab-indent-or-complete))))
 
 (defun synelics-completion/init-company-flx ()
@@ -79,8 +79,10 @@
     :defer t
     :init
     (progn
+      (setq completion-styles '(basic substring initials))
       (with-eval-after-load 'company
-        (company-flx-mode +1)))))
+        (company-flx-mode +1)
+        (add-to-list 'completion-styles 'fuzzy 'append)))))
 
 (defun synelics-completion/init-ycmd ()
   (use-package ycmd

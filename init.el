@@ -48,11 +48,12 @@ values."
           magit-revision-show-gravatars nil)
 
      auto-completion
+     html
      ;; python
      ;; javascript
 
      (syntax-checking :variables syntax-checking-enable-by-default nil)
-     (spell-checking :variables spell-checking-enable-by-default nil)
+     ;; (spell-checking :variables spell-checking-enable-by-default nil)
 
      emacs-lisp
      ranger
@@ -64,13 +65,15 @@ values."
      synelics-core
      synelics-org
      synelics-evil
-     synelics-html
      synelics-shell
      synelics-project
      synelics-completion
+
+     synelics-html
      synelics-javascript
      synelics-python
      synelics-elisp
+
      work
 
      ;; zilongshanren-ui
@@ -407,15 +410,14 @@ layers configuration."
   ;; visual line mode will cause swiper slower...
   ;; (add-hook 'prog-mode-hook 'spacemacs/toggle-visual-line-navigation-on)
 
-  (add-hook 'text-mode-hook 'spacemacs/toggle-spelling-checking-on)
+  ;; (add-hook 'text-mode-hook 'spacemacs/toggle-spelling-checking-on)
   (menu-bar-mode -1)
 
-  (spacemacs/toggle-spelling-checking-off)
+  ;; (spacemacs/toggle-spelling-checking-off)
   (setq powerline-default-separator nil)
   (setq ivy-re-builders-alist
         '((t . ivy--regex-fuzzy)))
   (smartparens-global-mode t)
-  (spacemacs/toggle-spelling-checking-off)
   (spacemacs/toggle-golden-ratio-on)
   (global-auto-revert-mode t))
 

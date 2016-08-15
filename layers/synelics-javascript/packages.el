@@ -28,7 +28,7 @@
       (add-hook 'js2-mode-hook (lambda () (setq mode-name "JavaScript")))
       (add-hook 'js2-mode-hook 'evil-matchit-mode)
       (add-hook 'js2-mode-hook 'subword-mode)
-      (add-hook 'js2-mode-hook 'spacemacs/toggle-spelling-checking-off)
+      ;; (add-hook 'js2-mode-hook 'spacemacs/toggle-spelling-checking-off)
       (add-hook 'js2-mode-hook 'js2-mode-hide-warnings-and-errors)
       (add-hook 'js2-mode-hook
                 (lambda ()

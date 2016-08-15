@@ -19,7 +19,7 @@
     :defer t
     :init
     (progn
-      (add-hook 'org-mode-hook 'spacemacs/toggle-spelling-checking-off)
+      ;; (add-hook 'org-mode-hook 'spacemacs/toggle-spelling-checking-off)
       (add-hook 'org-mode-hook 'auto-fill-mode)
       (add-hook 'org-mode-hook (lambda () (company-mode -1)))
       (add-hook 'org-pomodoro-started-hook (lambda () (org-todo "DOING")))
