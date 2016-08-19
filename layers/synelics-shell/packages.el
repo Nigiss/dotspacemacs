@@ -32,9 +32,8 @@
       (setq-default dotspacemacs-configuration-layers
                     '((shell :variables shell-enable-smart-eshell t))))))
 
-(defun synelics-shell/init-xterm-color ()
+(defun synelics-shell/post-init-xterm-color ()
   (use-package xterm-color
-    ;; xterm-color hasn't autoloads
     :init
     (progn
       (add-hook 'comint-preoutput-filter-functions 'xterm-color-filter)
@@ -63,12 +62,3 @@
         [remap async-shell-command] 'with-editor-async-shell-command)
       (define-key (current-global-map)
         [remap shell-command] 'with-editor-shell-command))))
-
-;; (defun synelics-shell/init-company-shell ()
-;;   (use-package company-shell
-;;     :defer t
-;;     :init
-;;     (progn
-;;       (add-hook 'shell-mode-hook
-;;                 (lambda ()
-;;                   (add-to-list (make-local-variable 'company-backends) 'company-shell))))))
