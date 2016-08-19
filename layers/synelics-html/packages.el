@@ -29,6 +29,8 @@
                 (lambda ()
                   (modify-syntax-entry ?. ".")
                   (modify-syntax-entry ?= ".")))
+
+      (add-hook 'sgml-mode-hook 'paredit-mode)
       ;; (add-hook 'html-mode-hook 'spacemacs/toggle-spelling-checking-off)
       (add-hook 'html-mode-hook
                 (lambda ()
@@ -43,6 +45,8 @@
     :defer t
     :init
     (progn
+      (add-hook 'css-mode-hook 'paredit-mode)
+
       (with-eval-after-load 'company-css
         (defun synelics-css//all-completions (arg table)
           (let* ((candidates (completion-all-completions arg table nil (length arg)))
@@ -87,5 +91,5 @@
     :defer t
     :init
     (progn
-      (spacemacs/add-to-hooks 'turn-on-evil-matchit-mode '(css-mode-hook
-                                                           html-mode-hook)))))
+      (spacemacs/add-to-hooks 'turn-on-evil-matchit-mode '(html-mode-hook))
+      (spacemacs/add-to-hooks 'turn-off-evil-matchit-mode '(css-mode-hook)))))

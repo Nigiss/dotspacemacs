@@ -26,6 +26,7 @@
     (progn
       (setq-default js2-basic-offset 4)
       (add-hook 'js2-mode-hook (lambda () (setq mode-name "JavaScript")))
+      (add-hook 'js2-mode-hook 'paredit-mode)
       (add-hook 'js2-mode-hook 'evil-matchit-mode)
       (add-hook 'js2-mode-hook 'subword-mode)
       ;; (add-hook 'js2-mode-hook 'spacemacs/toggle-spelling-checking-off)

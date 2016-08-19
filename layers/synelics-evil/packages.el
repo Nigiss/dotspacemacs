@@ -39,6 +39,18 @@
     ;; Edit
     (define-key evil-insert-state-map (kbd "C-w") 'ivy-backward-kill-word)
     (define-key evil-visual-state-map (kbd "Q") 'anzu-query-replace)
+    (define-key evil-insert-state-map (kbd "(")
+      (lambda ()
+        (interactive)
+        (self-insert-command 1)))
+    (define-key evil-insert-state-map (kbd "[")
+      (lambda ()
+        (interactive)
+        (self-insert-command 1)))
+    (define-key evil-insert-state-map (kbd "{")
+      (lambda ()
+        (interactive)
+        (self-insert-command 1)))
 
     ;; Move
     (define-key evil-normal-state-map (kbd "0") 'mwim-beginning-of-code-or-line)
@@ -70,6 +82,16 @@
     (define-key evil-motion-state-map (kbd "gk") 'evil-previous-line)
     (define-key evil-visual-state-map (kbd "gk") 'evil-previous-line)
     (define-key evil-operator-state-map (kbd "gk") 'evil-previous-line)
+
+    (define-key evil-normal-state-map (kbd "{") 'evil-backward-section-begin)
+    (define-key evil-motion-state-map (kbd "{") 'evil-backward-section-begin)
+    (define-key evil-visual-state-map (kbd "{") 'evil-backward-section-begin)
+    (define-key evil-operator-state-map (kbd "{") 'evil-backward-section-begin)
+
+    (define-key evil-normal-state-map (kbd "}") 'evil-forward-section-end)
+    (define-key evil-motion-state-map (kbd "}") 'evil-forward-section-end)
+    (define-key evil-visual-state-map (kbd "}") 'evil-forward-section-end)
+    (define-key evil-operator-state-map (kbd "}") 'evil-forward-section-end)
 
     ;; comment
     (define-key evil-normal-state-map (kbd "gm") 'evilnc-comment-operator)
