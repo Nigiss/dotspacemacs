@@ -33,8 +33,8 @@
       (add-hook 'python-mode-hook 'evil-matchit-mode)
       (add-hook 'python-mode-hook
                 (lambda ()
-                  (define-key evil-normal-state-local-map (kbd "C-t") 'synelics//py-go-back)
-                  (define-key evil-normal-state-local-map (kbd "C-]") 'synelics//py-goto-definition))))
+                  (define-key evil-normal-state-local-map (kbd "C-t") (synelics-core/center-cursor-after-call 'synelics//py-go-back))
+                  (define-key evil-normal-state-local-map (kbd "C-]") (synelics-core/center-cursor-after-call 'synelics//py-goto-definition)))))
     :config
     (progn
       (spacemacs/set-leader-keys-for-major-mode 'python-mode

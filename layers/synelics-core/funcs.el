@@ -40,3 +40,9 @@
       (eval
        `(define-key ,map ,key func)))
             (funcall (intern name) t)))
+
+(defmacro synelics-core/center-cursor-after-call (fn)
+  `(lambda ()
+     (interactive)
+     (funcall ,fn)
+     (evil-scroll-line-to-center (line-number-at-pos))))
