@@ -22,6 +22,7 @@
       ;; (add-hook 'org-mode-hook 'spacemacs/toggle-spelling-checking-off)
       (add-hook 'org-mode-hook 'auto-fill-mode)
       (add-hook 'org-mode-hook (lambda () (company-mode -1)))
+      (add-hook 'org-agenda-mode-hook (lambda () (company-mode -1)))
       (add-hook 'org-pomodoro-started-hook (lambda () (org-todo "DOING")))
       (add-hook 'org-pomodoro-killed-hook (lambda () (org-todo "TODO")))
       (add-hook 'org-after-todo-state-change-hook
@@ -45,8 +46,31 @@
             org-html-validation-link nil
             org-export-kill-product-buffer-when-displayed t
             org-tags-column 80)
+
+
+      ;; org priority
+      (spacemacs/set-leader-keys-for-major-mode 'org-mode
+        "r" 'org-priority)
+      (setq org-highest-priority ?A)
+      (setq org-lowest-priority ?E)
+      (setq org-default-priority ?C)
+      (setq org-priority-faces '((?A . (:foreground "#F0DFAF" :weight bold))
+                                 (?B . (:foreground "#FFA800" :weight bold))
+                                 (?C . (:foreground "LightSteelBlue"))
+                                 (?D . (:foreground "OliveDrab"))
+                                 (?E . (:foreground "brightgreen"))))
+
       (setq org-todo-keywords
-            (quote ((sequence "TODO(t)" "DOING(n)" "PENDING(e)" "TEST(s)" "PUBLISHING(p)" "|" "DONE(d!/!)" "DELEGATED(l!)" "CANCELLED(c@/!)")))
+            (quote ((sequence "TODO(t)"
+                              "DOING(n)"
+                              "PENDING(e)"
+                              "REVIEW(r)"
+                              "TEST(s)"
+                              "PUBLISH(p)"
+                              "|"
+                              "DONE(d!/!)"
+                              "DELEGATED(l!)"
+                              "CANCELLED(c@/!)")))
             org-todo-repeat-to-state "NEXT")
 
       (setq org-todo-keyword-faces
