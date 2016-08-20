@@ -45,46 +45,7 @@
     :defer t
     :init
     (progn
-      (add-hook 'css-mode-hook 'paredit-mode)
-
-      (with-eval-after-load 'company-css
-        (defun synelics-css//all-completions (arg table)
-          (let* ((candidates (completion-all-completions arg table nil (length arg)))
-                 (last (last candidates))
-                 (base-size (and (numberp (cdr last)) (cdr last))))
-            (when base-size
-              (setcdr last nil))
-            (if (not (zerop (or base-size 0)))
-                (let ((before (substring arg 0 base-size)))
-                  (mapcar (lambda (candidate)
-                            (concat before candidate))
-                          candidates))
-              candidates)))
-        (defun company-css (command &optional arg &rest ignored)
-          "Overwrite default."
-          (interactive (list 'interactive))
-          (cl-case command
-            (interactive (company-begin-backend 'company-css))
-            (prefix (and (or (derived-mode-p 'css-mode)
-                             (and (derived-mode-p 'web-mode)
-                                  (string= (web-mode-language-at-pos) "css")))
-                         (or (company-grab company-css-tag-regexp 1)
-                             (company-grab company-css-pseudo-regexp 1)
-                             (company-grab company-css-property-value-regexp 2)
-                             (company-css-grab-property))))
-            (candidates
-             (cond
-              ((company-grab company-css-tag-regexp 1)
-               (synelics-css//all-completions arg company-css-html-tags))
-              ((company-grab company-css-pseudo-regexp 1)
-               (synelics-css//all-completions arg company-css-pseudo-classes))
-              ((company-grab company-css-property-value-regexp 2)
-               (synelics-css//all-completions arg
-                                              (company-css-property-values
-                                               (company-grab company-css-property-value-regexp 1))))
-              ((company-css-grab-property)
-               (synelics-css//all-completions arg company-css-property-alist))))
-            (sorted t)))))))
+      (add-hook 'css-mode-hook 'paredit-mode))))
 
 (defun synelics-html/post-init-evil-matchit ()
   (use-package evil-matchit
