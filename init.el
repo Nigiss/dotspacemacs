@@ -36,6 +36,9 @@ values."
      shell
      ;; github
 
+     ranger
+     colors
+
      markdown
      org
 
@@ -48,26 +51,25 @@ values."
           magit-revision-show-gravatars nil)
 
      auto-completion
+     ycmd
+
      html
      ;; python
      ;; javascript
+     emacs-lisp
 
      (syntax-checking :variables syntax-checking-enable-by-default nil)
      ;; (spell-checking :variables spell-checking-enable-by-default nil)
 
-     emacs-lisp
-     ranger
-
-     colors
-     ;; zilongshanren-better-defaults
-     ;; zilongshanren-misc
-
      synelics-core
-     synelics-org
      synelics-evil
+     synelics-keybind
+     synelics-git
+     synelics-completion
+
+     synelics-org
      synelics-shell
      synelics-project
-     synelics-completion
 
      synelics-html
      synelics-javascript
@@ -75,13 +77,11 @@ values."
      synelics-elisp
 
      work
-
      ;; zilongshanren-ui
      ;; spaceline
      ;; themes-megapack
      ;; spacemacs-line
-     ;; evil-escape
-     ;; git-gutter
+     git-gutter
      ;; zilongshanren-programming
      )
    ;; List of additional packages that will be installed without being
@@ -411,7 +411,10 @@ layers configuration."
   ;; (add-hook 'prog-mode-hook 'spacemacs/toggle-visual-line-navigation-on)
 
   ;; (add-hook 'text-mode-hook 'spacemacs/toggle-spelling-checking-on)
+
+  (add-hook 'text-mode-hook 'visual-line-mode)
   (menu-bar-mode -1)
+  (linum-relative-global-mode t)
 
   ;; (spacemacs/toggle-spelling-checking-off)
   (setq powerline-default-separator nil)

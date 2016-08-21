@@ -14,8 +14,6 @@
         js2-mode
         ycmd
         company-ycmd
-        ;; ac-js2
-        ;; js2-refactor
         ))
 
 (defun synelics-javascript/init-js2-mode ()
@@ -26,10 +24,10 @@
     (progn
       (setq-default js2-basic-offset 4)
       (add-hook 'js2-mode-hook (lambda () (setq mode-name "JavaScript")))
-      (add-hook 'js2-mode-hook 'paredit-mode)
       (add-hook 'js2-mode-hook 'evil-matchit-mode)
+      (add-hook 'js2-mode-hook 'paredit-mode)
       (add-hook 'js2-mode-hook 'subword-mode)
-      ;; (add-hook 'js2-mode-hook 'spacemacs/toggle-spelling-checking-off)
+      (add-hook 'js2-mode-hook 'flycheck-mode)
       (add-hook 'js2-mode-hook 'js2-mode-hide-warnings-and-errors)
       (add-hook 'js2-mode-hook
                 (lambda ()
@@ -40,6 +38,8 @@
     (progn
       (spacemacs/set-leader-keys-for-major-mode 'js2-mode
         "zo" 'js2-mode-toggle-element))))
+
+
 
 ;; (defun synelics-javascript/post-init-company-ycmd ()
 ;;   (use-package

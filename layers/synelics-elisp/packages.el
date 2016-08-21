@@ -19,6 +19,7 @@
     :defer t
     :init
     (progn
+      (add-hook 'emacs-lisp-mode-hook 'paredit-mode)
       (add-hook 'emacs-lisp-mode-hook
                 (lambda ()
                   (define-key evil-normal-state-local-map (kbd "C-]") 'elisp-slime-nav-find-elisp-thing-at-point))))))

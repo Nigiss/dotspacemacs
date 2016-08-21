@@ -23,8 +23,6 @@
       )
     :config
     (progn
-      ;; (evil-define-key 'insert eshell-mode-map
-      ;;   (kbd "TAB") 'completion-at-point)
       (setq-default dotspacemacs-configuration-layers
                     '((shell :variables shell-default-shell 'eshell)
                       (shell :variables shell-enable-smart-eshell t)))

@@ -21,7 +21,8 @@
     (progn
       ;; (add-hook 'org-mode-hook 'spacemacs/toggle-spelling-checking-off)
       (add-hook 'org-mode-hook 'auto-fill-mode)
-      (add-hook 'org-mode-hook (lambda () (company-mode -1)))
+      (spacemacs|disable-company 'org-mode)
+      (spacemacs|disable-company 'org-agenda-mode)
       (add-hook 'org-agenda-mode-hook (lambda () (company-mode -1)))
       (add-hook 'org-pomodoro-started-hook (lambda () (org-todo "DOING")))
       (add-hook 'org-pomodoro-killed-hook (lambda () (org-todo "TODO")))

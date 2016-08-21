@@ -27,22 +27,12 @@
                 (arguments arguments))
         (lambda (&rest more) (apply function (append arguments more)))))
 
-(defun buffer-local-set-key (key func)
-  (interactive "KSet key on this buffer: \naCommand: ")
-  (let ((name (format "%s-magic" (buffer-name))))
-    (eval
-     `(define-minor-mode ,(intern name)
-        "Automagically built minor mode to define buffer-local keys."))
-    (let* ((mapname (format "%s-map" name))
-           (map (intern mapname)))
-      (unless (boundp (intern mapname))
-        (set map (make-sparse-keymap)))
-      (eval
-       `(define-key ,map ,key func)))
-            (funcall (intern name) t)))
-
 (defmacro synelics-core/center-cursor-after-call (fn)
   `(lambda ()
      (interactive)
      (funcall ,fn)
      (evil-scroll-line-to-center (line-number-at-pos))))
+
+(defmacro synelics-core/remove-from-list (list-var element)
+  "Remove element from list."
+  `(setq ,list-var (delete ,element ,list-var)))
