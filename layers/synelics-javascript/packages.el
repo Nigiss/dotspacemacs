@@ -26,14 +26,17 @@
       (add-hook 'js2-mode-hook (lambda () (setq mode-name "JavaScript")))
       (add-hook 'js2-mode-hook 'evil-matchit-mode)
       (add-hook 'js2-mode-hook 'paredit-mode)
-      (add-hook 'js2-mode-hook 'subword-mode)
-      ;; (add-hook 'js2-mode-hook 'flycheck-mode)
       (add-hook 'js2-mode-hook 'js2-mode-hide-warnings-and-errors)
-      (add-hook 'js2-mode-hook
-                (lambda ()
-                  (define-key evil-normal-state-local-map (kbd "C-]") (synelics-core/center-cursor-after-call 'synelics//js-goto-definition))
-                  (define-key evil-normal-state-local-map (kbd "C-t") (synelics-core/center-cursor-after-call 'pop-tag-mark))
-                  )))
+      ;; (add-hook 'js2-mode-hook 'flycheck-mode)
+
+      (synelics-core|global-prepend-hook 'js2-mode 'subword-mode)
+      (synelics-core|global-prepend-hook 'js2-mode
+                                         (define-key evil-normal-state-local-map
+                                           (kbd "C-]")
+                                           (synelics-core|center-cursor-after-call 'synelics//js-goto-definition))
+                                         (define-key evil-normal-state-local-map
+                                           (kbd "C-t")
+                                           (synelics-core|center-cursor-after-call 'pop-tag-mark))))
     :config
     (progn
       (spacemacs/set-leader-keys-for-major-mode 'js2-mode

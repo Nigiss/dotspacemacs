@@ -33,16 +33,7 @@
       (evil-define-key 'insert term-raw-map (kbd "DEL") 'term-send-raw))))
 
 (defun shell/post-init-shell ()
-  (add-hook 'shell-mode-hook
-            (lambda ()
-              (let ((map company-active-map))
-                ;; FIXME should set local key
-                (define-key map (kbd "RET") (lambda ()
-                                              (interactive)
-                                              (condition-case nil
-                                                  (comint-send-input)
-                                                (error
-                                                 (newline-and-indent)))))))))
+  (synelics-core|local-set-key 'shell-mode company-active-map "RET" 'comint-send-input))
 
 (defun synelics-shell/post-init-eshell ()
   (use-package eshell

@@ -27,12 +27,39 @@
                 (arguments arguments))
         (lambda (&rest more) (apply function (append arguments more)))))
 
-(defmacro synelics-core/center-cursor-after-call (fn)
+;;; Macro
+(defmacro synelics-core|center-cursor-after-call (fn)
   `(lambda ()
      (interactive)
      (funcall ,fn)
      (evil-scroll-line-to-center (line-number-at-pos))))
 
-(defmacro synelics-core/remove-from-list (list-var element)
+(defmacro synelics-core|remove-from-list (list-var element)
   "Remove element from list."
   `(setq ,list-var (delete ,element ,list-var)))
+
+(defmacro synelics-core|local-set-key (mode map key def)
+  "Set key for a map in certain mode."
+  `(add-hook (synelics-core|hook-of-mode ,mode)
+            (lambda ()
+              (add-to-list (make-local-variable ',map)
+                           (cons (kbd ,key) ,def)))))
+
+;; hook
+(defmacro synelics-core|hook-of-mode (mode)
+  "Return hook of a mode."
+  `(intern (format "%s-hook"(symbol-name ,mode))))
+
+(defmacro synelics-core|global-prepend-hook (mode &rest body)
+  `(synelics-core||add-hook ,mode nil nil ,@body))
+
+(defmacro synelics-core||add-hook (mode &optional append local &rest body)
+  "Custom add hook."
+  `(add-hook (synelics-core|hook-of-mode ,mode)
+             (if (and (eq 1 (length ',body))
+                      (functionp ,@body))
+                 ,@body
+               #'(lambda ()
+                   ,@body))
+             ,append
+             ,local))
