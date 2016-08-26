@@ -27,7 +27,7 @@
       (add-hook 'js2-mode-hook 'evil-matchit-mode)
       (add-hook 'js2-mode-hook 'paredit-mode)
       (add-hook 'js2-mode-hook 'subword-mode)
-      (add-hook 'js2-mode-hook 'flycheck-mode)
+      ;; (add-hook 'js2-mode-hook 'flycheck-mode)
       (add-hook 'js2-mode-hook 'js2-mode-hide-warnings-and-errors)
       (add-hook 'js2-mode-hook
                 (lambda ()

@@ -23,48 +23,31 @@
     (setq-default evil-escape-key-sequence "C-c C-g")
 
     ;; Edit
-    (define-key evil-insert-state-map (kbd "C-w") 'ivy-backward-kill-word)
+    (define-key evil-insert-state-map (kbd "C-w") 'paredit-backward-kill-word)
     (define-key evil-visual-state-map (kbd "Q") 'anzu-query-replace)
-    (define-key evil-insert-state-map (kbd "(")
-      (lambda ()
-        (interactive)
-        (self-insert-command 1)))
-    (define-key evil-insert-state-map (kbd "[")
-      (lambda ()
-        (interactive)
-        (self-insert-command 1)))
-    (define-key evil-insert-state-map (kbd "{")
-      (lambda ()
-        (interactive)
-        (self-insert-command 1)))
 
     ;; Move
     (define-key evil-normal-state-map (kbd "0") 'mwim-beginning-of-code-or-line)
-    ;; (define-key evil-emacs-state-map (kbd "0") 'mwim-beginning-of-code-or-line)
     (define-key evil-motion-state-map (kbd "0") 'mwim-beginning-of-code-or-line)
     (define-key evil-visual-state-map (kbd "0") 'mwim-beginning-of-code-or-line)
     (define-key evil-operator-state-map (kbd "0") 'mwim-beginning-of-code-or-line)
 
     (define-key evil-normal-state-map (kbd "j") 'evil-next-visual-line)
-    ;; (define-key evil-emacs-state-map (kbd "j") 'evil-next-visual-line)
     (define-key evil-motion-state-map (kbd "j") 'evil-next-visual-line)
     (define-key evil-visual-state-map (kbd "j") 'evil-next-visual-line)
     (define-key evil-operator-state-map (kbd "j") 'evil-next-visual-line)
 
     (define-key evil-normal-state-map (kbd "k") 'evil-previous-visual-line)
-    ;; (define-key evil-emacs-state-map (kbd "k") 'evil-next-visual-line)
     (define-key evil-motion-state-map (kbd "k") 'evil-previous-visual-line)
     (define-key evil-visual-state-map (kbd "k") 'evil-previous-visual-line)
     (define-key evil-operator-state-map (kbd "k") 'evil-previous-visual-line)
 
     (define-key evil-normal-state-map (kbd "gj") 'evil-next-line)
-    ;; (define-key evil-emacs-state-map (kbd "gj") 'evil-next-line)
     (define-key evil-motion-state-map (kbd "gj") 'evil-next-line)
     (define-key evil-visual-state-map (kbd "gj") 'evil-next-line)
     (define-key evil-operator-state-map (kbd "gj") 'evil-next-lin)
 
     (define-key evil-normal-state-map (kbd "gk") 'evil-previous-line)
-    ;; (define-key evil-emacs-state-map (kbd "gk") 'evil-previous-line)
     (define-key evil-motion-state-map (kbd "gk") 'evil-previous-line)
     (define-key evil-visual-state-map (kbd "gk") 'evil-previous-line)
     (define-key evil-operator-state-map (kbd "gk") 'evil-previous-line)
@@ -78,6 +61,9 @@
     (define-key evil-motion-state-map (kbd "}") 'evil-forward-section-end)
     (define-key evil-visual-state-map (kbd "}") 'evil-forward-section-end)
     (define-key evil-operator-state-map (kbd "}") 'evil-forward-section-end)
+
+    (define-key evil-normal-state-map (kbd "g]") 'find-tag)
+    (define-key evil-visual-state-map (kbd "g]") 'find-tag)
 
     ;; comment
     (define-key evil-normal-state-map (kbd "gm") 'evilnc-comment-operator)
@@ -116,6 +102,9 @@
 
     (define-key evil-outer-text-objects-map "l" 'evil-a-line)
     (define-key evil-inner-text-objects-map "l" 'evil-inner-line)
+
+    (define-key evil-outer-text-objects-map "d" 'evil-a-bracket)
+    (define-key evil-inner-text-objects-map "d" 'evil-inner-bracket)
 
     (define-key evil-outer-text-objects-map "m" 'evil-a-curly)
     (define-key evil-inner-text-objects-map "m" 'evil-inner-curly)))

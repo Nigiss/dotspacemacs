@@ -33,7 +33,11 @@ values."
    '(
      ivy
      better-defaults
-     shell
+     (shell :variables
+            shell-default-term-shell "/usr/local/bin/zsh"
+            shell-default-shell 'multi-term
+            shell-default-height 25
+            shell-default-position 'bottom)
      ;; github
 
      ranger
@@ -76,14 +80,7 @@ values."
      synelics-python
      synelics-elisp
 
-     work
-     ;; zilongshanren-ui
-     ;; spaceline
-     ;; themes-megapack
-     ;; spacemacs-line
-     git-gutter
-     ;; zilongshanren-programming
-     )
+     work)
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
@@ -119,19 +116,13 @@ values."
                                     org-download
                                     org-timer
                                     livid-mode
-                                    ;; org-plus-contrib
                                     org-tree-slide
-                                    ;; git-gutter
                                     git-gutter-fringe
                                     alert
                                     ;; disable it for lispy-mode
                                     ;;https://github.com/abo-abo/lispy/issues/137
-                                    ;; evil-escape
                                     ;;At first, I should disable hydra in zilongshanren layer and install clj-refactor, after it is installed.
                                     ;; I could re-enable it again in zilongshanren layer.
-                                    ;; clj-refactor
-                                    ;;remove from spacemacs distribution
-                                    ;; neotree
                                     leuven-theme
                                     gh-md
                                     evil-lisp-state
@@ -405,14 +396,16 @@ layers configuration."
 
   (add-hook 'doc-view-mode-hook 'auto-revert-mode)
 
-  (global-hungry-delete-mode t)
+  ;; (global-hungry-delete-mode t)
 
   ;; visual line mode will cause swiper slower...
   ;; (add-hook 'prog-mode-hook 'spacemacs/toggle-visual-line-navigation-on)
 
   ;; (add-hook 'text-mode-hook 'spacemacs/toggle-spelling-checking-on)
 
-  (add-hook 'text-mode-hook 'visual-line-mode)
+  ;; (add-hook 'text-mode-hook 'visual-line-mode)
+  ;; (add-hook 'text-mode-hook 'spacemacs/toggle-fill-column-indicator)
+
   (menu-bar-mode -1)
   (linum-relative-global-mode t)
 

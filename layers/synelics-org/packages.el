@@ -70,6 +70,7 @@
                               "PUBLISH(p)"
                               "|"
                               "DONE(d!/!)"
+                              "DONE-WITH-LOG(o@/!)"
                               "DELEGATED(l!)"
                               "CANCELLED(c@/!)")))
             org-todo-repeat-to-state "NEXT")

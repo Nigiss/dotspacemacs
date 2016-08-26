@@ -64,7 +64,7 @@
     :defer t
     :init
     (progn
-      (setq completion-styles '(substring initials))
+      (setq completion-styles '(initials substring))
       (with-eval-after-load 'company
         (company-flx-mode +1)
         (add-to-list 'completion-styles 'fuzzy 'append)))))
@@ -112,7 +112,42 @@
       (company-ycmd-setup))))
 
 (defun synelics-evil/init-paredit ()
-  (use-package paredit :defer t))
+  (use-package paredit
+    :defer t
+    :config
+    (progn
+      (define-key evil-insert-state-map (kbd "'")
+        (lambda ()
+          (interactive)
+          (self-insert-command 1)))
+      (define-key evil-insert-state-map (kbd "\"")
+        (lambda ()
+          (interactive)
+          (self-insert-command 1)))
+      (define-key evil-insert-state-map (kbd "(")
+        (lambda ()
+          (interactive)
+          (self-insert-command 1)))
+      (define-key evil-insert-state-map (kbd ")")
+        (lambda ()
+          (interactive)
+          (self-insert-command 1)))
+      (define-key evil-insert-state-map (kbd "[")
+        (lambda ()
+          (interactive)
+          (self-insert-command 1)))
+      (define-key evil-insert-state-map (kbd "]")
+        (lambda ()
+          (interactive)
+          (self-insert-command 1)))
+      (define-key evil-insert-state-map (kbd "{")
+        (lambda ()
+          (interactive)
+          (self-insert-command 1)))
+      (define-key evil-insert-state-map (kbd "}")
+        (lambda ()
+          (interactive)
+          (self-insert-command 1))))))
 
 (defun synelics-evil/init-paredit-everywhere ()
   (use-package paredit-everywhere

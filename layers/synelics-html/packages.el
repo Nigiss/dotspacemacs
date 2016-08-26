@@ -13,7 +13,7 @@
       '(
         sgml-mode
         css-mode
-        evil-matchit
+        ;; evil-matchit
         ))
 
 (defun synelics-html/init-sgml-mode ()
@@ -25,20 +25,24 @@
       (setq-default sgml-basic-offset 4)
 
       ;; https://www.emacswiki.org/emacs/EmacsSyntaxTable
-      (add-hook 'html-mode-hook
+      (add-hook 'sgml-mode-hook
                 (lambda ()
                   (modify-syntax-entry ?. ".")
+                  (modify-syntax-entry ?' ".")
                   (modify-syntax-entry ?= ".")))
 
       (add-hook 'sgml-mode-hook 'paredit-mode)
+      (add-hook 'sgml-mode-hook 'yas-minor-mode)
+      (add-hook 'sgml-mode-hook 'evil-matchit-mode)
+      (add-hook 'sgml-mode-hook 'subword-mode)
       ;; (add-hook 'html-mode-hook 'spacemacs/toggle-spelling-checking-off)
-      (add-hook 'html-mode-hook
+      (add-hook 'sgml-mode-hook
                 (lambda ()
                   (add-hook 'after-save-hook
                             (lambda ()
                               (and
                                (string-equal (file-name-extension (buffer-file-name)) "tpl")
-                               (shell-command (concat "~/browser-fe/common/build/tpl.py " buffer-file-name " > /dev/null"))))))))))
+                               (shell-command (concat "~/kits/bin/tpl " buffer-file-name " > /dev/null"))))))))))
 
 (defun synelics-html/post-init-css-mode ()
   (use-package css-mode
@@ -47,10 +51,9 @@
     (progn
       (add-hook 'css-mode-hook 'paredit-mode))))
 
-(defun synelics-html/post-init-evil-matchit ()
-  (use-package evil-matchit
-    :defer t
-    :init
-    (progn
-      (spacemacs/add-to-hooks 'turn-on-evil-matchit-mode '(html-mode-hook))
-      (spacemacs/add-to-hooks 'turn-off-evil-matchit-mode '(css-mode-hook)))))
+;; (defun synelics-html/post-init-evil-matchit ()
+;;   (use-package evil-matchit
+;;     :defer t
+;;     :config
+;;     (progn
+;;       (add-hook 'sgml-mode-hook 'evil-matchit-mode))))
