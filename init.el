@@ -409,8 +409,14 @@ layers configuration."
   (menu-bar-mode -1)
   (linum-relative-global-mode t)
 
-  ;; (spacemacs/toggle-spelling-checking-off)
+  (synelics-core|add-hooks '(minibuffer-inactive-mode term-mode shell-mode git-commit-mode magit-diff-mode)
+                           (lambda ()
+                             (linum-relative-mode nil)
+                             (linum-relative-off)
+                             (linum-mode -1)))
+
   (setq powerline-default-separator nil)
+  (spaceline-toggle-minor-modes-off)
   (setq ivy-re-builders-alist
         '((t . ivy--regex-fuzzy)))
   (smartparens-global-mode t)
