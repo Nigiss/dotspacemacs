@@ -50,7 +50,12 @@
 
       (add-hook 'after-init-hook 'global-company-mode)
 
-      (synelics-completion//force-company-completion-use-syltes))
+      (synelics-core|add-hooks '(git-commit-mode org-mode)
+                               (lambda ()
+                                 (setq company-idle-delay nil)))
+
+      ;; (synelics-completion//force-company-completion-use-syltes)
+      )
     :config
     (progn
 
