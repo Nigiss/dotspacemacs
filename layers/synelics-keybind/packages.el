@@ -22,5 +22,5 @@
 
       (define-key ivy-minibuffer-map (kbd "C-t") 'spacemacs/ivy-transient-state/body)
       (define-key ivy-minibuffer-map (kbd "C-o") 'ivy-call)
-      (define-key ivy-minibuffer-map (kbd "C-u") 'ivy-scroll-up-command)
-      (define-key ivy-minibuffer-map (kbd "C-d") 'ivy-scroll-down-command))))
+      (define-key ivy-minibuffer-map (kbd "C-d") 'ivy-scroll-up-command)
+      (define-key ivy-minibuffer-map (kbd "C-u") 'ivy-scroll-down-command))))

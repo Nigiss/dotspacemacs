@@ -24,6 +24,7 @@
                 (interactive)
                 (revert-buffer nil 'noconfirm))
         "fm" 'ivy-recentf
+        "jt" 'find-tag
         "fF" '(lambda ()
                 (interactive)
                 (counsel-find-file)

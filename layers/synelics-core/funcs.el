@@ -50,10 +50,14 @@
   "Return hook of a mode."
   `(intern (format "%s-hook"(symbol-name ,mode))))
 
-(defmacro synelics-core|global-prepend-hook (mode &rest body)
-  `(synelics-core||add-hook ,mode nil nil ,@body))
+(defmacro synelics-core|add-hook (mode &rest body)
+  `(synelics-core||add-hook-base ,mode nil nil ,@body))
 
-(defmacro synelics-core||add-hook (mode &optional append local &rest body)
+(defmacro synelics-core|add-hooks (modes &rest body)
+  `(dolist (mode ,modes)
+    (synelics-core|add-hook mode ,@body)))
+
+(defmacro synelics-core||add-hook-base (mode &optional append local &rest body)
   "Custom add hook."
   `(add-hook (synelics-core|hook-of-mode ,mode)
              (if (and (eq 1 (length ',body))

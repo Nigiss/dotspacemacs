@@ -26,6 +26,11 @@
       (evil-define-key 'normal term-raw-map (kbd "RET") 'term-send-return)
 
       (evil-define-key 'insert term-raw-map (kbd "C-w") 'term-send-raw)
+      (evil-define-key 'insert term-raw-map (kbd "C-a") 'term-send-raw)
+      (evil-define-key 'insert term-raw-map (kbd "C-e") 'term-send-raw)
+      (evil-define-key 'insert term-raw-map (kbd "C-d") 'term-send-raw)
+      (evil-define-key 'insert term-raw-map (kbd "C-f") 'term-send-raw)
+      (evil-define-key 'insert term-raw-map (kbd "C-b") 'term-send-raw)
       (evil-define-key 'insert term-raw-map (kbd "C-r") 'term-send-raw)
       (evil-define-key 'insert term-raw-map (kbd "C-s") 'term-send-raw)
       (evil-define-key 'insert term-raw-map (kbd "M-DEL") 'term-send-raw)
