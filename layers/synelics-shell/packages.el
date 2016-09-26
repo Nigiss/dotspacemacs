@@ -33,6 +33,7 @@
       (evil-define-key 'insert term-raw-map (kbd "C-b") 'term-send-raw)
       (evil-define-key 'insert term-raw-map (kbd "C-r") 'term-send-raw)
       (evil-define-key 'insert term-raw-map (kbd "C-s") 'term-send-raw)
+      (evil-define-key 'insert term-raw-map (kbd "C-x") 'term-send-raw)
       (evil-define-key 'insert term-raw-map (kbd "M-DEL") 'term-send-raw)
       (evil-define-key 'insert term-raw-map (kbd "TAB") 'term-send-raw)
       (evil-define-key 'insert term-raw-map (kbd "DEL") 'term-send-raw))))

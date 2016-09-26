@@ -409,7 +409,7 @@ layers configuration."
   (menu-bar-mode -1)
   (linum-relative-global-mode t)
 
-  (synelics-core|add-hooks '(minibuffer-inactive-mode term-mode shell-mode git-commit-mode magit-diff-mode)
+  (synelics-core|add-hooks '(minibuffer-inactive-mode term-mode shell-mode git-commit-mode magit-diff-mode org-mode)
                            (lambda ()
                              (linum-relative-mode nil)
                              (linum-relative-off)

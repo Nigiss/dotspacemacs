@@ -38,6 +38,7 @@
                (interactive)
                (magit-push-current-to-pushremote '("--force-with-lease")))
         "gf" 'magit-pull-from-pushremote)
+      (synelics-core|add-hook 'magit-mode 'toggle-truncate-lines)
       (synelics-core|add-hook 'git-commit-mode 'toggle-truncate-lines)
       (synelics-core|add-hook 'magit-diff-mode 'toggle-truncate-lines))
     :config

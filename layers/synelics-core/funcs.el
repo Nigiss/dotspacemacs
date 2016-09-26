@@ -57,6 +57,13 @@
   `(dolist (mode ,modes)
     (synelics-core|add-hook mode ,@body)))
 
+(defmacro synelics-core|add-hook-local (mode &rest body)
+  `(synelics-core||add-hook-base ,mode nil t ,@body))
+
+(defmacro synelics-core|add-hooks-local (modes &rest body)
+  `(dolist (mode ,modes)
+     (synelics-core|add-hook-local mode ,@body)))
+
 (defmacro synelics-core||add-hook-base (mode &optional append local &rest body)
   "Custom add hook."
   `(add-hook (synelics-core|hook-of-mode ,mode)
