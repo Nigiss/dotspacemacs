@@ -14,6 +14,7 @@
         js2-mode
         ycmd
         company-ycmd
+        flycheck
         ))
 
 (defun synelics-javascript/init-js2-mode ()
@@ -27,7 +28,6 @@
       (add-hook 'js2-mode-hook 'evil-matchit-mode)
       (add-hook 'js2-mode-hook 'paredit-mode)
       (add-hook 'js2-mode-hook 'js2-mode-hide-warnings-and-errors)
-      ;; (add-hook 'js2-mode-hook 'flycheck-mode)
 
       (synelics-core|add-hook 'js2-mode 'subword-mode)
       (synelics-core|add-hook 'js2-mode
@@ -43,7 +43,20 @@
       (spacemacs/set-leader-keys-for-major-mode 'js2-mode
         "zo" 'js2-mode-toggle-element))))
 
-
+(defun synelics-javascript/post-init-flycheck ()
+  (use-package flycheck
+    :defer t
+    :init
+    (spacemacs/add-flycheck-hook 'js2-mode)
+    :config
+    (setq-default flycheck-disabled-checkers
+                  (append flycheck-disabled-checkers
+                          '(javascript-jshint)))
+    (setq flycheck-checkers '(javascript-eslint))
+    (setq-default flycheck-disabled-checkers
+                  (append flycheck-disabled-checkers
+                          '(json-jsonlist)))
+    (setq flycheck-eslintrc "~/kits/linter/.eslintrc.js")))
 
 ;; (defun synelics-javascript/post-init-company-ycmd ()
 ;;   (use-package
