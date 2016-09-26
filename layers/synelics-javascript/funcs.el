@@ -4,4 +4,4 @@
   (condition-case nil
       (js2-jump-to-definition)
     (error
-     (synelics-core/find-tag))))
+     (synelics-core/find-tag-no-confirm))))

@@ -9,7 +9,7 @@
                                               (lambda (result)
                                                 (if result
                                                     (anaconda-mode-definitions-view result)
-                                                  (synelics-core/find-tag))))))))
+                                                  (synelics-core/find-tag-no-confirm))))))))
 
 (defun synelics//py-go-back ()
   "Go back."

@@ -1,4 +1,4 @@
-(defun synelics-core/find-tag ()
+(defun synelics-core/find-tag-no-confirm ()
   "Find tag without confirm."
   (interactive)
   (let* ((tags-file (concat (projectile-project-root) "TAGS"))
@@ -16,11 +16,23 @@
 
     (find-tag (buffer-substring-no-properties begin end))))
 
+(defun synelics-core/find-tag ()
+  "Find tag without confirm."
+  (interactive)
+  (let* ((tags-file (concat (projectile-project-root) "TAGS")))
+
+    (unless (file-exists-p tags-file)
+      (synelics-core/update-tags-table))
+
+    (visit-tags-table tags-file 'local)
+    (let ((tagname (find-tag-interactive "Find tag: ")))
+      (find-tag (car tagname)))))
+
 (defun synelics-core/update-tags-table ()
   "Update tags table with shell script."
   (interactive)
   (projectile-with-default-dir (projectile-project-root)
-    (shell-command "./gen-tags.sh")))
+    (shell-command "bash gen-tags.sh")))
 
 (defsubst synelics-core/curry (function &rest arguments)
   (lexical-let ((function function)
