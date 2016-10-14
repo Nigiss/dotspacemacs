@@ -407,7 +407,6 @@ layers configuration."
   ;; (add-hook 'text-mode-hook 'spacemacs/toggle-fill-column-indicator)
 
   (menu-bar-mode -1)
-  (linum-relative-global-mode t)
 
   (synelics-core|add-hooks '(minibuffer-inactive-mode term-mode shell-mode git-commit-mode magit-diff-mode org-mode)
                            (lambda ()
@@ -415,12 +414,14 @@ layers configuration."
                              (linum-relative-off)
                              (linum-mode -1)))
 
+  (linum-relative-global-mode t)
+
   (setq powerline-default-separator nil)
   (spaceline-toggle-minor-modes-off)
   (setq ivy-re-builders-alist
         '((t . ivy--regex-fuzzy)))
   (smartparens-global-mode t)
-  (spacemacs/toggle-golden-ratio-on)
+  ;; (spacemacs/toggle-golden-ratio-on)
   (global-auto-revert-mode t))
 
 (setq custom-file (expand-file-name "custom.el" dotspacemacs-directory))

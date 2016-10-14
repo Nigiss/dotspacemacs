@@ -25,6 +25,7 @@
       (evil-define-key 'normal term-raw-map "p" 'term-paste)
       (evil-define-key 'normal term-raw-map (kbd "RET") 'term-send-return)
 
+      (evil-define-key 'insert term-raw-map (kbd "'") 'term-send-raw)
       (evil-define-key 'insert term-raw-map (kbd "C-w") 'term-send-raw)
       (evil-define-key 'insert term-raw-map (kbd "C-a") 'term-send-raw)
       (evil-define-key 'insert term-raw-map (kbd "C-e") 'term-send-raw)
