@@ -30,6 +30,7 @@
       (add-hook 'js2-mode-hook 'js2-mode-hide-warnings-and-errors)
 
       (synelics-core|add-hook 'js2-mode 'subword-mode)
+      (synelics-core|add-hook 'js2-mode 'flycheck-mode)
       (synelics-core|add-hook 'js2-mode
                               (lambda ()
                                 (define-key evil-normal-state-local-map
@@ -46,8 +47,6 @@
 (defun synelics-javascript/post-init-flycheck ()
   (use-package flycheck
     :defer t
-    :init
-    (spacemacs/add-flycheck-hook 'js2-mode)
     :config
     (setq-default flycheck-disabled-checkers
                   (append flycheck-disabled-checkers
