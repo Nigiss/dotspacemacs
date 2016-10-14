@@ -38,9 +38,9 @@
                (interactive)
                (magit-push-current-to-pushremote '("--force-with-lease")))
         "gf" 'magit-pull-from-pushremote)
-      (synelics-core|add-hook 'magit-mode 'toggle-truncate-lines)
-      (synelics-core|add-hook 'git-commit-mode 'toggle-truncate-lines)
-      (synelics-core|add-hook 'magit-diff-mode 'toggle-truncate-lines))
+      (synelics-core|add-hook 'magit-mode 'spacemacs/toggle-truncate-lines-on)
+      (synelics-core|add-hook 'git-commit-mode 'spacemacs/toggle-truncate-lines-on)
+      (synelics-core|add-hook 'magit-diff-mode 'spacemacs/toggle-truncate-lines-on))
     :config
     (progn
       (dolist (git-map (list magit-status-mode-map magit-log-mode-map magit-diff-mode-map))
@@ -48,6 +48,11 @@
         (evil-define-key 'visual git-map (kbd "<escape>") 'evil-force-normal-state)
         (evil-define-key 'motion git-map (kbd "<escape>") 'evil-force-normal-state)
         (evil-define-key 'operator git-map (kbd "<escape>") 'evil-force-normal-state)
+
+        (evil-define-key 'normal git-map (kbd "0") 'mwim-beginning-of-code-or-line)
+        (evil-define-key 'visual git-map (kbd "0") 'mwim-beginning-of-code-or-line)
+        (evil-define-key 'motion git-map (kbd "0") 'mwim-beginning-of-code-or-line)
+        (evil-define-key 'operator git-map (kbd "0") 'mwim-beginning-of-code-or-line)
 
         (evil-define-key 'normal git-map (kbd "L") 'magit-log-popup)
         (evil-define-key 'visual git-map (kbd "L") 'magit-log-popup)

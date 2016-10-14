@@ -50,9 +50,9 @@
 
       (add-hook 'after-init-hook 'global-company-mode)
 
-      (synelics-core|add-hooks-local '(git-commit-mode org-mode)
-                                     (lambda ()
-                                       (setq company-idle-delay nil)))
+      (synelics-core|add-hooks '(git-commit-mode org-mode)
+                               (lambda ()
+                                 (set (make-local-variable 'company-idle-delay) nil)))
 
       (synelics-completion//force-company-completion-use-syltes)
       )
