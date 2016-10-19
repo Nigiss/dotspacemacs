@@ -19,7 +19,7 @@
 (defun synelics-html/init-sgml-mode ()
   (use-package sgml-mode
     :defer t
-    :mode ("\\.tpl\\'" . html-mode)
+    :mode ("\\.tpl\\'" . sgml-mode)
     :init
     (progn
       (setq-default sgml-basic-offset 4)
@@ -27,15 +27,16 @@
       ;; https://www.emacswiki.org/emacs/EmacsSyntaxTable
       (add-hook 'sgml-mode-hook
                 (lambda ()
+                  (modify-syntax-entry ?: ".")
                   (modify-syntax-entry ?. ".")
                   (modify-syntax-entry ?' ".")
-                  (modify-syntax-entry ?= ".")))
-
+                  (modify-syntax-entry ?= ".")
+                  ))
       (add-hook 'sgml-mode-hook 'paredit-mode)
       (add-hook 'sgml-mode-hook 'yas-minor-mode)
       (add-hook 'sgml-mode-hook 'evil-matchit-mode)
       (add-hook 'sgml-mode-hook 'subword-mode)
-      ;; (add-hook 'html-mode-hook 'spacemacs/toggle-spelling-checking-off)
+      (add-hook 'sgml-mode-hook 'emmet-mode)
       (add-hook 'sgml-mode-hook
                 (lambda ()
                   (add-hook 'after-save-hook
@@ -50,10 +51,3 @@
     :init
     (progn
       (add-hook 'css-mode-hook 'paredit-mode))))
-
-;; (defun synelics-html/post-init-evil-matchit ()
-;;   (use-package evil-matchit
-;;     :defer t
-;;     :config
-;;     (progn
-;;       (add-hook 'sgml-mode-hook 'evil-matchit-mode))))

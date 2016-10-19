@@ -54,8 +54,7 @@
                                (lambda ()
                                  (set (make-local-variable 'company-idle-delay) nil)))
 
-      (synelics-completion//force-company-completion-use-syltes)
-      )
+      (synelics-completion//force-company-completion-use-syltes))
     :config
     (progn
 
