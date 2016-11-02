@@ -31,6 +31,7 @@
 
       (synelics-core|add-hook 'js2-mode 'subword-mode)
       (synelics-core|add-hook 'js2-mode 'flycheck-mode)
+      (synelics-core|add-hook 'js2-mode 'ycmd-mode)
       (synelics-core|add-hook 'js2-mode
                               (lambda ()
                                 (define-key evil-normal-state-local-map

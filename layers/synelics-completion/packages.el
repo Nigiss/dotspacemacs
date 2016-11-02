@@ -30,9 +30,10 @@
       (setq tab-always-indent 'complete
 
             ;; base
-            company-idle-delay 0.3
+            company-idle-delay 0
             company-minimum-prefix-length 1
             completion-cycle-threshold 5
+            company-echo-delay 1
 
             ;; etags
             company-etags-everywhere t
@@ -45,7 +46,9 @@
 
       (setq company-backends '(company-capf
                                company-files
-                               (company-dabbrev-code company-gtags company-etags company-keywords)
+                               (company-dabbrev-code
+                                ;; company-gtags company-etags
+                                company-keywords)
                                company-oddmuse company-dabbrev))
 
       (add-hook 'after-init-hook 'global-company-mode)
@@ -68,7 +71,6 @@
     :defer t
     :init
     (progn
-      (setq completion-styles '(initials substring))
       (with-eval-after-load 'company
         (company-flx-mode +1)
         (add-to-list 'completion-styles 'fuzzy 'append)))))
@@ -78,13 +80,6 @@
     :defer t
     :config
     (progn
-      ;; (defun check-expansion ()
-      ;;   (save-excursion
-      ;;     (if (looking-at "\\_>") t
-      ;;       (backward-char 1)
-      ;;       (if (looking-at "\\.") t
-      ;;         (backward-char 1)
-      ;;         (if (looking-at "->") t nil)))))
       (defun synelics-completion//do-yas-expand ()
         (let ((yas/fallback-behavior 'return-nil))
           (yas/expand)))
@@ -106,7 +101,6 @@
       (setq ycmd-server-command '("python"
                                   "/home/vagrant/.spacemacs.d/layers/synelics-completion/local/ycmd/ycmd")
             ycmd-force-semantic-completion t)
-      (add-hook 'after-init-hook #'global-ycmd-mode)
       (spacemacs|diminish ycmd-mode " Ⓜ" " M"))))
 
 (defun synelics-completion/post-init-company-ycmd ()
