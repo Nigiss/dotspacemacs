@@ -63,17 +63,18 @@
 
       (let ((map company-active-map))
         (define-key map (kbd "C-w") 'paredit-backward-kill-word)
-        (define-key map (kbd "RET") 'newline-and-indent)
-        (define-key map (kbd "TAB") 'company-complete-selection)))))
+        (define-key map (kbd "<return>") 'newline-and-indent)
+        (define-key map (kbd "<tab>") 'company-complete-selection)))))
 
 (defun synelics-completion/init-company-flx ()
   (use-package company-flx
     :defer t
     :init
     (progn
-      (with-eval-after-load 'company
-        (company-flx-mode +1)
-        (add-to-list 'completion-styles 'fuzzy 'append)))))
+      ;; (with-eval-after-load 'company
+      ;;   (company-flx-mode +1)
+      ;;   (add-to-list 'completion-styles 'fuzzy 'append))
+      )))
 
 (defun synelics-completion/post-init-yasnippet()
   (use-package yasnippet
@@ -99,7 +100,7 @@
     :init
     (progn
       (setq ycmd-server-command '("python"
-                                  "/home/vagrant/.spacemacs.d/layers/synelics-completion/local/ycmd/ycmd")
+                                  "/Users/synelics/.spacemacs.d/layers/synelics-completion/local/ycmd/ycmd")
             ycmd-force-semantic-completion t)
       (spacemacs|diminish ycmd-mode " Ⓜ" " M"))))
 
