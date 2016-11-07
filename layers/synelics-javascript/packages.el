@@ -51,12 +51,9 @@
     :config
     (setq-default flycheck-disabled-checkers
                   (append flycheck-disabled-checkers
-                          '(javascript-jshint)))
-    (setq flycheck-checkers '(javascript-eslint))
-    (setq-default flycheck-disabled-checkers
-                  (append flycheck-disabled-checkers
-                          '(json-jsonlist)))
-    (setq flycheck-eslintrc "~/kits/linter/.eslintrc.js")))
+                          '(javascript-jshint json-jsonlist)))
+    (setq flycheck-checkers '(javascript-eslint)
+          flycheck-eslintrc "~/kits/linter/.eslintrc.js")))
 
 ;; (defun synelics-javascript/post-init-company-ycmd ()
 ;;   (use-package

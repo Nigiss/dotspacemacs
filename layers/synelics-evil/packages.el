@@ -20,10 +20,11 @@
 (defun synelics-evil/post-init-evil ()
   (progn
     ;; Initialization
-    (setq-default evil-escape-key-sequence "C-c C-g")
+    (setq-default evil-escape-key-sequence "jk")
 
     ;; Edit
     (define-key evil-insert-state-map (kbd "C-w") 'evil-delete-backward-word)
+    (define-key evil-insert-state-map (kbd "C-h") 'paredit-backward-delete)
     (define-key evil-visual-state-map (kbd "Q") 'anzu-query-replace)
 
     ;; Move

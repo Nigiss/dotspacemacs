@@ -53,8 +53,8 @@
         (pm-hbtchunkmode "Vp"
                          :head-reg "^[ \t]*{{#[^}]+}}"
                          :tail-reg "^[ \t]*{{#}}"
-                         ;; :head-mode 'host
-                         ;; :tail-mode 'host
+                         :head-mode 'host
+                         :tail-mode 'host
                          :mode 'sgml-mode
                          :indent-offset 0
                          :font-lock-narrow t)
@@ -66,8 +66,8 @@
         (pm-hbtchunkmode "Vp"
                          :head-reg "^[ \t]*{{![^}]+}}"
                          :tail-reg "^[ \t]*{{!}}"
-                         ;; :head-mode 'host
-                         ;; :tail-mode 'host
+                         :head-mode 'host
+                         :tail-mode 'host
                          :mode 'css-mode
                          :indent-offset 0
                          :font-lock-narrow t)

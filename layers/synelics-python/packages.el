@@ -32,6 +32,7 @@
       (add-hook 'python-mode-hook 'anaconda-mode)
       (add-hook 'python-mode-hook 'evil-matchit-mode)
       (add-hook 'python-mode-hook 'ycmd-mode)
+      (synelics-core|add-hook 'python-mode 'subword-mode)
       (add-hook 'python-mode-hook
                 (lambda ()
                   (define-key evil-normal-state-local-map (kbd "C-t") (synelics-core|center-cursor-after-call 'synelics//py-go-back))
