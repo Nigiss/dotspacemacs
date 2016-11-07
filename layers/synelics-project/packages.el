@@ -45,5 +45,5 @@
       (evil-leader/set-key
         "pzf" 'toggle-frame-fullscreen
         "pzm" 'toggle-frame-maximized
-        "pc" 'nameframe-create-frame
+        "pe" 'nameframe-create-frame
         "ps" 'nameframe-switch-frame))))
