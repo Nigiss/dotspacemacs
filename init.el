@@ -42,7 +42,7 @@ values."
 
      ranger
      colors
-
+     chinese
      markdown
      org
 
@@ -381,9 +381,7 @@ layers configuration."
   ;;解决org表格里面中英文对齐的问题
   (when (configuration-layer/layer-usedp 'chinese)
     (when (and (spacemacs/system-is-mac) window-system)
-      (spacemacs//set-monospaced-font "Source Code Pro" "Hiragino Sans GB" 14 16)))
-
-  ;; (setq-default powerline-default-separator 'arrow)
+      (spacemacs//set-monospaced-font "Inconsolata" "Hiragino Sans GB" 17 14)))
 
   ;; show smartparens mode will cause Emacs frozen when use swiper...
   ;; (turn-off-show-smartparens-mode)
