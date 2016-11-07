@@ -12,6 +12,7 @@
 (setq synelics-project-packages
       '(
         projectile
+        nameframe
         ))
 
 (defun synelics-project/post-init-projectile ()
@@ -23,7 +24,7 @@
         "fr" '(lambda ()
                 (interactive)
                 (revert-buffer nil 'noconfirm))
-        "fm" 'ivy-recentf
+        "fm" 'counsel-recentf
         "jt" 'synelics-core/find-tag
         "fF" '(lambda ()
                 (interactive)
@@ -35,3 +36,14 @@
         "px" 'projectile-run-shell
         "sp" 'spacemacs/search-project-auto-region-or-symbol
         "sP" 'spacemacs/search-project-auto))))
+
+(defun synelics-project/init-nameframe ()
+  (use-package nameframe
+    :defer t
+    :init
+    (progn
+      (evil-leader/set-key
+        "pzf" 'toggle-frame-fullscreen
+        "pzm" 'toggle-frame-maximized
+        "pc" 'nameframe-create-frame
+        "ps" 'nameframe-switch-frame))))
