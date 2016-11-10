@@ -7,8 +7,7 @@
 (defun synelics-work/phone-test ()
   "Test for phone module"
   (interactive)
-  (synelics-work//exec-command-with-term "~/kits/bin/test-phone-v3")
-  (evil-window-up 1))
+  (synelics-work//exec-command-with-term "~/kits/bin/test-phone-v3"))
 
 ;; phone cmd
 (defun synelics-work/phone-dev ()
@@ -50,14 +49,10 @@
   `(projectile-with-default-dir (projectile-project-root)
      (if ,sync
          (shell-command ,cmd)
-       (delete-other-windows)
-       (split-window-below-and-focus)
        (shell)
        (comint-send-string "*shell*" (concat ,cmd "\n")))))
 
 
 (defun synelics-work//exec-command-with-term (cmd)
-  (delete-other-windows)
-  (split-window-below-and-focus)
   (let ((term-buffer (multi-term)))
     (term-send-string term-buffer (concat cmd "\n"))))
