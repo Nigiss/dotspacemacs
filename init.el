@@ -319,7 +319,7 @@ values."
    ;; If non nil line numbers are turned on in all `prog-mode' and `text-mode'
    ;; derivatives. If set to `relative', also turns on relative line numbers.
    ;; (default nil)
-   dotspacemacs-line-numbers t
+   dotspacemacs-line-numbers nil
    ;; Code folding method. Possible values are `evil' and `origami'.
    ;; (default 'evil)
    dotspacemacs-folding-method 'evil
@@ -406,15 +406,11 @@ layers configuration."
 
   (menu-bar-mode -1)
 
-  (synelics-core|add-hooks '(minibuffer-inactive-mode term-mode shell-mode git-commit-mode magit-diff-mode org-mode)
-                           (lambda ()
-                             (linum-relative-mode nil)
-                             (linum-relative-off)
-                             (linum-mode -1)))
+  ;; (synelics-core|add-hooks '(minibuffer-inactive-mode term-mode shell-mode git-commit-mode magit-diff-mode org-mode)
+  ;;                          (lambda ()
+  ;;                            (linum-mode -1)))
 
-  (linum-relative-global-mode t)
-
-  (setq powerline-default-separator nil)
+  (setq powerline-default-separator 'utf-8)
   (spaceline-toggle-minor-modes-off)
   (setq ivy-re-builders-alist
         '((t . ivy--regex-fuzzy)))
