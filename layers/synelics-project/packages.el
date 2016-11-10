@@ -13,6 +13,7 @@
       '(
         projectile
         nameframe
+        window-numbering
         ))
 
 (defun synelics-project/post-init-projectile ()
@@ -47,3 +48,13 @@
         "pzm" 'toggle-frame-maximized
         "pe" 'nameframe-create-frame
         "ps" 'nameframe-switch-frame))))
+
+(defun synelics-project/post-init-window-numbering ()
+  (use-package window-numbering
+    :defer t
+    :init
+    (progn
+      (dotimes (i 10)
+        (define-key evil-normal-state-local-map
+          (kbd (format "s-%s" i))
+          (intern (format "select-window-%s" i)))))))
