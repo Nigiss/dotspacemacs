@@ -367,11 +367,9 @@ values."
 It is called immediately after `dotspacemacs/init'.  You are free to put almost
 any user code here.  The exception is org related code, which should be placed
 in `dotspacemacs/user-config'."
-  (setq configuration-layer--elpa-archives
-        '(("melpa-cn" . "http://elpa.zilongshanren.com/melpa/")
-          ("org-cn"   . "http://elpa.zilongshanren.com/org/")
-          ("gnu-cn"   . "http://elpa.zilongshanren.com/gnu/")))
- 
+  (add-to-list 'configuration-layer--elpa-archives
+               '("melpa-stable" . "https://stable.melpa.org/packages/") t)
+
   ;; https://github.com/syl20bnr/spacemacs/issues/2705
   ;; (setq tramp-mode nil)
   (setq tramp-ssh-controlmaster-options

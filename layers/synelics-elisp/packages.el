@@ -24,6 +24,7 @@
                 (lambda ()
                   (set (make-variable-buffer-local 'company-idle-delay) .2)
                   (set (make-variable-buffer-local 'company-minimum-prefix-length) 3)
+                  (set (make-variable-buffer-local 'company-auto-complete) 'company-explicit-action-p)
                   (set (make-variable-buffer-local 'company-backends)
                        '(company-capf
                          (company-dabbrev-code company-gtags company-etags company-keywords)
