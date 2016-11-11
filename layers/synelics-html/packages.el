@@ -13,7 +13,6 @@
       '(
         sgml-mode
         css-mode
-        ;; evil-matchit
         ))
 
 (defun synelics-html/init-sgml-mode ()
@@ -48,6 +47,13 @@
 (defun synelics-html/post-init-css-mode ()
   (use-package css-mode
     :defer t
-    :init
+    :config
     (progn
-      (add-hook 'css-mode-hook 'paredit-mode))))
+      (add-hook 'css-mode-hook 'paredit-mode)
+      (add-hook 'css-mode-hook
+                (lambda ()
+                  (set (make-variable-buffer-local 'company-backends)
+                       '(company-css
+                         company-capf
+                         (company-dabbrev-code company-keywords)
+                         company-files company-dabbrev)))))))

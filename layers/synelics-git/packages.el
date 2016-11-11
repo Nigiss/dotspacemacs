@@ -37,10 +37,7 @@
         "gP" (lambda ()
                (interactive)
                (magit-push-current-to-pushremote '("--force-with-lease")))
-        "gf" 'magit-pull-from-pushremote)
-      (synelics-core|add-hook 'magit-mode 'spacemacs/toggle-truncate-lines-on)
-      (synelics-core|add-hook 'git-commit-mode 'spacemacs/toggle-truncate-lines-on)
-      (synelics-core|add-hook 'magit-diff-mode 'spacemacs/toggle-truncate-lines-on))
+        "gf" 'magit-pull-from-pushremote))
     :config
     (progn
       (dolist (git-map (list magit-status-mode-map magit-log-mode-map magit-diff-mode-map))
