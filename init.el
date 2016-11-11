@@ -45,6 +45,13 @@ values."
      chinese
      markdown
      org
+     semantic
+     osx
+     dash
+     deft
+
+     restclient
+     search-engine
 
      (git :variables
           git-magit-status-fullscreen t
@@ -61,11 +68,13 @@ values."
      ;; python
      ;; javascript
      emacs-lisp
+     nginx
 
      (syntax-checking :variables syntax-checking-enable-by-default nil)
      ;; (spell-checking :variables spell-checking-enable-by-default nil)
 
      synelics-core
+     synelics-tool
      synelics-evil
      synelics-keybind
      synelics-git
@@ -210,7 +219,7 @@ values."
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
    dotspacemacs-default-font '("Inconsolata"
-                               :size 16
+                               :size 17
                                :weight normal
                                :width normal
                                :powerline-scale .9)
