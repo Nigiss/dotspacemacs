@@ -45,7 +45,6 @@ values."
      chinese
      markdown
      org
-     semantic
      osx
      dash
      deft
@@ -218,11 +217,11 @@ values."
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
-   dotspacemacs-default-font '("Inconsolata"
-                               :size 17
+   dotspacemacs-default-font '("Source Code Pro for Powerline"
+                               :size 14
                                :weight normal
                                :width normal
-                               :powerline-scale .9)
+                               :powerline-scale 1.1)
    ;; The leader key
    dotspacemacs-leader-key "\\"
    ;; The leader key accessible in `emacs state' and `insert state'
@@ -386,9 +385,9 @@ in `dotspacemacs/user-config'."
  This function is called at the very end of Spacemacs initialization after
 layers configuration."
   ;;解决org表格里面中英文对齐的问题
-  (when (configuration-layer/layer-usedp 'chinese)
-    (when (and (spacemacs/system-is-mac) window-system)
-      (spacemacs//set-monospaced-font "Inconsolata" "Hiragino Sans GB" 17 14)))
+  ;; (when (configuration-layer/layer-usedp 'chinese)
+  ;;   (when (and (spacemacs/system-is-mac) window-system)
+  ;;     (spacemacs//set-monospaced-font "Inconsolata" "Hiragino Sans GB" 17 14)))
 
   ;; show smartparens mode will cause Emacs frozen when use swiper...
   ;; (turn-off-show-smartparens-mode)
