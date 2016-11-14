@@ -40,12 +40,6 @@
     (define-key pyim-mode-map (kbd "C-w") 'pyim-quit-clear)
 
     :config
-
-    ;; 激活 basedict 拼音词库
-    (use-package chinese-pyim-basedict
-      :ensure nil
-      :config (chinese-pyim-basedict-enable))
-
     (setq default-input-method "chinese-pyim")
 
     (with-eval-after-load 'chinese-pyim
@@ -79,22 +73,18 @@
     ;; 选词框显示5个候选词
     (setq pyim-page-length 5)
 
-
     ;; 让 Emacs 启动时自动加载 pyim 词库
     (add-hook 'emacs-startup-hook #'(lambda () (pyim-restart-1 t)))
 
     :bind
-    (("M-j" . pyim-convert-code-at-point) ;与 pyim-probe-dynamic-english 配合
-     ("C-;" . pyim-delete-word-from-personal-buffer))))
+    (("C-;" . pyim-convert-code-at-point) ;与 pyim-probe-dynamic-english 配合
+     ;; ("C-;" . pyim-delete-word-from-personal-buffer)
+     )))
 
 (defun synelics-tool/init-chinese-pyim-basedict ()
   (use-package chinese-pyim-basedict
-    :defer t
-    :config
-    (chinese-pyim-basedict-enable)))
+    :config (chinese-pyim-basedict-enable)))
 
 (defun synelics-tool/init-chinese-pyim-greatdict ()
   (use-package chinese-pyim-greatdict
-    :defer t
-    :config
-    (chinese-pyim-greatdict-enable)))
+   :config (chinese-pyim-greatdict-enable)))
