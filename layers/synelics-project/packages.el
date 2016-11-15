@@ -44,8 +44,6 @@
     :init
     (progn
       (evil-leader/set-key
-        "pzf" 'toggle-frame-fullscreen
-        "pzm" 'toggle-frame-maximized
         "pe" 'nameframe-create-frame
         "ps" 'nameframe-switch-frame))))
 
@@ -53,8 +51,7 @@
   (use-package window-numbering
     :defer t
     :init
-    (progn
-      (dotimes (i 10)
-        (define-key evil-normal-state-local-map
-          (kbd (format "s-%s" i))
-          (intern (format "select-window-%s" i)))))))
+    (dotimes (i 10)
+      (define-key window-numbering-keymap
+        (kbd (format "s-%s" i))
+        (intern (format "select-window-%s" i))))))
