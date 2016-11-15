@@ -31,7 +31,6 @@
 
 (defun synelics-tool/post-init-chinese-pyim ()
   (use-package chinese-pyim
-    :defer t
     :init
     (define-key pyim-mode-map (kbd ".") 'pyim-page-next-page)
     (define-key pyim-mode-map (kbd ",") 'pyim-page-previous-page)
@@ -41,9 +40,8 @@
 
     :config
     (setq default-input-method "chinese-pyim")
-
-    (with-eval-after-load 'chinese-pyim
-      (synelics-core|add-hook 'prog-mode (lambda () (set-input-method default-input-method))))
+    (synelics-core|add-hooks '(test-mode prog-mode)
+                             #'(lambda () (set-input-method default-input-method)))
 
     ;; 使用全拼
     (setq pyim-default-scheme 'quanpin)
