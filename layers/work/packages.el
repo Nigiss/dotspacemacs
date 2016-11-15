@@ -33,7 +33,8 @@
           "mxh" 'synelics-work/phone-hotfix
           "mxd" 'synelics-work/phone-dev
 
-          "mxr" 'synelics-work/server-start)))))
+          "mxi" 'synelics-work/server-start-staging
+          "mxv" 'synelics-work/server-start-preview)))))
 
 (defun work/init-polymode ()
   (use-package polymode

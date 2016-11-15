@@ -1,7 +1,11 @@
-;; web or store-hybrid
-(defun synelics-work/server-start ()
+;; start server
+(defun synelics-work/server-start-preview ()
   (interactive)
   (synelics-work||exec-command-with-shell "bash run.sh"))
+
+(defun synelics-work/server-start-staging ()
+  (interactive)
+  (synelics-work||exec-command-with-shell "bash in.run.sh"))
 
 ;; phone test
 (defun synelics-work/phone-test ()
@@ -45,13 +49,15 @@
 (cl-defun synelics-work//hybrid-command (type &optional (project "phone"))
   (concat "bash cmd " type " " project))
 
+
+(defvar synelics-work||shell-index 0)  ; There are multiple work shells
 (defmacro synelics-work||exec-command-with-shell (cmd &optional sync)
   `(projectile-with-default-dir (projectile-project-root)
      (if ,sync
          (shell-command ,cmd)
-       (shell)
-       (comint-send-string "*shell*" (concat ,cmd "\n")))))
-
+       (let ((shell-buffer (format "*work<%s>*" (incf synelics-work||shell-index))))
+         (shell shell-buffer)
+         (comint-send-string shell-buffer (concat ,cmd "\n"))))))
 
 (defun synelics-work//exec-command-with-term (cmd)
   (let ((term-buffer (multi-term)))
