@@ -70,9 +70,10 @@
     :defer t
     :init
     (progn
-      (with-eval-after-load 'company
-        (company-flx-mode +1)
-        (add-to-list 'completion-styles 'fuzzy 'append)))))
+      ;; (with-eval-after-load 'company
+      ;;   (company-flx-mode +1)
+      ;;   (add-to-list 'completion-styles 'fuzzy 'append))
+      )))
 
 (defun synelics-completion/post-init-yasnippet()
   (use-package yasnippet
