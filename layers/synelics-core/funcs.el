@@ -78,11 +78,19 @@
 
 (defmacro synelics-core||add-hook-base (mode &optional append local &rest body)
   "Custom add hook."
-  `(add-hook (synelics-core|hook-of-mode ,mode)
-             (if (and (eq 1 (length ',body))
-                      (functionp ,@body))
-                 ,@body
-               #'(lambda ()
-                   ,@body))
-             ,append
-             ,local))
+  `(dolist (fn ',body)
+     (add-hook (synelics-core|hook-of-mode ,mode)
+               (car (cdr fn))
+               ;; (if (eq (car fn) 'quote)
+               ;;     (car (cdr fn))
+               ;;   fn)
+               ,append
+               ,local)))
+
+;; (synelics-core|add-hook 'prog-mode (lambda () (set-input-method default-input-method)))
+
+;; (progn
+;;   (set 'ttt-mode-hook nil)
+;;   (synelics-core|add-hook 'ttt-mode
+;;                           'spacemacs/toggle-fullscreen-frame
+;;                           (lambda () ())))
