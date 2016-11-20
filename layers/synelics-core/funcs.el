@@ -57,6 +57,13 @@
               (add-to-list (make-local-variable ',map)
                            (cons (kbd ,key) ,def)))))
 
+;; add list
+(defmacro synelics-core|add-to-list-local (local-buffer-p list-var element &optional append compare-fn)
+  "Add ELEMENT to the value of LIST-VAR for local buffer or mode."
+  (if local-buffer-p
+      `(add-to-list (make-variable-buffer-local ,list-var) ,element &optional append compare-fn)
+    `(add-to-list (make-local-variable ,list-var) ,element &optional append compare-fn)))
+
 ;; hook
 (defmacro synelics-core|hook-of-mode (mode)
   "Return hook of a mode."

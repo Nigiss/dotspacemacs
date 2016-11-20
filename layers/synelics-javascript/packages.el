@@ -23,15 +23,19 @@
     :mode "\\.js\\'"
     :init
     (progn
-      (setq-default js2-basic-offset 4)
-      (add-hook 'js2-mode-hook (lambda () (setq mode-name "JavaScript")))
-      (add-hook 'js2-mode-hook 'evil-matchit-mode)
-      (add-hook 'js2-mode-hook 'paredit-mode)
-      (add-hook 'js2-mode-hook 'js2-mode-hide-warnings-and-errors)
+      (setq js-indent-level 2)
 
-      (synelics-core|add-hook 'js2-mode 'subword-mode)
-      (synelics-core|add-hook 'js2-mode 'flycheck-mode)
-      (synelics-core|add-hook 'js2-mode 'ycmd-mode)
+      (add-hook 'js2-mode-hook (lambda ()
+                                 (setq mode-name "JavaScript")
+                                 (js2-mode-hide-warnings-and-errors)))
+
+      (synelics-core|add-hook 'js2-mode
+                              'ycmd-mode
+                              'paredit-mode
+                              'subword-mode
+                              'flycheck-mode
+                              'evil-matchit-mode)
+
       (synelics-core|add-hook 'js2-mode
                               (lambda ()
                                 (define-key evil-normal-state-local-map
@@ -45,56 +49,24 @@
       (spacemacs/set-leader-keys-for-major-mode 'js2-mode
         "zo" 'js2-mode-toggle-element))))
 
+(defun synelics-javascript/post-init-ycmd ()
+  (use-package ycmd
+    :defer t
+    :init
+    (spacemacs|add-company-hook js2-mode)))
+
 (defun synelics-javascript/post-init-flycheck ()
   (use-package flycheck
     :defer t
-    :config
-    (setq-default flycheck-disabled-checkers
-                  (append flycheck-disabled-checkers
-                          '(javascript-jshint json-jsonlist)))
-    (setq flycheck-checkers '(javascript-eslint)
-          flycheck-eslintrc "~/kits/linter/.eslintrc.js")))
+    :init
+    (synelics-core|add-hook 'js2-mode
+                            (lambda () (setq-default flycheck-enabled-checkers '(javascript-standard))))))
 
-;; (defun synelics-javascript/post-init-company-ycmd ()
-;;   (use-package
-;;     :init
-;;     (progn
-;;       (with-eval-after-load 'company
-;;         (add-hook 'js2-mode-hook
-;;                   #'(lambda ()
-;;                       (add-to-list (make-local-variable 'company-backends) company-ycmd)))))))
+(defun synelics-javascript/post-init-company-ycmd ()
+  (use-package company-ycmd
+    :defer t
+    :if (and (configuration-layer/package-usedp 'company)
+             (configuration-layer/package-usedp 'ycmd))
+    :init
+    (push 'company-ycmd company-backends-js2-mode)))
 
-;; (defun synelics-javascript/post-init-company ()
-;;   (spacemacs|add-company-hook js2-mode))
-
-;; (defun synelics-javascript/init-ac-js2 ()
-;;   (use-package ac-js2
-;;     :defer t
-;;     :if (and (configuration-layer/package-usedp 'company)
-;;              (configuration-layer/package-usedp 'ac-js2))
-;;     :init
-;;     (progn
-;;       (add-hook 'js2-mode-hook 'ac-js2-mode)
-;;       (add-hook 'js2-mode-hook
-;;                 (lambda ()
-;;                   (add-to-list (make-local-variable 'company-backends) 'ac-js2-company))))
-;;     :config
-;;     (progn
-;;       (defun synelics/js-goto-definition ()
-;;         "Use default first, if failed, then use TAGS."
-;;         (interactive)
-;;         (condition-case nil
-;;             (ac-js2-jump-to-definition)
-;;           (error
-;;            (condition-case nil
-;;                (js2-jump-to-definition)
-;;              (error
-;;               (find-tag))))))
-
-;;       (add-hook 'ac-js2-mode-hook
-;;                 (lambda ()
-;;                   (define-key evil-visual-state-map (kbd "C-i") 'synelics/js-goto-definition)
-;;                   (define-key evil-normal-state-map (kbd "C-i") 'synelics/js-goto-definition)))
-
-;;       (setq completion-at-point-functions
-;;             (delete 'ac-js2-completion-function completion-at-point-functions)))))

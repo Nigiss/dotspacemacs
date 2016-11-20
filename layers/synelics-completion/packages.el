@@ -15,7 +15,6 @@
         company-flx
 
         ycmd
-        company-ycmd
 
         yasnippet
         paredit
@@ -102,12 +101,6 @@
                                   "/Users/synelics/.spacemacs.d/layers/synelics-completion/local/ycmd/ycmd")
             ycmd-force-semantic-completion t)
       (spacemacs|diminish ycmd-mode " Ⓜ" " M"))))
-
-(defun synelics-completion/post-init-company-ycmd ()
-  (use-package company-ycmd
-    :config
-    (progn
-      (company-ycmd-setup))))
 
 (defun synelics-evil/init-paredit ()
   (use-package paredit
