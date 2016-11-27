@@ -85,14 +85,13 @@
 
 (defmacro synelics-core||add-hook-base (mode &optional append local &rest body)
   "Custom add hook."
-  `(dolist (fn ',body)
-     (add-hook (synelics-core|hook-of-mode ,mode)
-               (car (cdr fn))
-               ;; (if (eq (car fn) 'quote)
-               ;;     (car (cdr fn))
-               ;;   fn)
-               ,append
-               ,local)))
+  `(dolist (fn-list ',body)
+     (let ((fn (car (cdr fn-list))))
+       (if fn
+           (add-hook (synelics-core|hook-of-mode ,mode)
+                     fn
+                     ,append
+                     ,local)))))
 
 ;; (synelics-core|add-hook 'prog-mode (lambda () (set-input-method default-input-method)))
 
