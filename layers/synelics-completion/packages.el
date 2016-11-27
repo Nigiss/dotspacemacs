@@ -35,7 +35,6 @@
             company-echo-delay 1
 
             ;; etags
-            company-etags-everywhere t
             company-etags-ignore-case t
 
             ;; sensitive
@@ -45,9 +44,7 @@
 
       (setq company-backends '(company-capf
                                company-files
-                               (company-dabbrev-code
-                                ;; company-gtags company-etags
-                                company-keywords)
+                               (company-dabbrev-code company-keywords)
                                company-oddmuse company-dabbrev))
 
       (add-hook 'after-init-hook 'global-company-mode)
@@ -70,10 +67,9 @@
     :defer t
     :init
     (progn
-      ;; (with-eval-after-load 'company
-      ;;   (company-flx-mode +1)
-      ;;   (add-to-list 'completion-styles 'fuzzy 'append))
-      )))
+      (with-eval-after-load 'company
+        (company-flx-mode +1)
+        (add-to-list 'completion-styles 'fuzzy 'append)))))
 
 (defun synelics-completion/post-init-yasnippet()
   (use-package yasnippet

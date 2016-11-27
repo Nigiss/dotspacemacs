@@ -28,4 +28,5 @@
                        '(company-capf
                          (company-dabbrev-code company-keywords)
                          company-files company-dabbrev))
-                  (define-key evil-normal-state-local-map (kbd "C-]") 'elisp-slime-nav-find-elisp-thing-at-point))))))
+                  (define-key evil-normal-state-local-map (kbd "C-]") 'elisp-slime-nav-find-elisp-thing-at-point))
+                'append))))

@@ -40,7 +40,7 @@
 
     :config
     (setq default-input-method "chinese-pyim")
-    (synelics-core|add-hooks '(test-mode prog-mode)
+    (synelics-core|add-hooks '(text-mode prog-mode)
                              #'(lambda () (set-input-method default-input-method)))
 
     ;; 使用全拼

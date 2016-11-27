@@ -56,4 +56,5 @@
                        '(company-css
                          company-capf
                          (company-dabbrev-code company-keywords)
-                         company-files company-dabbrev)))))))
+                         company-files company-dabbrev)))
+                'append))))

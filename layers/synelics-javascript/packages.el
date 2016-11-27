@@ -25,16 +25,17 @@
     (progn
       (setq js-indent-level 2)
 
-      (add-hook 'js2-mode-hook (lambda ()
-                                 (setq mode-name "JavaScript")
-                                 (js2-mode-hide-warnings-and-errors)))
-
       (synelics-core|add-hook 'js2-mode
                               'ycmd-mode
                               'paredit-mode
                               'subword-mode
                               'flycheck-mode
                               'evil-matchit-mode)
+
+      (synelics-core|add-hook 'js2-mode
+                              (lambda ()
+                                (setq mode-name "JavaScript")
+                                (js2-mode-hide-warnings-and-errors)))
 
       (synelics-core|add-hook 'js2-mode
                               (lambda ()
