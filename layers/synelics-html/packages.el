@@ -18,11 +18,8 @@
 (defun synelics-html/init-sgml-mode ()
   (use-package sgml-mode
     :defer t
-    :mode ("\\.tpl\\'" . sgml-mode)
     :init
     (progn
-      (setq-default sgml-basic-offset 4)
-
       ;; https://www.emacswiki.org/emacs/EmacsSyntaxTable
       (add-hook 'sgml-mode-hook
                 (lambda ()
@@ -35,14 +32,7 @@
       (add-hook 'sgml-mode-hook 'yas-minor-mode)
       (add-hook 'sgml-mode-hook 'evil-matchit-mode)
       (add-hook 'sgml-mode-hook 'subword-mode)
-      (add-hook 'sgml-mode-hook 'emmet-mode)
-      (add-hook 'sgml-mode-hook
-                (lambda ()
-                  (add-hook 'after-save-hook
-                            (lambda ()
-                              (and
-                               (string-equal (file-name-extension (buffer-file-name)) "tpl")
-                               (shell-command (concat "~/kits/bin/tpl " buffer-file-name " > /dev/null"))))))))))
+      (add-hook 'sgml-mode-hook 'emmet-mode))))
 
 (defun synelics-html/post-init-css-mode ()
   (use-package css-mode

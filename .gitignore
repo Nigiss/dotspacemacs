@@ -3,3 +3,5 @@ zilongshanren*
 /ditaa.jar
 *.el~
 **/local
+local
+custom.el
