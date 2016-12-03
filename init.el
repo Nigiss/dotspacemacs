@@ -64,8 +64,8 @@ values."
      ycmd
 
      html
-     ;; python
-     ;; javascript
+     python
+     javascript
      emacs-lisp
      nginx
 
@@ -111,7 +111,6 @@ values."
                                     centered-buffer-mode
                                     volatile-highlights
                                     holy-mode
-                                    skewer-mode
                                     highlight-indentation
                                     vi-tilde-fringe
                                     open-junk-file

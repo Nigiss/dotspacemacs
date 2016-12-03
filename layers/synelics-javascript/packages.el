@@ -46,9 +46,14 @@
                                   (kbd "C-t")
                                   (synelics-core|center-cursor-after-call 'pop-tag-mark)))))
     :config
-    (progn
-      (spacemacs/set-leader-keys-for-major-mode 'js2-mode
-        "zo" 'js2-mode-toggle-element))))
+    (spacemacs/set-leader-keys-for-major-mode 'js2-mode
+      "w" 'js2-mode-toggle-warnings-and-errors
+      "zc" 'js2-mode-hide-element
+      "zo" 'js2-mode-show-element
+      "zr" 'js2-mode-show-all
+      "ze" 'js2-mode-toggle-element
+      "zF" 'js2-mode-toggle-hide-functions
+      "zC" 'js2-mode-toggle-hide-comments)))
 
 (defun synelics-javascript/post-init-ycmd ()
   (use-package ycmd
