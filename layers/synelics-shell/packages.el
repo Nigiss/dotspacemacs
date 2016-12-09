@@ -1,6 +1,7 @@
 ;; ;;; packages.el --- synelics-shell Layer packages File for Spacemacs
 ;; ;;
 ;; ;; Copyright (c) 2012-2016 Sylvain Benner & Contributors
+
 ;; ;;
 ;; ;; Author: Sylvain Benner <sylvain.benner@gmail.com>
 ;; ;; URL: https://github.com/syl20bnr/spacemacs
@@ -12,8 +13,7 @@
 (setq synelics-shell-packages
       '(
         term
-        (shell :location built-in)
-        eshell
+        ;; (shell :location built-in)
         xterm-color
         with-editor
         ))
@@ -44,20 +44,6 @@
 
 (defun shell/post-init-shell ()
   (synelics-core|local-set-key 'shell-mode company-active-map "RET" 'comint-send-input))
-
-(defun synelics-shell/post-init-eshell ()
-  (use-package eshell
-    :init
-    (progn
-      )
-    :config
-    (progn
-      (setq-default dotspacemacs-configuration-layers
-                    '((shell :variables shell-default-shell 'eshell)
-                      (shell :variables shell-enable-smart-eshell t)))
-
-      (setq-default dotspacemacs-configuration-layers
-                    '((shell :variables shell-enable-smart-eshell t))))))
 
 (defun synelics-shell/post-init-xterm-color ()
   (use-package xterm-color

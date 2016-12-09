@@ -17,7 +17,7 @@
         flycheck
         ))
 
-(defun synelics-javascript/init-js2-mode ()
+(defun synelics-javascript/post-init-js2-mode ()
   (use-package js2-mode
     :defer t
     :mode "\\.js\\'"

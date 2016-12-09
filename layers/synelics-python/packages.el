@@ -12,16 +12,12 @@
 (setq synelics-python-packages
       '(
         anaconda-mode
-        company
         company-ycmd
-        evil
         evil-matchit
         flycheck
-        ;; ac-js2
-        ;; js2-refactor
         ))
 
-(defun synelics-python/init-anaconda-mode ()
+(defun synelics-python/post-init-anaconda-mode ()
   (use-package anaconda-mode
     :defer t
     :init

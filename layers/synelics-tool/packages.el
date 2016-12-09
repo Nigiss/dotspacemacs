@@ -15,7 +15,6 @@
         chinese-pyim
         chinese-pyim-basedict
         chinese-pyim-greatdict
-        deft
         ))
 
 (defun synelics-tool/post-init-engine-mode ()

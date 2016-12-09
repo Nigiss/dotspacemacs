@@ -11,10 +11,8 @@
 
 (setq synelics-evil-packages '(
                                evil
-                               projectile
                                paredit
                                paredit-everywhere
-                               magit
                                ))
 
 (defun synelics-evil/post-init-evil ()

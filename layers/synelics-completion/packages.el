@@ -17,8 +17,6 @@
         ycmd
 
         yasnippet
-        paredit
-        paredit-everywhere
         ))
 
 (defun synelics-completion/post-init-company ()
