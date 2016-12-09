@@ -40,6 +40,10 @@
         "gf" 'magit-pull-from-pushremote))
     :config
     (progn
+      (evil-define-key 'normal magit-status-mode-map (kbd "q") (lambda ()
+                                                                 (interactive)
+                                                                 (magit-mode-bury-buffer 'kill-buffer)))
+
       (dolist (git-map (list magit-status-mode-map magit-log-mode-map magit-diff-mode-map))
         (evil-define-key 'normal git-map (kbd "<escape>") 'evil-force-normal-state)
         (evil-define-key 'visual git-map (kbd "<escape>") 'evil-force-normal-state)
@@ -90,7 +94,6 @@
         (evil-define-key 'visual git-map (kbd "w") 'evil-forward-word-begin)
         (evil-define-key 'motion git-map (kbd "w") 'evil-forward-word-begin)
         (evil-define-key 'operator git-map (kbd "w") 'evil-forward-word-begin)
-
         (evil-define-key 'normal git-map (kbd "B") 'magit-branch-popup)
         (evil-define-key 'visual git-map (kbd "B") 'magit-branch-popup)
         (evil-define-key 'motion git-map (kbd "B") 'magit-branch-popup)
