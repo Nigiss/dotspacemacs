@@ -116,6 +116,11 @@
                     (progn
                       (set (make-variable-buffer-local 'js-indent-level) 4)
                       (set (make-variable-buffer-local 'flycheck-disabled-checkers) '(javascript-standard))))
-                (if (synelics-work/in-directory-p "dk-reader/app-active-2016-10-01")
-                    (set (make-variable-buffer-local 'flycheck-enabled-checkers) '(javascript-eslint))))
+
+                (if (file-exists-p (concat (projectile-project-root) ".eslintrc.js"))
+                    (progn
+                      (set (make-variable-buffer-local 'flycheck-javascript-eslint-executable)
+                           (concat (projectile-project-root) "node_modules/eslint/bin/eslint.js"))
+                      (set (make-variable-buffer-local 'flycheck-enabled-checkers) '(javascript-eslint))
+                      (poly-vp-mode 1))))
               'append)))
