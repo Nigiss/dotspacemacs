@@ -115,8 +115,7 @@
                 (if (synelics-work/in-directory-p "dk-reader")
                     (progn
                       (set (make-variable-buffer-local 'js-indent-level) 4)
-                      (set (make-variable-buffer-local 'flycheck-disabled-checkers) '(javascript-standard))
-                      ))
+                      (set (make-variable-buffer-local 'flycheck-disabled-checkers) '(javascript-standard))))
                 (if (synelics-work/in-directory-p "dk-reader/app-active-2016-10-01")
                     (set (make-variable-buffer-local 'flycheck-enabled-checkers) '(javascript-eslint))))
               'append)))

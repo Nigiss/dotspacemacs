@@ -29,7 +29,7 @@
                               'ycmd-mode
                               'paredit-mode
                               'subword-mode
-                              'flycheck-mode
+                              ;; 'flycheck-mode
                               'evil-matchit-mode)
 
       (synelics-core|add-hook 'js2-mode
@@ -60,13 +60,6 @@
     :defer t
     :init
     (spacemacs|add-company-hook js2-mode)))
-
-(defun synelics-javascript/post-init-flycheck ()
-  (use-package flycheck
-    :defer t
-    :init
-    (synelics-core|add-hook 'js2-mode
-                            (lambda () (setq-default flycheck-enabled-checkers '(javascript-standard))))))
 
 (defun synelics-javascript/post-init-company-ycmd ()
   (use-package company-ycmd
