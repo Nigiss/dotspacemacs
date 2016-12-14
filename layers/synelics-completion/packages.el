@@ -24,7 +24,7 @@
     :defer t
     :init
     (progn
-      (setq tab-always-indent 'complete
+      (setq tab-always-indent t
 
             ;; base
             company-idle-delay 0

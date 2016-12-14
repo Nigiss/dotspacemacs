@@ -105,5 +105,8 @@
     (define-key evil-outer-text-objects-map "d" 'evil-a-bracket)
     (define-key evil-inner-text-objects-map "d" 'evil-inner-bracket)
 
-    (define-key evil-outer-text-objects-map "m" 'evil-a-curly)
-    (define-key evil-inner-text-objects-map "m" 'evil-inner-curly)))
+    (define-key evil-outer-text-objects-map "y" 'evil-a-curly)
+    (define-key evil-inner-text-objects-map "y" 'evil-inner-curly)
+
+    (define-key evil-outer-text-objects-map "m" 'evilmi-outer-text-object)
+    (define-key evil-inner-text-objects-map "m" 'evilmi-inner-text-object)))
