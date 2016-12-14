@@ -88,4 +88,5 @@
         "pws" 'wg-switch-to-workgroup
         "pwa" 'wg-rename-workgroup
         "pww" 'wg-save-session
+        "pwk" 'wg-kill-workgroup
         "pwr" 'wg-reload-session))))
