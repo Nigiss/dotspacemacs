@@ -424,7 +424,8 @@ layers configuration."
   ;; (spacemacs/toggle-golden-ratio-on)
   (global-auto-revert-mode t)
 
-  (workgroups-mode 1)
+  (workgroups-mode 0)
+  (which-function-mode 1)
 
   ;; scroll one line at a time (less "jumpy" than defaults)
   (setq mouse-wheel-scroll-amount '(1 ((shift) . 1))) ;; one line at a time
