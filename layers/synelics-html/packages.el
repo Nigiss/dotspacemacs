@@ -15,24 +15,16 @@
         css-mode
         ))
 
-(defun synelics-html/init-sgml-mode ()
-  (use-package sgml-mode
-    :defer t
-    :init
-    (progn
-      ;; https://www.emacswiki.org/emacs/EmacsSyntaxTable
-      (add-hook 'sgml-mode-hook
-                (lambda ()
-                  (modify-syntax-entry ?: ".")
-                  (modify-syntax-entry ?. ".")
-                  (modify-syntax-entry ?' ".")
-                  (modify-syntax-entry ?= ".")
-                  ))
-      (add-hook 'sgml-mode-hook 'paredit-mode)
-      (add-hook 'sgml-mode-hook 'yas-minor-mode)
-      (add-hook 'sgml-mode-hook 'evil-matchit-mode)
-      (add-hook 'sgml-mode-hook 'subword-mode)
-      (add-hook 'sgml-mode-hook 'emmet-mode))))
+;; (defun synelics-html/init-sgml-mode ()
+;;   (use-package sgml-mode
+;;     :defer t
+;;     :init
+;;     (progn
+;;       (add-hook 'html-mode-hook 'paredit-mode)
+;;       (add-hook 'html-mode-hook 'yas-minor-mode)
+;;       (add-hook 'html-mode-hook 'evil-matchit-mode)
+;;       (add-hook 'html-mode-hook 'subword-mode)
+;;       (add-hook 'html-mode-hook 'emmet-mode))))
 
 (defun synelics-html/post-init-css-mode ()
   (use-package css-mode

@@ -17,7 +17,7 @@
         js2-mode
         ))
 
-(defun dk-reader/post-init-sgml-mode ()
+(defun dk-reader/init-sgml-mode ()
   (use-package sgml-mode
     :defer t
     :mode ("\\.tpl\\'" . sgml-mode)
@@ -30,11 +30,34 @@
                                  (string-equal (file-name-extension (buffer-file-name)) "tpl")
                                  (shell-command (concat "~/kits/bin/tpl " buffer-file-name " > /dev/null")))))
 
-      (synelics-core|add-hook 'sgml-mode
+      (add-hook 'sgml-mode-hook
                               (lambda ()
-                                (and
-                                 (synelics-work/in-directory-p "dk-reader")
-                                 (set (make-variable-buffer-local 'sgml-basic-offset) 4)))))))
+                                (progn
+                                  (turn-on-evil-matchit-mode)
+                                  (enable-paredit-mode)
+                                  (yas-minor-mode-on)
+                                  (subword-mode +1)
+                                  (emmet-mode +1)
+
+                                  ;; https://www.emacswiki.org/emacs/EmacsSyntaxTable
+                                  (modify-syntax-entry ?: ".")
+                                  (modify-syntax-entry ?. ".")
+                                  (modify-syntax-entry ?' ".")
+                                  (modify-syntax-entry ?- ".")
+                                  (modify-syntax-entry ?= ".")
+
+                                  (set (make-variable-buffer-local 'sgml-basic-offset) 4)))))))
+
+(defun dk-reader/post-init-sgml-mode ()
+  (use-package sgml-mode
+    :defer t
+    :init
+    (progn
+      (add-hook 'sgml-mode-hook
+                              (lambda ()
+                                (progn
+                                  (message "file-name: %s" (buffer-file-name)))
+                                )))))
 
 (defun dk-reader/post-init-projectile ()
   (use-package projectile
@@ -88,7 +111,7 @@
                          :head-reg "^[ \t]*{{![^}]+}}"
                          :tail-reg "^[ \t]*{{!}}"
                          :head-mode 'host
-                         :tail-mode 'host
+                         :tail-mode 'body
                          :mode 'css-mode
                          :indent-offset 0
                          :font-lock-narrow t)
