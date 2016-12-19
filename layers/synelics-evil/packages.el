@@ -102,11 +102,14 @@
     (define-key evil-outer-text-objects-map "l" 'evil-a-line)
     (define-key evil-inner-text-objects-map "l" 'evil-inner-line)
 
-    (define-key evil-outer-text-objects-map "d" 'evil-a-bracket)
-    (define-key evil-inner-text-objects-map "d" 'evil-inner-bracket)
+    (define-key evil-outer-text-objects-map "k" 'evil-a-bracket)
+    (define-key evil-inner-text-objects-map "k" 'evil-inner-bracket)
 
-    (define-key evil-outer-text-objects-map "y" 'evil-a-curly)
-    (define-key evil-inner-text-objects-map "y" 'evil-inner-curly)
+    (define-key evil-outer-text-objects-map "u" 'evil-a-curly)
+    (define-key evil-inner-text-objects-map "u" 'evil-inner-curly)
 
-    (define-key evil-outer-text-objects-map "m" 'evilmi-outer-text-object)
-    (define-key evil-inner-text-objects-map "m" 'evilmi-inner-text-object)))
+    (define-key evil-outer-text-objects-map "m" 'evil-a-symbol)
+    (define-key evil-inner-text-objects-map "m" 'evil-inner-symbol)
+
+    (define-key evil-outer-text-objects-map "o" 'evilmi-outer-text-object)
+    (define-key evil-inner-text-objects-map "o" 'evilmi-inner-text-object)))

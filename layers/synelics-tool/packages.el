@@ -82,6 +82,6 @@
   (use-package chinese-pyim-basedict
     :config (chinese-pyim-basedict-enable)))
 
-(defun synelics-tool/init-chinese-pyim-greatdict ()
-  (use-package chinese-pyim-greatdict
-   :config (chinese-pyim-greatdict-enable)))
+;; (defun synelics-tool/init-chinese-pyim-greatdict ()
+;;   (use-package chinese-pyim-greatdict
+;;    :config (chinese-pyim-greatdict-enable)))
