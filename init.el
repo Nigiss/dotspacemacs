@@ -66,7 +66,10 @@ values."
      html
      python
      javascript
+     common-lisp
      emacs-lisp
+     scheme
+     clojure
      nginx
 
      (syntax-checking :variables syntax-checking-enable-by-default nil)
@@ -424,7 +427,6 @@ layers configuration."
   ;; (spacemacs/toggle-golden-ratio-on)
   (global-auto-revert-mode t)
 
-  (workgroups-mode 0)
   (which-function-mode 1)
 
   ;; scroll one line at a time (less "jumpy" than defaults)
