@@ -50,7 +50,9 @@
 
 ;;; helper
 (cl-defun synelics-work//hybrid-command (type &optional (project "phone"))
-  (concat "bash cmd " type " " project))
+  (if (file-exists-p (concat (projectile-project-root) ".eslintrc.js"))
+      (concat "npm run git " type)
+    (concat "bash cmd " type " " project)))
 
 
 (defvar synelics-work||shell-index 0)  ; There are multiple work shells

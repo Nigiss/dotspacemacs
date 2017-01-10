@@ -142,6 +142,7 @@
 
                 (if (file-exists-p (concat (projectile-project-root) ".eslintrc.js"))
                     (progn
+                      (flycheck-mode 1)
                       (set (make-variable-buffer-local 'flycheck-javascript-eslint-executable)
                            (concat (projectile-project-root) "node_modules/eslint/bin/eslint.js"))
                       (set (make-variable-buffer-local 'flycheck-enabled-checkers) '(javascript-eslint))
