@@ -430,6 +430,9 @@ layers configuration."
   ;; alert style
   (setq alert-default-style 'osx-notifier)
 
+  ;; calendar
+  (setq calendar-week-start-day 1)
+
   (which-function-mode 1)
 
   ;; scroll one line at a time (less "jumpy" than defaults)

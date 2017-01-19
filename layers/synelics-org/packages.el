@@ -77,7 +77,26 @@
 
       (setq org-todo-keyword-faces
             (quote (("NEXT" :inherit warning)
-                    ("PROJECT" :inherit font-lock-string-face)))))
+                    ("PROJECT" :inherit font-lock-string-face))))
+
+      ;; agenda
+      (setq org-agenda-files '("~/Documents/org/"))
+      (setq org-agenda-start-on-weekday 1)
+      (setq org-agenda-custom-commands
+            '(("w" "Works in last week."
+               ((tags (let* ((time (current-time))
+                             (beg (synelics-org//beginning-of-week time))
+                             (end (synelics-org//time-add (synelics-org//end-of-week time) 'day 1))
+                             (format-string "[%.4d-%.2d-%.2d]"))
+                        (format "TODO=\"DONE\"+CLOSED>=\"%s\"+CLOSED<=\"%s\""
+                                (synelics-org//format-time beg format-string)
+                                (synelics-org//format-time end format-string))))))
+              ("t" "All todos."
+               ((tags-todo "LEVEL=1")))))
+
+      (evil-leader/set-key
+        "aow" (synelics-core/curry-interactive #'org-agenda nil "w")
+        "aot" (synelics-core/curry-interactive #'org-agenda nil "t")))
     :config
     (progn
       )))

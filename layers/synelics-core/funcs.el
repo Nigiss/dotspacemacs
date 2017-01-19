@@ -39,6 +39,11 @@
                 (arguments arguments))
         (lambda (&rest more) (apply function (append arguments more)))))
 
+(defsubst synelics-core/curry-interactive (function &rest arguments)
+  (lexical-let ((function function)
+                (arguments arguments))
+    (lambda (&rest more) (interactive) (apply function (append arguments more)))))
+
 ;;; Macro
 (defmacro synelics-core|center-cursor-after-call (fn)
   `(lambda ()
