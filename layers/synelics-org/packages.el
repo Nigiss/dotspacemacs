@@ -79,6 +79,16 @@
             (quote (("NEXT" :inherit warning)
                     ("PROJECT" :inherit font-lock-string-face))))
 
+      ;; capture
+      (setq org-default-notes-file "~/Documents/org/notes.org")
+      (setq org-capture-templates
+            '(("t" "Todo" entry (file org-default-notes-file)
+               "* TODO \n  CAPTURED: %u")
+              ("d" "Diary" entry (file "~/Documents/org/diary.org")
+               "* %?\n" :clock-in t :clock-resume t)
+              ("i" "Idea" entry (file org-default-notes-file)
+               "* %? :IDEA:")))
+
       ;; agenda
       (setq org-agenda-files '("~/Documents/org/"))
       (setq org-agenda-start-on-weekday 1)
