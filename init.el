@@ -427,6 +427,9 @@ layers configuration."
   ;; (spacemacs/toggle-golden-ratio-on)
   (global-auto-revert-mode t)
 
+  ;; alert style
+  (setq alert-default-style 'osx-notifier)
+
   (which-function-mode 1)
 
   ;; scroll one line at a time (less "jumpy" than defaults)
