@@ -387,10 +387,10 @@ in `dotspacemacs/user-config'."
   "Configuration function.
  This function is called at the very end of Spacemacs initialization after
 layers configuration."
-  ;;解决org表格里面中英文对齐的问题
-  ;; (when (configuration-layer/layer-usedp 'chinese)
-  ;;   (when (and (spacemacs/system-is-mac) window-system)
-  ;;     (spacemacs//set-monospaced-font "Inconsolata" "Hiragino Sans GB" 17 14)))
+  ;; 解决中英文对齐的问题
+  (if (and (configuration-layer/layer-usedp 'chinese)
+           (spacemacs/window-system-is-mac))
+      (spacemacs//set-monospaced-font "Source Code Pro for Powerline" "Hiragino Sans GB" 15 15))
 
   ;; show smartparens mode will cause Emacs frozen when use swiper...
   ;; (turn-off-show-smartparens-mode)
