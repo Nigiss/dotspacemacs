@@ -19,6 +19,8 @@
     :defer t
     :init
     (progn
+      (add-hook 'magit-mode-hook (lambda ()
+                                   (visual-line-mode 1)))
       (spacemacs/set-leader-keys
         "gk" 'magit-checkout
         "gx" 'magit-reset-hard
