@@ -26,10 +26,15 @@
     (define-key evil-visual-state-map (kbd "Q") 'anzu-query-replace)
 
     ;; Move
-    (define-key evil-normal-state-map (kbd "0") 'mwim-beginning-of-code-or-line)
-    (define-key evil-motion-state-map (kbd "0") 'mwim-beginning-of-code-or-line)
-    (define-key evil-visual-state-map (kbd "0") 'mwim-beginning-of-code-or-line)
-    (define-key evil-operator-state-map (kbd "0") 'mwim-beginning-of-code-or-line)
+    (define-key evil-normal-state-map (kbd "0") 'evil-first-non-blank)
+    (define-key evil-motion-state-map (kbd "0") 'evil-first-non-blank)
+    (define-key evil-visual-state-map (kbd "0") 'evil-first-non-blank)
+    (define-key evil-operator-state-map (kbd "0") 'evil-first-non-blank)
+
+    (define-key evil-normal-state-map (kbd "^") 'evil-beginning-of-line)
+    (define-key evil-motion-state-map (kbd "^") 'evil-beginning-of-line)
+    (define-key evil-visual-state-map (kbd "^") 'evil-beginning-of-line)
+    (define-key evil-operator-state-map (kbd "^") 'evil-beginning-of-line)
 
     (define-key evil-normal-state-map (kbd "j") 'evil-next-visual-line)
     (define-key evil-motion-state-map (kbd "j") 'evil-next-visual-line)
