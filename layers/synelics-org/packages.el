@@ -24,8 +24,6 @@
       (spacemacs|disable-company 'org-mode)
       (spacemacs|disable-company 'org-agenda-mode)
       (add-hook 'org-agenda-mode-hook (lambda () (company-mode -1)))
-      (add-hook 'org-pomodoro-started-hook (lambda () (org-todo "DOING")))
-      (add-hook 'org-pomodoro-killed-hook (lambda () (org-todo "TODO")))
       (add-hook 'org-after-todo-state-change-hook
                 (lambda ()
                   (if (string-equal org-state "DONE")
@@ -63,11 +61,10 @@
 
       (setq org-todo-keywords
             (quote ((sequence "TODO(t)"
-                              "DOING(n)"
+                              "NEXT(n)"
                               "PENDING(e)"
                               "REVIEW(r)"
                               "TEST(s)"
-                              "PUBLISH(p)"
                               "|"
                               "DONE(d!/!)"
                               "DONE-WITH-LOG(o@/!)"
@@ -82,12 +79,14 @@
       ;; capture
       (setq org-default-notes-file "~/Documents/org/notes.org")
       (setq org-capture-templates
-            '(("t" "Todo" entry (file org-default-notes-file)
+            '(("t" "Todo" entry (file "~/Documents/org/notes.org")
                "* TODO \n  CAPTURED: %u")
               ("d" "Diary" entry (file "~/Documents/org/diary.org")
                "* %?\n" :clock-in t :clock-resume t)
-              ("i" "Idea" entry (file org-default-notes-file)
-               "* %? :IDEA:")))
+              ("i" "Idea" entry (file "~/Documents/org/ideas.org")
+               "* %? :IDEA:")
+              ("e" "Dev" entry (file "~/Documents/org/devs.org")
+               "* %?\n  CAPTURED: %u")))
 
       ;; agenda
       (setq org-agenda-files '("~/Documents/org/"))
