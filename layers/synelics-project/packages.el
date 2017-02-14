@@ -77,6 +77,17 @@
             wg-mode-line-decor-right-brace "]"  ; how to surround it
             wg-mode-line-decor-divider ":")
 
+      ;; Speed up buffer operations
+      (add-hook 'workgroups-mode-hook
+                (lambda ()
+                  (wg-disable-all-advice)
+                  (wg-add-or-remove-workgroups-hooks t)))
+
+      (add-hook 'wg-after-switch-to-workgroup-hook
+                (lambda ()
+                  (setq tags-table-list nil)))
+
+      ;; keymap
       (dotimes (i 10)
         (define-key window-numbering-keymap
           (kbd (format "M-%s" i))
