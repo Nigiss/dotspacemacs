@@ -22,8 +22,6 @@
       ;; (add-hook 'org-mode-hook 'spacemacs/toggle-spelling-checking-off)
       (add-hook 'org-mode-hook 'auto-fill-mode)
       (spacemacs|disable-company 'org-mode)
-      (spacemacs|disable-company 'org-agenda-mode)
-      (add-hook 'org-agenda-mode-hook (lambda () (company-mode -1)))
       (add-hook 'org-after-todo-state-change-hook
                 (lambda ()
                   (if (string-equal org-state "DONE")
@@ -91,18 +89,35 @@
       ;; agenda
       (setq org-agenda-files '("~/Documents/org/"))
       (setq org-agenda-start-on-weekday 1)
+      (defun syenlics//last-week-work-match (tags)
+        (interactive)
+        (let* ((time (synelics-org//time-add (current-time) 'day -7))
+               (beg (synelics-org//beginning-of-week time))
+               (end (synelics-org//time-add (synelics-org//end-of-week time) 'day 1))
+               (format-string "[%.4d-%.2d-%.2d]"))
+          (format "TODO=\"DONE\"+LEVEL=1+CLOSED>=\"%s\"+CLOSED<=\"%s\"%s"
+                  (synelics-org//format-time beg format-string)
+                  (synelics-org//format-time end format-string)
+                  tags)))
       (setq org-agenda-custom-commands
             '(("w" "Works in last week."
-               ((tags (let* ((time (current-time))
-                             (beg (synelics-org//beginning-of-week time))
-                             (end (synelics-org//time-add (synelics-org//end-of-week time) 'day 1))
-                             (format-string "[%.4d-%.2d-%.2d]"))
-                        (format "TODO=\"DONE\"+CLOSED>=\"%s\"+CLOSED<=\"%s\""
-                                (synelics-org//format-time beg format-string)
-                                (synelics-org//format-time end format-string))))))
+               ((tags (syenlics//last-week-work-match "-FIX-OPT")
+                      ((org-agenda-overriding-header "Feature: ")))
+                (tags (syenlics//last-week-work-match "+OPT")
+                      ((org-agenda-overriding-header "Opt: ")))
+                (tags (syenlics//last-week-work-match "+FIX")
+                      ((org-agenda-overriding-header "Fix: ")))))
               ("t" "All todos."
-               ((tags-todo "LEVEL=1")))))
+               ((tags-todo "LEVEL=1" ((org-agenda-overriding-header "Todo: ")))))))
 
+      (advice-add 'org-agenda-goto :after
+                  (lambda ()
+                    (org-narrow-to-subtree)))
+
+      (spacemacs|disable-company 'org-agenda-mode)
+      (add-hook 'org-agenda-mode-hook (lambda () (company-mode -1)))
+
+      ;; keymap
       (evil-leader/set-key
         "aow" (synelics-core/curry-interactive #'org-agenda nil "w")
         "aot" (synelics-core/curry-interactive #'org-agenda nil "t")))
