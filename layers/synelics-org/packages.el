@@ -75,19 +75,19 @@
                     ("PROJECT" :inherit font-lock-string-face))))
 
       ;; capture
-      (setq org-default-notes-file "~/Documents/org/notes.org")
+      (setq org-default-notes-file "~/Library/Mobile Documents/com~apple~CloudDocs/org/notes.org")
       (setq org-capture-templates
-            '(("t" "Todo" entry (file "~/Documents/org/notes.org")
+            '(("t" "Todo" entry (file "~/Library/Mobile Documents/com~apple~CloudDocs/org/notes.org")
                "* TODO \n  CAPTURED: %u")
-              ("d" "Diary" entry (file "~/Documents/org/diary.org")
+              ("d" "Diary" entry (file "~/Library/Mobile Documents/com~apple~CloudDocs/org/diary.org")
                "* %?\n" :clock-in t :clock-resume t)
-              ("i" "Idea" entry (file "~/Documents/org/ideas.org")
+              ("i" "Idea" entry (file "~/Library/Mobile Documents/com~apple~CloudDocs/org/idea.org")
                "* %? :IDEA:")
-              ("e" "Dev" entry (file "~/Documents/org/devs.org")
+              ("e" "Dev" entry (file "~/Library/Mobile Documents/com~apple~CloudDocs/org/dev.org")
                "* %?\n  CAPTURED: %u")))
 
       ;; agenda
-      (setq org-agenda-files '("~/Documents/org/"))
+      (setq org-agenda-files '("~/Library/Mobile Documents/com~apple~CloudDocs/org"))
       (setq org-agenda-start-on-weekday 1)
       (defun syenlics//last-week-work-match (tags)
         (interactive)
