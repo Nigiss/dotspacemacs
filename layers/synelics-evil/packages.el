@@ -66,6 +66,11 @@
     (define-key evil-visual-state-map (kbd "}") 'evil-forward-section-end)
     (define-key evil-operator-state-map (kbd "}") 'evil-forward-section-end)
 
+    (define-key evil-normal-state-map (kbd "U") 'paredit-backward-up)
+    (define-key evil-motion-state-map (kbd "U") 'paredit-backward-up)
+    (define-key evil-visual-state-map (kbd "U") 'paredit-backward-up)
+    (define-key evil-operator-state-map (kbd "U") 'paredit-backward-up)
+
     (define-key evil-normal-state-map (kbd "g]") 'find-tag)
     (define-key evil-visual-state-map (kbd "g]") 'find-tag)
 

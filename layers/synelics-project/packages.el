@@ -97,7 +97,6 @@
       (evil-leader/set-key
         "pwc" 'wg-create-workgroup
         "pws" 'wg-switch-to-workgroup
-        "pwa" 'wg-rename-workgroup
+        "pwr" 'wg-rename-workgroup
         "pww" 'wg-save-session
-        "pwk" 'wg-kill-workgroup
-        "pwr" 'wg-reload-session))))
+        "pwk" 'wg-kill-workgroup))))
