@@ -34,8 +34,6 @@
                               (lambda ()
                                 (progn
                                   (turn-on-evil-matchit-mode)
-                                  (enable-paredit-mode)
-                                  (yas-minor-mode-on)
                                   (subword-mode +1)
                                   (emmet-mode +1)
 
@@ -111,7 +109,7 @@
                          :head-reg "^[ \t]*{{![^}]+}}"
                          :tail-reg "^[ \t]*{{!}}"
                          :head-mode 'host
-                         :tail-mode 'body
+                         :tail-mode 'host
                          :mode 'css-mode
                          :indent-offset 0
                          :font-lock-narrow t)

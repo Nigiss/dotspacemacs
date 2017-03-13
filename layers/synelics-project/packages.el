@@ -77,7 +77,12 @@
             wg-mode-line-decor-right-brace "]"  ; how to surround it
             wg-mode-line-decor-divider ":")
 
+      (add-hook 'kill-emacs-hook
+                (lambda ()
+                  (wg-save-session)))
+
       ;; Speed up buffer operations
+
       (add-hook 'workgroups-mode-hook
                 (lambda ()
                   (wg-disable-all-advice)
