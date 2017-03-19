@@ -21,7 +21,7 @@
     (setq-default evil-escape-key-sequence "C-c C-g")
 
     ;; Edit
-    (define-key evil-insert-state-map (kbd "C-w") 'evil-delete-backward-word)
+    (define-key evil-insert-state-map (kbd "C-w") 'paredit-backward-kill-word)
     (define-key evil-insert-state-map (kbd "C-h") 'paredit-backward-delete)
     (define-key evil-visual-state-map (kbd "Q") 'anzu-query-replace)
 

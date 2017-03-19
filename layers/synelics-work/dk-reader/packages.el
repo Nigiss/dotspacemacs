@@ -13,8 +13,11 @@
       '(
         sgml-mode
         projectile
-        polymode
         js2-mode
+        (js-mode :location built-in)
+        polymode
+        ycmd
+        company-ycmd
         ))
 
 (defun dk-reader/init-sgml-mode ()
@@ -36,6 +39,7 @@
                                   (turn-on-evil-matchit-mode)
                                   (subword-mode +1)
                                   (emmet-mode +1)
+                                  (paredit-mode 1)
 
                                   ;; https://www.emacswiki.org/emacs/EmacsSyntaxTable
                                   (modify-syntax-entry ?: ".")
@@ -45,17 +49,6 @@
                                   (modify-syntax-entry ?= ".")
 
                                   (set (make-variable-buffer-local 'sgml-basic-offset) 4)))))))
-
-(defun dk-reader/post-init-sgml-mode ()
-  (use-package sgml-mode
-    :defer t
-    :init
-    (progn
-      (add-hook 'sgml-mode-hook
-                              (lambda ()
-                                (progn
-                                  (message "file-name: %s" (buffer-file-name)))
-                                )))))
 
 (defun dk-reader/post-init-projectile ()
   (use-package projectile
@@ -77,16 +70,75 @@
           "mxi" 'synelics-work/server-start-staging
           "mxv" 'synelics-work/server-start-preview)))))
 
+(defun dk-reader/post-init-js2-mode ()
+  (use-package js2-mode
+    :defer t
+    :init
+    (add-hook 'js2-mode-hook
+              (lambda ()
+                (when (synelics-work/in-directory-p "dk-reader")
+                  ;; (file-exists-p (concat (projectile-project-root) ".eslintrc.js"))
+                  (add-to-list 'auto-mode-alist '("\\.js\\'" . js-mode))
+                  (revert-buffer)))
+              'append)))
+
+(defun dk-reader/init-js-mode ()
+  (use-package js-mode
+    :defer t
+    :init
+    (setq js-indent-level 4)
+    (add-to-list 'auto-mode-alist '("\\.js\\'" . js-mode))
+
+    (synelics-core|add-hook 'js-mode
+                            'ycmd-mode
+                            'poly-vp-mode
+                            'paredit-mode
+                            'subword-mode
+                            'evil-matchit-mode)
+
+    (add-hook 'js-mode-hook
+              (lambda ()
+                (when (and (synelics-work/in-directory-p "dk-reader/frontend/phone-dev-env")
+                           (file-exists-p (concat (projectile-project-root) ".eslintrc.js")))
+                  (flycheck-mode 1)
+                  ;; (setq flycheck-disabled-checkers '(javascript-standard))
+                  (setq flycheck-enabled-checkers '(javascript-eslint))
+                  (setq flycheck-javascript-eslint-executable
+                        (concat (projectile-project-root) "node_modules/eslint/bin/eslint.js")))))
+
+    (add-hook 'js-mode-hook
+              (lambda ()
+                (define-key evil-normal-state-local-map
+                  (kbd "C-]")
+                  (synelics-core|center-cursor-after-call 'synelics-work//js-goto-definition))
+                (define-key evil-normal-state-local-map
+                  (kbd "C-t")
+                  (synelics-core|center-cursor-after-call 'pop-tag-mark))))))
+
+(defun dk-reader/post-init-ycmd ()
+  (use-package ycmd
+    :defer t
+    :init
+    (setq company-ycmd-insert-arguments nil)
+    (spacemacs|add-company-hook js-mode)))
+
+(defun dk-reader/post-init-company-ycmd ()
+  (use-package company-ycmd
+    :defer t
+    :if (and (configuration-layer/package-usedp 'company)
+             (configuration-layer/package-usedp 'ycmd))
+    :init
+    (setq company-backends-js-mode
+          '((company-keywords company-ycmd)
+            company-files))))
+
 (defun dk-reader/init-polymode ()
   (use-package polymode
-    :init
-    (progn
-      (add-to-list 'auto-mode-alist '("\\.vp" . poly-vp-mode)))
     :config
     (progn
       (defcustom work/vp-host
         (pm-bchunkmode "JS mode"
-                       :mode 'js2-mode)
+                       :mode 'js-mode)
         "Html host innermode"
         :group 'hostmodes
         :type 'object)
@@ -126,23 +178,3 @@
         :type 'object)
 
       (define-polymode poly-vp-mode work/vp-poly))))
-
-(defun dk-reader/post-init-js2-mode ()
-  (use-package js2-mode
-    :defer t
-    :init
-    (add-hook 'js2-mode-hook
-              (lambda ()
-                (if (synelics-work/in-directory-p "dk-reader")
-                    (progn
-                      (set (make-variable-buffer-local 'js-indent-level) 4)
-                      (set (make-variable-buffer-local 'flycheck-disabled-checkers) '(javascript-standard))))
-
-                (if (file-exists-p (concat (projectile-project-root) ".eslintrc.js"))
-                    (progn
-                      (flycheck-mode 1)
-                      (set (make-variable-buffer-local 'flycheck-javascript-eslint-executable)
-                           (concat (projectile-project-root) "node_modules/eslint/bin/eslint.js"))
-                      (set (make-variable-buffer-local 'flycheck-enabled-checkers) '(javascript-eslint))
-                      (poly-vp-mode 1))))
-              'append)))

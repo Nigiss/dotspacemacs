@@ -67,3 +67,13 @@
 (defun synelics-work//exec-command-with-term (cmd)
   (let ((term-buffer (multi-term)))
     (term-send-string term-buffer (concat cmd "\n"))))
+
+(defun synelics-work//js-goto-definition ()
+  "Use default first, if failed, then use TAGS."
+  (interactive)
+  (add-hook 'ycmd-after-exception-hook
+            (lambda (&rest args)
+              (synelics-core/find-tag-no-confirm))
+            nil
+            'local)
+  (ycmd-goto))

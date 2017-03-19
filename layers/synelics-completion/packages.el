@@ -28,7 +28,7 @@
 
             ;; base
             company-idle-delay 0
-            company-minimum-prefix-length 2
+            company-minimum-prefix-length 1
             completion-cycle-threshold 5
             company-echo-delay 1
 

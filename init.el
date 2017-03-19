@@ -65,7 +65,7 @@ values."
 
      html
      python
-     javascript
+     ;; javascript
      common-lisp
      emacs-lisp
      scheme
@@ -73,7 +73,6 @@ values."
      nginx
 
      (syntax-checking :variables syntax-checking-enable-by-default nil)
-     ;; (spell-checking :variables spell-checking-enable-by-default nil)
 
      synelics-core
      synelics-tool
@@ -87,7 +86,7 @@ values."
      synelics-project
 
      synelics-html
-     synelics-javascript
+     ;; synelics-javascript
      synelics-python
      synelics-elisp
 
