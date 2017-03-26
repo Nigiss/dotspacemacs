@@ -95,7 +95,10 @@
       (setq ycmd-server-command '("python"
                                   "/Users/synelics/.spacemacs.d/layers/synelics-completion/local/ycmd/ycmd")
             ycmd-force-semantic-completion t)
-      (spacemacs|diminish ycmd-mode " Ⓜ" " M"))))
+      (spacemacs|diminish ycmd-mode " Ⓜ" " M"))
+    :config
+    (progn
+      (ad-enable-advice 'ycmd--handle-goto-success 'around 'synelics-completion//goto-current-project-only))))
 
 (defun synelics-evil/init-paredit ()
   (use-package paredit

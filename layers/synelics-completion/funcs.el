@@ -29,3 +29,10 @@
                 :around (lambda (old-fun &rest args)
                           (setq call-style-completion-p nil)
                           (apply old-fun args)))))
+
+(defadvice ycmd--handle-goto-success (around synelics-completion//goto-current-project-only)
+  (interactive)
+  (if (and (assq 'filepath response)
+           (string-match-p (projectile-project-root) (cdr (assq 'filepath response))))
+      ad-do-it
+    (run-hook-with-args 'ycmd-after-exception-hook "goto" (current-buffer) (point) response)))
