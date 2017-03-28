@@ -88,8 +88,18 @@
                   (wg-disable-all-advice)
                   (wg-add-or-remove-workgroups-hooks t)))
 
+      (add-hook 'wg-before-switch-to-workgroup-hook
+                (lambda ()
+                  (condition-case nil
+                      (synelics-wg//set-marker-ring (synelics-wg//get-wg-marker-ring-symbol) xref--marker-ring)
+                    (error nil))))
+
       (add-hook 'wg-after-switch-to-workgroup-hook
                 (lambda ()
+                  (condition-case nil
+                      (synelics-wg//set-marker-ring 'xref--marker-ring (symbol-value (synelics-wg//get-wg-marker-ring-symbol)))
+                    (error
+                     (xref-clear-marker-stack)))
                   (setq tags-table-list nil)))
 
       ;; keymap
