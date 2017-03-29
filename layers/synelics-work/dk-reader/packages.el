@@ -34,21 +34,20 @@
                                  (shell-command (concat "~/kits/bin/tpl " buffer-file-name " > /dev/null")))))
 
       (add-hook 'sgml-mode-hook
-                              (lambda ()
-                                (progn
-                                  (turn-on-evil-matchit-mode)
-                                  (subword-mode +1)
-                                  (emmet-mode +1)
-                                  (paredit-mode 1)
+                (lambda ()
+                  (turn-on-evil-matchit-mode)
+                  (subword-mode 1)
+                  (emmet-mode 1)
+                  (paredit-mode 1)
 
-                                  ;; https://www.emacswiki.org/emacs/EmacsSyntaxTable
-                                  (modify-syntax-entry ?: ".")
-                                  (modify-syntax-entry ?. ".")
-                                  (modify-syntax-entry ?' ".")
-                                  (modify-syntax-entry ?- ".")
-                                  (modify-syntax-entry ?= ".")
+                  ;; https://www.emacswiki.org/emacs/EmacsSyntaxTable
+                  (modify-syntax-entry ?: ".")
+                  (modify-syntax-entry ?. ".")
+                  (modify-syntax-entry ?' ".")
+                  (modify-syntax-entry ?- ".")
+                  (modify-syntax-entry ?= ".")
 
-                                  (set (make-variable-buffer-local 'sgml-basic-offset) 4)))))))
+                  (setq sgml-basic-offset 4))))))
 
 (defun dk-reader/post-init-projectile ()
   (use-package projectile
@@ -87,7 +86,9 @@
     :defer t
     :init
     (setq js-indent-level 4)
+    (setq tags-case-fold-search nil)
     (add-to-list 'auto-mode-alist '("\\.js\\'" . js-mode))
+
 
     (synelics-core|add-hook 'js-mode
                             'ycmd-mode
@@ -130,6 +131,7 @@
     :init
     (setq company-backends-js-mode
           '((company-keywords company-ycmd)
+            company-capf
             company-files))))
 
 (defun dk-reader/init-polymode ()
