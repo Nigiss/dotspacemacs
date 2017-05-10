@@ -13,6 +13,7 @@
   ;; this is only applicable to GUI mode
   (when (display-graphic-p)
     ;; Keybindings
+    (global-set-key (kbd "s-g") 'goto-line)
     (global-set-key (kbd "s-o") 'wg-switch-to-workgroup)
     (global-set-key (kbd "s-m") 'counsel-recentf)
     (global-set-key (kbd "s-f") 'counsel-find-file)

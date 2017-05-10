@@ -50,7 +50,7 @@
 
 ;;; helper
 (cl-defun synelics-work//hybrid-command (type &optional (project "phone"))
-  (concat "npm run git " type))
+  (concat "~/Works/dk-reader/frontend/kits/bin/workflow " type))
 
 (defvar synelics-work||shell-index 0)  ; There are multiple work shells
 (defmacro synelics-work||exec-command-with-shell (cmd &optional sync)

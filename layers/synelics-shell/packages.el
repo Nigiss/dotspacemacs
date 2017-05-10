@@ -26,6 +26,7 @@
       (evil-define-key 'normal term-raw-map (kbd "RET") 'term-send-return)
 
       (evil-define-key 'insert term-raw-map (kbd "'") 'term-send-raw)
+      (evil-define-key 'insert term-raw-map (kbd "ESC") 'term-send-raw)
       (evil-define-key 'insert term-raw-map (kbd "C-w") 'term-send-raw)
       (evil-define-key 'insert term-raw-map (kbd "C-k") 'term-send-raw)
       (evil-define-key 'insert term-raw-map (kbd "C-p") 'term-send-raw)
