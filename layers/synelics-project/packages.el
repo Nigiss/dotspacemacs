@@ -106,7 +106,15 @@
       (dotimes (i 10)
         (define-key window-numbering-keymap
           (kbd (format "M-%s" i))
-          (intern (format "wg-switch-to-workgroup-at-index-%s" (- i 1)))))
+          (intern (format "wg-switch-to-workgroup-at-index-%s" i))))
+
+      (dotimes (i 10)
+        (define-key window-numbering-keymap
+          (kbd (format "C-s-%s" i))
+          (lexical-let ((index i))
+            (lambda ()
+              (interactive)
+              (wg-switch-to-workgroup-at-index (+ index 10))))))
 
       (spacemacs/declare-prefix "pw" "work group")
       (evil-leader/set-key
