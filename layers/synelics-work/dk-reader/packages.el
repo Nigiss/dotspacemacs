@@ -31,7 +31,7 @@
                                 (and
                                  (synelics-work/in-directory-p "dk-reader")
                                  (string-equal (file-name-extension (buffer-file-name)) "tpl")
-                                 (shell-command (concat "~/kits/bin/tpl " buffer-file-name " > /dev/null")))))
+                                 (shell-command (concat "~/Works/dk-reader/frontend/kits/bin/tpl " buffer-file-name " > /dev/null")))))
 
       (add-hook 'sgml-mode-hook
                 (lambda ()
@@ -120,8 +120,7 @@
   (use-package ycmd
     :defer t
     :init
-    (setq company-ycmd-insert-arguments nil)
-    (spacemacs|add-company-hook js-mode)))
+    (setq company-ycmd-insert-arguments nil)))
 
 (defun dk-reader/post-init-company-ycmd ()
   (use-package company-ycmd
@@ -129,6 +128,9 @@
     :if (and (configuration-layer/package-usedp 'company)
              (configuration-layer/package-usedp 'ycmd))
     :init
+    (spacemacs|add-company-backends
+      :backends company-ycmd
+      :modes js-mode)
     (setq company-backends-js-mode
           '((company-keywords company-ycmd)
             company-capf

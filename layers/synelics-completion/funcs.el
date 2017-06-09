@@ -30,7 +30,7 @@
                           (setq call-style-completion-p nil)
                           (apply old-fun args)))))
 
-(defadvice ycmd--handle-goto-success (around synelics-completion//goto-current-project-only)
+(defadvice ycmd--handle-goto-response (around synelics-completion//goto-current-project-only)
   (interactive)
   (if (and (assq 'filepath response)
            (string-match-p (projectile-project-root) (cdr (assq 'filepath response))))

@@ -398,8 +398,6 @@ layers configuration."
   ;; improve the performance of opening large file
   ;; (spacemacs/toggle-automatic-symbol-highlight-on)
 
-  ;; (spacemacs|add-company-hook 'text-mode)
-
   (add-hook 'doc-view-mode-hook 'auto-revert-mode)
 
   ;; (global-hungry-delete-mode t)
@@ -433,6 +431,8 @@ layers configuration."
   (setq calendar-week-start-day 1)
 
   (which-function-mode 1)
+
+  (window-numbering-mode 1)
 
   ;; work group
   (workgroups-mode 1)

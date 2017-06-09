@@ -14,7 +14,7 @@
 (defun synelics-work/phone-test ()
   "Test for phone module"
   (interactive)
-  (synelics-work//exec-command-with-term "~/kits/bin/test-phone-v3"))
+  (synelics-work//exec-command-with-term "~/Works/dk-reader/frontend/kits/bin/test-phone-v3"))
 
 ;; phone cmd
 (defun synelics-work/phone-dev ()

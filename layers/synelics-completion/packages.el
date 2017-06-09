@@ -28,7 +28,7 @@
 
             ;; base
             company-idle-delay 0
-            company-minimum-prefix-length 1
+            company-minimum-prefix-length 2
             completion-cycle-threshold 5
             company-echo-delay 1
 
@@ -98,7 +98,7 @@
       (spacemacs|diminish ycmd-mode " Ⓜ" " M"))
     :config
     (progn
-      (ad-enable-advice 'ycmd--handle-goto-success 'around 'synelics-completion//goto-current-project-only))))
+      (ad-enable-advice 'ycmd--handle-goto-response 'around 'synelics-completion//goto-current-project-only))))
 
 (defun synelics-evil/init-paredit ()
   (use-package paredit

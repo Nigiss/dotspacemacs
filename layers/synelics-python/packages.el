@@ -48,15 +48,14 @@
 
       (spacemacs|hide-lighter anaconda-mode))))
 
-(defun python/post-init-company ()
-  (spacemacs|add-company-hook python-mode))
-
 (defun synelics-python/post-init-company-ycmd ()
   (use-package company-ycmd
+    :if (and (configuration-layer/package-usedp 'company)
+             (configuration-layer/package-usedp 'ycmd))
     :defer t
-    :init
-    (progn
-      (push 'company-ycmd company-backends-python-mode))))
+    :init (spacemacs|add-company-backends
+            :backends company-ycmd
+            :modes python-mode)))
 
 ;; (defun python/post-init-evil ()
 ;;   (add-hook 'python-mode-hook #'(lambda ()

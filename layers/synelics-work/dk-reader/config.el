@@ -11,6 +11,4 @@
 
 ;; Variables
 
-(spacemacs|defvar-company-backends js-mode)
-
 (spacemacs|define-jump-handlers js-mode)

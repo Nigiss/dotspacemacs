@@ -74,6 +74,10 @@
     (define-key evil-normal-state-map (kbd "g]") 'find-tag)
     (define-key evil-visual-state-map (kbd "g]") 'find-tag)
 
+    ;; navigation
+    (evil-leader/set-key
+      "jk" 'evil-avy-goto-char-2)
+
     ;; comment
     (define-key evil-normal-state-map (kbd "gm") 'evilnc-comment-operator)
     (define-key evil-visual-state-map (kbd "gm") 'evilnc-comment-operator)

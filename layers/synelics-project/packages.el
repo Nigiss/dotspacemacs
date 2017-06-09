@@ -48,14 +48,23 @@
         "pe" 'nameframe-create-frame
         "ps" 'nameframe-switch-frame))))
 
-(defun synelics-project/post-init-window-numbering ()
+(defun synelics-project/init-window-numbering ()
   (use-package window-numbering
     :defer t
-    :init
-    (dotimes (i 10)
-      (define-key window-numbering-keymap
-        (kbd (format "s-%s" i))
-        (intern (format "select-window-%s" i))))))
+    :config
+    (progn
+      (dotimes (i 10)
+        (define-key window-numbering-keymap
+          (kbd (format "M-%s" i))
+          (intern (format "wg-switch-to-workgroup-at-index-%s" i))))
+
+      (dotimes (i 10)
+        (define-key window-numbering-keymap
+          (kbd (format "C-H-%s" i))
+          (lexical-let ((index i))
+            (lambda ()
+              (interactive)
+              (wg-switch-to-workgroup-at-index (+ index 10)))))))))
 
 (defun synelics-project/init-workgroups2 ()
   (use-package workgroups2
@@ -101,20 +110,6 @@
                     (error
                      (xref-clear-marker-stack)))
                   (setq tags-table-list nil)))
-
-      ;; keymap
-      (dotimes (i 10)
-        (define-key window-numbering-keymap
-          (kbd (format "M-%s" i))
-          (intern (format "wg-switch-to-workgroup-at-index-%s" i))))
-
-      (dotimes (i 10)
-        (define-key window-numbering-keymap
-          (kbd (format "C-s-%s" i))
-          (lexical-let ((index i))
-            (lambda ()
-              (interactive)
-              (wg-switch-to-workgroup-at-index (+ index 10))))))
 
       (spacemacs/declare-prefix "pw" "work group")
       (evil-leader/set-key
