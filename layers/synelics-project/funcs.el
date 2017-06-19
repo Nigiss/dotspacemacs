@@ -5,3 +5,6 @@
   (set sym (cons (car val)
                  (cons (cadr val)
                        (copy-sequence (cddr val))))))
+
+(defun synelics-wg//current-workgroup-index ()
+  (cl-position (wg-current-workgroup) (wg-workgroup-list-or-error)))

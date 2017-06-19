@@ -113,6 +113,15 @@
 
       (spacemacs/declare-prefix "pw" "work group")
       (evil-leader/set-key
+        ;; pop up shell
+        "pwi" (lambda ()
+                (interactive)
+                (spacemacs/shell-pop-shell (synelics-wg//current-workgroup-index)))
+        "pwt" (lambda ()
+                (interactive)
+                (spacemacs/shell-pop-term (synelics-wg//current-workgroup-index)))
+
+        ;; workgroup actions
         "pwc" 'wg-create-workgroup
         "pws" 'wg-switch-to-workgroup
         "pwr" 'wg-rename-workgroup
