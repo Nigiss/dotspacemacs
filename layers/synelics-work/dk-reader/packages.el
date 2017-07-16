@@ -14,7 +14,6 @@
         sgml-mode
         projectile
         js2-mode
-        (js-mode :location built-in)
         polymode
         ycmd
         company-ycmd
@@ -73,41 +72,26 @@
   (use-package js2-mode
     :defer t
     :init
-    (add-hook 'js2-mode-hook
-              (lambda ()
-                (when (synelics-work/in-directory-p "dk-reader")
-                  ;; (file-exists-p (concat (projectile-project-root) ".eslintrc.js"))
-                  (add-to-list 'auto-mode-alist '("\\.js\\'" . js-mode))
-                  (revert-buffer)))
-              'append)))
 
-(defun dk-reader/init-js-mode ()
-  (use-package js-mode
-    :defer t
-    :init
-    (setq js-indent-level 4)
-    (setq tags-case-fold-search nil)
-    (add-to-list 'auto-mode-alist '("\\.js\\'" . js-mode))
-
-
-    (synelics-core|add-hook 'js-mode
+    (synelics-core|add-hook 'js2-mode
                             'ycmd-mode
                             'poly-vp-mode
                             'paredit-mode
                             'subword-mode
                             'evil-matchit-mode)
 
-    (add-hook 'js-mode-hook
+    (add-hook 'js2-mode-hook
               (lambda ()
-                (when (and (synelics-work/in-directory-p "dk-reader/frontend/phone-dev-env")
-                           (file-exists-p (concat (projectile-project-root) ".eslintrc.js")))
+                (when (synelics-work/in-directory-p "dk-reader")
+                  (setq js-indent-level 4))
+
+                (when (and (file-exists-p (concat (projectile-project-root) ".eslintrc.js")))
                   (flycheck-mode 1)
-                  ;; (setq flycheck-disabled-checkers '(javascript-standard))
                   (setq flycheck-enabled-checkers '(javascript-eslint))
                   (setq flycheck-javascript-eslint-executable
                         (concat (projectile-project-root) "node_modules/eslint/bin/eslint.js")))))
 
-    (add-hook 'js-mode-hook
+    (add-hook 'js2-mode-hook
               (lambda ()
                 (define-key evil-normal-state-local-map
                   (kbd "C-]")
@@ -116,33 +100,13 @@
                   (kbd "C-t")
                   (synelics-core|center-cursor-after-call 'pop-tag-mark))))))
 
-(defun dk-reader/post-init-ycmd ()
-  (use-package ycmd
-    :defer t
-    :init
-    (setq company-ycmd-insert-arguments nil)))
-
-(defun dk-reader/post-init-company-ycmd ()
-  (use-package company-ycmd
-    :defer t
-    :if (and (configuration-layer/package-usedp 'company)
-             (configuration-layer/package-usedp 'ycmd))
-    :init
-    (spacemacs|add-company-backends
-      :backends company-ycmd
-      :modes js-mode)
-    (setq company-backends-js-mode
-          '((company-keywords company-ycmd)
-            company-capf
-            company-files))))
-
 (defun dk-reader/init-polymode ()
   (use-package polymode
     :config
     (progn
       (defcustom work/vp-host
         (pm-bchunkmode "JS mode"
-                       :mode 'js-mode)
+                       :mode 'js2-mode)
         "Html host innermode"
         :group 'hostmodes
         :type 'object)

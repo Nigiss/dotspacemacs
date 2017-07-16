@@ -24,6 +24,7 @@
     :init
     (progn
       (setq js-indent-level 2)
+      (setq tags-case-fold-search nil)
 
       (synelics-core|add-hook 'js2-mode
                               'ycmd-mode
@@ -67,5 +68,11 @@
     :if (and (configuration-layer/package-usedp 'company)
              (configuration-layer/package-usedp 'ycmd))
     :init
-    (push 'company-ycmd company-backends-js2-mode)))
-
+    (spacemacs|add-company-backends
+      :backends company-ycmd
+      :modes js2-mode)
+    (setq company-backends-js2-mode
+          '(company-ycmd
+            company-keywords
+            company-capf
+            company-files))))

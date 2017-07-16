@@ -65,7 +65,7 @@ values."
 
      html
      python
-     ;; javascript
+     javascript
      common-lisp
      emacs-lisp
      scheme
@@ -86,7 +86,7 @@ values."
      synelics-project
 
      synelics-html
-     ;; synelics-javascript
+     synelics-javascript
      synelics-python
      synelics-elisp
 

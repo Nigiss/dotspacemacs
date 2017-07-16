@@ -12,7 +12,7 @@
 (setq synelics-completion-packages
       '(
         company
-        company-flx
+        ;; company-flx
 
         ycmd
 
@@ -28,7 +28,7 @@
 
             ;; base
             company-idle-delay 0
-            company-minimum-prefix-length 2
+            company-minimum-prefix-length 1
             completion-cycle-threshold 5
             company-echo-delay 1
 
@@ -95,7 +95,8 @@
       (setq ycmd-server-command '("python"
                                   "/Users/synelics/.spacemacs.d/layers/synelics-completion/local/ycmd/ycmd")
             ycmd-force-semantic-completion t)
-      (spacemacs|diminish ycmd-mode " Ⓜ" " M"))
+      (spacemacs|diminish ycmd-mode " Ⓜ" " M")
+      (setq company-ycmd-insert-arguments nil))
     :config
     (progn
       (ad-enable-advice 'ycmd--handle-goto-response 'around 'synelics-completion//goto-current-project-only))))

@@ -1,0 +1,6 @@
+(wg-read-workgroup-name)
+(wg-workgroup-names)
+(wg-get-workgroup-create (wg-current-workgroup))
+(cl-position (wg-current-workgroup) (wg-workgroup-list-or-error))
+(car (wg-current-workgroup))
+(wg-workgroup-in (wg-current-workgroup))

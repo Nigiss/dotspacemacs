@@ -10,5 +10,3 @@
 ;;; License: GPLv3
 
 ;; Variables
-
-(spacemacs|define-jump-handlers js-mode)
