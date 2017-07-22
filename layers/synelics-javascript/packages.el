@@ -12,9 +12,7 @@
 (setq synelics-javascript-packages
       '(
         js2-mode
-        ycmd
         company-ycmd
-        flycheck
         ))
 
 (defun synelics-javascript/post-init-js2-mode ()
@@ -55,12 +53,6 @@
       "ze" 'js2-mode-toggle-element
       "zF" 'js2-mode-toggle-hide-functions
       "zC" 'js2-mode-toggle-hide-comments)))
-
-(defun synelics-javascript/post-init-ycmd ()
-  (use-package ycmd
-    :defer t
-    :init
-    (spacemacs|add-company-hook js2-mode)))
 
 (defun synelics-javascript/post-init-company-ycmd ()
   (use-package company-ycmd

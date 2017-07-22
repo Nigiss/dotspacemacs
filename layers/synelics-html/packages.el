@@ -11,20 +11,8 @@
 
 (setq synelics-html-packages
       '(
-        sgml-mode
         css-mode
         ))
-
-;; (defun synelics-html/init-sgml-mode ()
-;;   (use-package sgml-mode
-;;     :defer t
-;;     :init
-;;     (progn
-;;       (add-hook 'html-mode-hook 'paredit-mode)
-;;       (add-hook 'html-mode-hook 'yas-minor-mode)
-;;       (add-hook 'html-mode-hook 'evil-matchit-mode)
-;;       (add-hook 'html-mode-hook 'subword-mode)
-;;       (add-hook 'html-mode-hook 'emmet-mode))))
 
 (defun synelics-html/post-init-css-mode ()
   (use-package css-mode

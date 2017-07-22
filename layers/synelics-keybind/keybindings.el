@@ -17,7 +17,7 @@
     (global-set-key (kbd "H-g") 'goto-line)
     (global-set-key (kbd "H-k") 'kill-this-buffer)
     (global-set-key (kbd "H-o") 'wg-switch-to-workgroup)
-    (global-set-key (kbd "H-m") 'counsel-recentf)
+    (global-set-key (kbd "H-m") 'spacemacs/toggle-maximize-buffer)
     (global-set-key (kbd "H-f") 'counsel-find-file)
     (global-set-key (kbd "H-p") 'projectile-find-file)
     (global-set-key (kbd "H-x") 'counsel-M-x)))

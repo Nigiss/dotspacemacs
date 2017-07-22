@@ -15,8 +15,6 @@
         projectile
         js2-mode
         polymode
-        ycmd
-        company-ycmd
         ))
 
 (defun dk-reader/init-sgml-mode ()
