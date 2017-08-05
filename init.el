@@ -380,7 +380,9 @@ in `dotspacemacs/user-config'."
   (setq socks-server '("Default server" "127.0.0.1" 1080 5))
   (setq evil-shift-round nil)
   (setq byte-compile-warnings '(not obsolete))
-  )
+
+  ;; correct find and highlight url by exclude "()'"
+  (setq thing-at-point-url-path-regexp "[^]\t\n \"'<>[^`{}]*[^]\t\n \"'<>[^`{}.,;()']+"))
 
 (defun dotspacemacs/user-config ()
   "Configuration function.
