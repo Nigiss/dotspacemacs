@@ -15,6 +15,9 @@
         projectile
         js2-mode
         polymode
+        (js-mode :location built-in)
+        (tern :toggle (spacemacs//tern-detect))
+        company-tern :requires company
         ))
 
 (defun dk-reader/init-sgml-mode ()
@@ -71,23 +74,14 @@
     :defer t
     :init
 
-    (synelics-core|add-hook 'js2-mode
-                            'ycmd-mode
-                            'poly-vp-mode
-                            'paredit-mode
-                            'subword-mode
-                            'evil-matchit-mode)
-
     (add-hook 'js2-mode-hook
               (lambda ()
-                (when (synelics-work/in-directory-p "dk-reader")
-                  (setq js-indent-level 4))
-
-                (when (and (file-exists-p (concat (projectile-project-root) ".eslintrc.js")))
-                  (flycheck-mode 1)
-                  (setq flycheck-enabled-checkers '(javascript-eslint))
-                  (setq flycheck-javascript-eslint-executable
-                        (concat (projectile-project-root) "node_modules/eslint/bin/eslint.js")))))
+                (when (and (projectile-project-p)
+                           (file-exists-p (concat (projectile-project-root) ".eslintrc.js")))
+                  (set (make-variable-buffer-local 'js-indent-level) 4)
+                  (set (make-variable-buffer-local 'flycheck-enabled-checkers) '(javascript-eslint))
+                  (set (make-variable-buffer-local 'flycheck-javascript-eslint-executable)
+                       (concat (projectile-project-root) "node_modules/eslint/bin/eslint.js")))))
 
     (add-hook 'js2-mode-hook
               (lambda ()
@@ -98,49 +92,138 @@
                   (kbd "C-t")
                   (synelics-core|center-cursor-after-call 'pop-tag-mark))))))
 
+(defun dk-reader/init-js-mode ()
+  (use-package js-mode
+    :defer t
+    :init
+
+    (synelics-core|add-hook 'js-mode
+                            'subword-mode
+                            'evil-matchit-mode)
+
+    (add-hook 'js-mode-hook
+              (lambda ()
+                (define-key evil-normal-state-local-map (kbd "C-]") 'tern-find-definition)
+                (define-key evil-normal-state-local-map (kbd "C-t") 'tern-pop-find-definition)))))
+
+(defun dk-reader/post-init-company-tern ()
+  (use-package company-tern
+    :if (and (configuration-layer/package-used-p 'company)
+             (configuration-layer/package-used-p 'tern))
+    :defer t
+    :init (spacemacs|add-company-backends
+            :backends company-tern
+            :modes js-mode)))
+
+(defun dk-reader/post-init-tern ()
+  (use-package tern
+    :defer t
+    :init (add-hook 'js-mode-hook 'tern-mode)))
+
 (defun dk-reader/init-polymode ()
   (use-package polymode
+    :init
+    (add-to-list 'auto-mode-alist '("\\.mix$" . poly-mix-mode))
+    (add-to-list 'auto-mode-alist '("\\.vue$" . poly-mix-mode))
     :config
-    (progn
-      (defcustom work/vp-host
-        (pm-bchunkmode "JS mode"
-                       :mode 'js2-mode)
-        "Html host innermode"
-        :group 'hostmodes
-        :type 'object)
+    ;; vp
+    (defcustom dk-reader//vp-host
+      (pm-bchunkmode "JS mode"
+                     :mode 'js2-mode)
+      "Html host innermode"
+      :group 'hostmodes
+      :type 'object)
 
-      (defcustom  work/vp-inner-html
-        (pm-hbtchunkmode "Vp"
-                         :head-reg "^[ \t]*{{#[^}]+}}"
-                         :tail-reg "^[ \t]*{{#}}"
-                         :head-mode 'host
-                         :tail-mode 'host
-                         :mode 'sgml-mode
-                         :indent-offset 0
-                         :font-lock-narrow t)
-        "Vp typical chunk."
-        :group 'innermodes
-        :type 'object)
+    (defcustom dk-reader//vp-inner-html
+      (pm-hbtchunkmode "Vp"
+                       :head-reg "^[ \t]*{{#[^}]+}}"
+                       :tail-reg "^[ \t]*{{#}}"
+                       :head-mode 'host
+                       :tail-mode 'host
+                       :mode 'sgml-mode
+                       :indent-offset 0
+                       :font-lock-narrow t)
+      "Vp typical chunk."
+      :group 'innermodes
+      :type 'object)
 
-      (defcustom  work/vp-inner-css
-        (pm-hbtchunkmode "Vp"
-                         :head-reg "^[ \t]*{{![^}]+}}"
-                         :tail-reg "^[ \t]*{{!}}"
-                         :head-mode 'host
-                         :tail-mode 'host
-                         :mode 'css-mode
-                         :indent-offset 0
-                         :font-lock-narrow t)
-        "Vp typical chunk."
-        :group 'innermodes
-        :type 'object)
+    (defcustom dk-reader//vp-inner-css
+      (pm-hbtchunkmode "Vp"
+                       :head-reg "^[ \t]*{{![^}]+}}"
+                       :tail-reg "^[ \t]*{{!}}"
+                       :head-mode 'host
+                       :tail-mode 'host
+                       :mode 'css-mode
+                       :indent-offset 0
+                       :font-lock-narrow t)
+      "Vp typical chunk."
+      :group 'innermodes
+      :type 'object)
 
-      (defcustom work/vp-poly
-        (pm-polymode-multi "Vp"
-                           :hostmode 'work/vp-host
-                           :innermodes '(work/vp-inner-html work/vp-inner-css))
-        "Vp typical configuration"
-        :group 'polymodes
-        :type 'object)
+    (defcustom dk-reader//vp-poly
+      (pm-polymode-multi "Vp"
+                         :hostmode 'dk-reader//vp-host
+                         :innermodes '(dk-reader//vp-inner-html dk-reader//vp-inner-css))
+      "Vp typical configuration"
+      :group 'polymodes
+      :type 'object)
 
-      (define-polymode poly-vp-mode work/vp-poly))))
+    ;; mix or vue
+    (defcustom dk-reader//mix-host
+      (pm-bchunkmode "mix" :mode 'fundamental-mode)
+      "mix"
+      :group 'hostmodes
+      :type 'object)
+
+    (defcustom dk-reader//mix-inner-html
+      (pm-hbtchunkmode "mix"
+                       :head-reg "^<template[^>]*>"
+                       :tail-reg "^</template>"
+                       :head-mode 'host
+                       :tail-mode 'body
+                       :mode 'sgml-mode
+                       :indent-offset 0
+                       :font-lock-narrow t)
+      "Mix typical chunk."
+      :group 'innermodes
+      :type 'object)
+
+    (defcustom dk-reader//mix-inner-css
+      (pm-hbtchunkmode "mix"
+                       :head-reg "^<style[^>]*>"
+                       :tail-reg "^</style>"
+                       :head-mode 'host
+                       :tail-mode 'body
+                       :mode 'css-mode
+                       :indent-offset 0
+                       :font-lock-narrow t)
+      "Mix typical chunk."
+      :group 'innermodes
+      :type 'object)
+
+    (defcustom dk-reader//mix-inner-js
+      (pm-hbtchunkmode "mix"
+                       :head-reg "^<script[^>]*>"
+                       :tail-reg "^</script>"
+                       :head-mode 'host
+                       :tail-mode 'body
+                       :mode 'js-mode
+                       :indent-offset 0
+                       :font-lock-narrow t)
+      "Mix typical chunk."
+      :group 'innermodes
+      :type 'object)
+
+    (defcustom dk-reader//mix-poly
+      (pm-polymode-multi "mix"
+                         :hostmode 'dk-reader//mix-host
+                         :innermodes '(dk-reader//mix-inner-html
+                                       dk-reader//mix-inner-css
+                                       dk-reader//mix-inner-js))
+      "Mix typical configuration"
+      :group 'polymodes
+      :type 'object)
+
+    (define-polymode poly-vp-mode dk-reader//vp-poly)
+    (define-polymode poly-mix-mode dk-reader//mix-poly)
+    (define-polymode poly-vue-mode dk-reader//mix-poly)))
