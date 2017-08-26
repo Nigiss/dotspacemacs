@@ -35,7 +35,10 @@
                 (spacemacs/previous-useful-buffer)
                 (evil-window-down 1))
         "fp" 'projectile-find-file
+
         "px" 'projectile-run-shell
+        "pm" 'projectile-run-term
+
         "sp" 'spacemacs/search-project-auto-region-or-symbol
         "sP" 'spacemacs/search-project-auto))))
 

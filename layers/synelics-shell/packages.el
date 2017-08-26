@@ -13,7 +13,7 @@
 (setq synelics-shell-packages
       '(
         term
-        ;; (shell :location built-in)
+        (shell :location built-in)
         xterm-color
         with-editor
         ))
@@ -23,28 +23,30 @@
     :init
     (progn
       (evil-define-key 'normal term-raw-map "p" 'term-paste)
-      (evil-define-key 'normal term-raw-map (kbd "RET") 'term-send-return)
+      (evil-define-key 'normal term-raw-map (kbd "RET") 'term-send-return))
 
-      (evil-define-key 'insert term-raw-map (kbd "'") 'term-send-raw)
-      (evil-define-key 'insert term-raw-map (kbd "ESC") 'term-send-raw)
-      (evil-define-key 'insert term-raw-map (kbd "C-w") 'term-send-raw)
-      (evil-define-key 'insert term-raw-map (kbd "C-k") 'term-send-raw)
-      (evil-define-key 'insert term-raw-map (kbd "C-p") 'term-send-raw)
-      (evil-define-key 'insert term-raw-map (kbd "C-n") 'term-send-raw)
-      (evil-define-key 'insert term-raw-map (kbd "C-a") 'term-send-raw)
-      (evil-define-key 'insert term-raw-map (kbd "C-e") 'term-send-raw)
-      (evil-define-key 'insert term-raw-map (kbd "C-d") 'term-send-raw)
-      (evil-define-key 'insert term-raw-map (kbd "C-f") 'term-send-raw)
-      (evil-define-key 'insert term-raw-map (kbd "C-b") 'term-send-raw)
-      (evil-define-key 'insert term-raw-map (kbd "C-r") 'term-send-raw)
-      (evil-define-key 'insert term-raw-map (kbd "C-s") 'term-send-raw)
-      (evil-define-key 'insert term-raw-map (kbd "C-x") 'term-send-raw)
-      (evil-define-key 'insert term-raw-map (kbd "M-DEL") 'term-send-raw)
-      (evil-define-key 'insert term-raw-map (kbd "TAB") 'term-send-raw)
-      (evil-define-key 'insert term-raw-map (kbd "DEL") 'term-send-raw))))
+    :config
+    (mapcar (lambda (char)
+              (evil-define-key 'emacs term-raw-map (kbd char) 'term-send-raw)
+              (evil-define-key 'emacs term-raw-map (kbd (concat "C-" char)) 'term-send-raw))
+
+            ;; [a-z]
+            (cl-loop for char-code-of-a from 97 to (+ 97 25)
+                     collect (make-string 1 char-code-of-a)))
+
+    (evil-define-key 'emacs term-raw-map (kbd "C-z") 'evil-normal-state)
+    (evil-define-key 'emacs term-raw-map (kbd "ESC") 'term-send-raw)
+    (evil-define-key 'emacs term-raw-map (kbd "<backspace>") (lambda ()
+                                                               "Backward kill char in term mode."
+                                                               (interactive)
+                                                               (term-send-raw-string "\C-h")))))
 
 (defun shell/post-init-shell ()
-  (synelics-core|local-set-key 'shell-mode company-active-map "RET" 'comint-send-input))
+  (evil-define-key 'insert comint-mode-map (kbd "RET") 'comint-send-input)
+  (evil-define-key 'insert comint-mode-map (kbd "<tab>") 'company-complete-selection)
+  (evil-define-key 'insert comint-mode-map (kbd "C-l") 'company-complete-selection)
+  (evil-define-key 'insert comint-mode-map (kbd "C-j") 'company-select-next)
+  (evil-define-key 'insert comint-mode-map (kbd "C-k") 'company-select-previous))
 
 (defun synelics-shell/post-init-xterm-color ()
   (use-package xterm-color
@@ -68,10 +70,6 @@
       (add-hook 'shell-mode-hook 'with-editor-export-git-editor))
     :config
     (progn
-      (with-eval-after-load 'projectile
-        (lambda ()
-          (define-key evil-normal-state-map (kbd "px") 'projectile-run-shell)))
-
       (define-key (current-global-map)
         [remap async-shell-command] 'with-editor-async-shell-command)
       (define-key (current-global-map)
