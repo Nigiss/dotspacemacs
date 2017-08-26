@@ -35,10 +35,7 @@
 
       (add-hook 'sgml-mode-hook
                 (lambda ()
-                  (turn-on-evil-matchit-mode)
-                  (subword-mode 1)
-                  (emmet-mode 1)
-                  (paredit-mode 1)
+                  (setq sgml-basic-offset 4)
 
                   ;; https://www.emacswiki.org/emacs/EmacsSyntaxTable
                   (modify-syntax-entry ?: ".")
@@ -47,7 +44,7 @@
                   (modify-syntax-entry ?- ".")
                   (modify-syntax-entry ?= ".")
 
-                  (setq sgml-basic-offset 4))))))
+                  (subword-mode 1))))))
 
 (defun dk-reader/post-init-projectile ()
   (use-package projectile
@@ -79,18 +76,7 @@
                 (when (and (projectile-project-p)
                            (file-exists-p (concat (projectile-project-root) ".eslintrc.js")))
                   (set (make-variable-buffer-local 'js-indent-level) 4)
-                  (set (make-variable-buffer-local 'flycheck-enabled-checkers) '(javascript-eslint))
-                  (set (make-variable-buffer-local 'flycheck-javascript-eslint-executable)
-                       (concat (projectile-project-root) "node_modules/eslint/bin/eslint.js")))))
-
-    (add-hook 'js2-mode-hook
-              (lambda ()
-                (define-key evil-normal-state-local-map
-                  (kbd "C-]")
-                  (synelics-core|center-cursor-after-call 'synelics-work//js-goto-definition))
-                (define-key evil-normal-state-local-map
-                  (kbd "C-t")
-                  (synelics-core|center-cursor-after-call 'pop-tag-mark))))))
+                  (poly-vp-mode +1))))))
 
 (defun dk-reader/init-js-mode ()
   (use-package js-mode
@@ -103,6 +89,14 @@
 
     (add-hook 'js-mode-hook
               (lambda ()
+                (let ((eslint-exec (and (projectile-project-p)
+                                        (concat (projectile-project-root) "node_modules/eslint/bin/eslint.js"))))
+                  (when (file-exists-p eslint-exec)
+                    (set (make-variable-buffer-local 'js-indent-level) 4)
+                    (flycheck-mode 1)
+                    (set (make-variable-buffer-local 'flycheck-enabled-checkers) '(javascript-eslint))
+                    (set (make-variable-buffer-local 'flycheck-javascript-eslint-executable) eslint-exec)))
+
                 (define-key evil-normal-state-local-map (kbd "C-]") 'tern-find-definition)
                 (define-key evil-normal-state-local-map (kbd "C-t") 'tern-pop-find-definition)))))
 

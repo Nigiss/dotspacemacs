@@ -12,10 +12,6 @@
 (setq synelics-completion-packages
       '(
         company
-        ;; company-flx
-
-        ycmd
-
         yasnippet
         ))
 
@@ -40,11 +36,6 @@
             read-file-name-completion-ignore-case t
             read-buffer-completion-ignore-case t)
 
-      (setq company-backends '(company-capf
-                               company-files
-                               (company-dabbrev-code company-keywords)
-                               company-oddmuse company-dabbrev))
-
       (add-hook 'after-init-hook 'global-company-mode)
 
       (synelics-core|add-hooks '(git-commit-mode org-mode)
@@ -53,12 +44,10 @@
 
       (synelics-completion//force-company-completion-use-syltes))
     :config
-    (progn
-
-      (let ((map company-active-map))
-        (define-key map (kbd "C-w") 'paredit-backward-kill-word)
-        (define-key map (kbd "<return>") 'newline-and-indent)
-        (define-key map (kbd "<tab>") 'company-complete-selection)))))
+    (let ((map company-active-map))
+      (define-key map (kbd "C-w") 'backward-kill-word)
+      (define-key map (kbd "<return>") 'newline-and-indent)
+      (define-key map (kbd "<tab>") 'company-complete-common))))
 
 (defun synelics-completion/init-company-flx ()
   (use-package company-flx
@@ -86,20 +75,6 @@
                   (null (synelics-completion//do-yas-expand)))
               (indent-for-tab-command))))
         (define-key evil-insert-state-map (kbd "TAB") 'synelics-completion//tab-indent-or-complete))))
-
-(defun synelics-completion/post-init-ycmd ()
-  (use-package ycmd
-    :defer t
-    :init
-    (progn
-      (setq ycmd-server-command '("python"
-                                  "/Users/synelics/.spacemacs.d/layers/synelics-completion/local/ycmd/ycmd")
-            ycmd-force-semantic-completion t)
-      (spacemacs|diminish ycmd-mode " Ⓜ" " M")
-      (setq company-ycmd-insert-arguments nil))
-    :config
-    (progn
-      (ad-enable-advice 'ycmd--handle-goto-response 'around 'synelics-completion//goto-current-project-only))))
 
 (defun synelics-evil/init-paredit ()
   (use-package paredit

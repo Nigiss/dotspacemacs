@@ -1,4 +1,4 @@
-(defun synelics//js-goto-definition ()
+(defun synelics-javascript//js-goto-definition ()
   "Use default first, if failed, then use TAGS."
   (interactive)
   (condition-case nil

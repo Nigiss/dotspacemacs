@@ -61,7 +61,6 @@ values."
           magit-revision-show-gravatars nil)
 
      auto-completion
-     ycmd
 
      html
      python
