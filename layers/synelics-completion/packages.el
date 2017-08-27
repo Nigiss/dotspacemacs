@@ -12,6 +12,7 @@
 (setq synelics-completion-packages
       '(
         company
+        company-flx
         yasnippet
         ))
 
@@ -28,10 +29,8 @@
             completion-cycle-threshold 5
             company-echo-delay 1
 
-            ;; etags
-            company-etags-ignore-case t
-
             ;; sensitive
+            company-etags-ignore-case t
             completion-ignore-case t
             read-file-name-completion-ignore-case t
             read-buffer-completion-ignore-case t)
@@ -42,21 +41,25 @@
                                (lambda ()
                                  (set (make-local-variable 'company-idle-delay) nil)))
 
-      (synelics-completion//force-company-completion-use-syltes))
+      (synelics-completion//force-company-completion-use-styles))
     :config
     (let ((map company-active-map))
       (define-key map (kbd "C-w") 'backward-kill-word)
       (define-key map (kbd "<return>") 'newline-and-indent)
-      (define-key map (kbd "<tab>") 'company-complete-common))))
+      (define-key map (kbd "<tab>") 'company-complete-selection))))
 
 (defun synelics-completion/init-company-flx ()
   (use-package company-flx
+    :if (and (configuration-layer/package-used-p 'company))
     :defer t
     :init
-    (progn
-      (with-eval-after-load 'company
-        (company-flx-mode +1)
-        (add-to-list 'completion-styles 'fuzzy 'append)))))
+    (company-flx-mode +1)
+
+    ;; optimize completion for `emacs-lisp-mode'
+    (advice-remove 'company-capf #'company-flx-company-capf-advice)
+    (synelics-core|remove-from-list company-transformers 'company-flx-transformer)
+
+    (setq completion-styles '(fuzzy))))
 
 (defun synelics-completion/post-init-yasnippet()
   (use-package yasnippet
@@ -75,52 +78,3 @@
                   (null (synelics-completion//do-yas-expand)))
               (indent-for-tab-command))))
         (define-key evil-insert-state-map (kbd "TAB") 'synelics-completion//tab-indent-or-complete))))
-
-(defun synelics-evil/init-paredit ()
-  (use-package paredit
-    :defer t
-    :config
-    (progn
-      (define-key evil-insert-state-map (kbd "'")
-        (lambda ()
-          (interactive)
-          (self-insert-command 1)))
-      (define-key evil-insert-state-map (kbd "\"")
-        (lambda ()
-          (interactive)
-          (self-insert-command 1)))
-      (define-key evil-insert-state-map (kbd "(")
-        (lambda ()
-          (interactive)
-          (self-insert-command 1)))
-      (define-key evil-insert-state-map (kbd ")")
-        (lambda ()
-          (interactive)
-          (self-insert-command 1)))
-      (define-key evil-insert-state-map (kbd "[")
-        (lambda ()
-          (interactive)
-          (self-insert-command 1)))
-      (define-key evil-insert-state-map (kbd "]")
-        (lambda ()
-          (interactive)
-          (self-insert-command 1)))
-      (define-key evil-insert-state-map (kbd "{")
-        (lambda ()
-          (interactive)
-          (self-insert-command 1)))
-      (define-key evil-insert-state-map (kbd ";")
-        (lambda ()
-          (interactive)
-          (self-insert-command 1)))
-      (define-key evil-insert-state-map (kbd "}")
-        (lambda ()
-          (interactive)
-          (self-insert-command 1))))))
-
-(defun synelics-evil/init-paredit-everywhere ()
-  (use-package paredit-everywhere
-    :defer t
-    :config
-    (progn
-      (paredit-everywhere-mode t))))

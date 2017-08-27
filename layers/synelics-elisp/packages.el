@@ -22,11 +22,11 @@
       (add-hook 'emacs-lisp-mode-hook 'paredit-mode)
       (add-hook 'emacs-lisp-mode-hook
                 (lambda ()
-                  ;; (set (make-variable-buffer-local 'company-idle-delay) .2)
-                  ;; (set (make-variable-buffer-local 'company-minimum-prefix-length) 3)
-                  (set (make-variable-buffer-local 'company-backends)
-                       '(company-capf
-                         (company-dabbrev-code company-keywords)
-                         company-files company-dabbrev))
+                  (setq-local completion-styles '(basic partial-completion))
+                  (setq-local company-backends
+                              '(company-capf
+                                (company-dabbrev-code company-keywords)
+                                company-files company-dabbrev))
                   (define-key evil-normal-state-local-map (kbd "C-]") 'elisp-slime-nav-find-elisp-thing-at-point))
-                'append))))
+                'append
+                ))))
