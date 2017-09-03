@@ -1,0 +1,6 @@
+# key: di
+# name: describe
+# --
+describe('${}', () => {
+                $0
+});
