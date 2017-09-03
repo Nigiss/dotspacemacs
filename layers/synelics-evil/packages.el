@@ -11,21 +11,30 @@
 
 (setq synelics-evil-packages '(
                                evil
-                               paredit
-                               paredit-everywhere
                                ))
 
 (defun synelics-evil/post-init-evil ()
+  :init
   (progn
     ;; Initialization
     (setq-default evil-escape-key-sequence "C-c C-g")
 
     ;; Edit
-    (define-key evil-insert-state-map (kbd "C-w") 'paredit-backward-kill-word)
-    (define-key evil-insert-state-map (kbd "C-h") 'paredit-backward-delete)
+    (define-key evil-insert-state-map (kbd "C-w") 'backward-kill-word)
+    (define-key evil-insert-state-map (kbd "C-h") 'backward-delete-char)
     (define-key evil-visual-state-map (kbd "Q") 'anzu-query-replace)
 
     ;; Move
+    (define-key evil-normal-state-map (kbd "C-]") 'spacemacs/jump-to-definition)
+    (define-key evil-motion-state-map (kbd "C-]") 'spacemacs/jump-to-definition)
+    (define-key evil-visual-state-map (kbd "C-]") 'spacemacs/jump-to-definition)
+    (define-key evil-operator-state-map (kbd "C-]") 'spacemacs/jump-to-definition)
+
+    (define-key evil-normal-state-map (kbd "C-t") 'pop-tag-mark)
+    (define-key evil-motion-state-map (kbd "C-t") 'pop-tag-mark)
+    (define-key evil-visual-state-map (kbd "C-t") 'pop-tag-mark)
+    (define-key evil-operator-state-map (kbd "C-t") 'pop-tag-mark)
+
     (define-key evil-normal-state-map (kbd "0") 'evil-first-non-blank)
     (define-key evil-motion-state-map (kbd "0") 'evil-first-non-blank)
     (define-key evil-visual-state-map (kbd "0") 'evil-first-non-blank)

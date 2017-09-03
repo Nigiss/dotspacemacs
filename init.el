@@ -79,6 +79,8 @@ values."
      synelics-keybind
      synelics-git
      synelics-completion
+     synelics-jump
+     synelics-file
 
      synelics-org
      synelics-shell

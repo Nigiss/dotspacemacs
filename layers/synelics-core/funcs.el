@@ -1,39 +1,3 @@
-(defun synelics-core/find-tag-no-confirm ()
-  "Find tag without confirm."
-  (interactive)
-  (let* ((tags-file (concat (projectile-project-root) "TAGS"))
-         (current-point (point))
-         (inner-symbol (evil-inner-symbol))
-         (begin (car inner-symbol))
-         (end (car (cdr inner-symbol))))
-
-    (goto-char current-point)
-
-    (unless (file-exists-p tags-file)
-      (synelics-core/update-tags-table))
-
-    (visit-tags-table tags-file 'local)
-
-    (find-tag (buffer-substring-no-properties begin end))))
-
-(defun synelics-core/find-tag ()
-  "Find tag without confirm."
-  (interactive)
-  (let* ((tags-file (concat (projectile-project-root) "TAGS")))
-
-    (unless (file-exists-p tags-file)
-      (synelics-core/update-tags-table))
-
-    (visit-tags-table tags-file 'local)
-    (let ((tagname (find-tag-interactive "Find tag: ")))
-      (find-tag (car tagname)))))
-
-(defun synelics-core/update-tags-table ()
-  "Update tags table with shell script."
-  (interactive)
-  (projectile-with-default-dir (projectile-project-root)
-    (shell-command "bash gen-tags.sh")))
-
 (defsubst synelics-core/curry (function &rest arguments)
   (lexical-let ((function function)
                 (arguments arguments))
@@ -43,6 +7,13 @@
   (lexical-let ((function function)
                 (arguments arguments))
     (lambda (&rest more) (interactive) (apply function (append arguments more)))))
+
+(defun synelics-core/shell-command (cmd &optional background)
+  (projectile-with-default-dir (projectile-project-root)
+    (if background
+        (save-window-excursion
+          (with-editor-async-shell-command cmd))
+      (with-editor-async-shell-command cmd))))
 
 ;;; Macro
 (defmacro synelics-core|center-cursor-after-call (fn)
@@ -97,11 +68,3 @@
                      fn
                      ,append
                      ,local)))))
-
-;; (synelics-core|add-hook 'prog-mode (lambda () (set-input-method default-input-method)))
-
-;; (progn
-;;   (set 'ttt-mode-hook nil)
-;;   (synelics-core|add-hook 'ttt-mode
-;;                           'spacemacs/toggle-fullscreen-frame
-;;                           (lambda () ())))

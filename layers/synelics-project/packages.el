@@ -27,7 +27,7 @@
                 (interactive)
                 (revert-buffer nil 'noconfirm))
         "fm" 'counsel-recentf
-        "jt" 'synelics-core/find-tag
+        "jt" 'synelics-jump/find-tag
         "fF" '(lambda ()
                 (interactive)
                 (counsel-find-file)
