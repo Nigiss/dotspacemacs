@@ -13,7 +13,6 @@
 (setq synelics-shell-packages
       '(
         term
-        (shell :location built-in)
         xterm-color
         with-editor
         ))
@@ -21,10 +20,9 @@
 (defun synelics-shell/post-init-term ()
   (use-package term
     :init
-    (progn
-      (evil-define-key 'normal term-raw-map "p" 'term-paste)
-      (evil-define-key 'normal term-raw-map (kbd "RET") 'term-send-return))
-
+    (advice-add 'term-char-mode
+                :after (lambda (&optional args)
+                         (evil-emacs-state 1)))
     :config
     (mapcar (lambda (char)
               (evil-define-key 'emacs term-raw-map (kbd char) 'term-send-raw)
@@ -34,15 +32,21 @@
             (cl-loop for char-code-of-a from 97 to (+ 97 25)
                      collect (make-string 1 char-code-of-a)))
 
+    (evil-define-key 'emacs term-raw-map (kbd "H-x") 'counsel-M-x)
+    (evil-define-key 'emacs term-raw-map (kbd "H-v") 'term-paste)
+
     (evil-define-key 'emacs term-raw-map (kbd "C-z") 'evil-normal-state)
     (evil-define-key 'emacs term-raw-map (kbd "ESC") 'term-send-raw)
     (evil-define-key 'emacs term-raw-map (kbd "<backspace>") (lambda ()
                                                                "Backward kill char in term mode."
                                                                (interactive)
-                                                               (term-send-raw-string "\C-h")))))
+                                                               (term-send-raw-string "\C-h")))
+
+    (evil-define-key 'normal term-raw-map "p" 'term-paste)
+    (evil-define-key 'normal term-raw-map (kbd "RET") 'term-send-return)
+    ))
 
 (defun shell/post-init-shell ()
-  (evil-define-key 'insert comint-mode-map (kbd "RET") 'comint-send-input)
   (evil-define-key 'insert comint-mode-map (kbd "<tab>") 'company-complete-selection)
   (evil-define-key 'insert comint-mode-map (kbd "C-l") 'company-complete-selection)
   (evil-define-key 'insert comint-mode-map (kbd "C-j") 'company-select-next)
@@ -66,8 +70,11 @@
 (defun synelics-shell/init-with-editor ()
   (use-package with-editor
     :init
-    (progn
-      (add-hook 'shell-mode-hook 'with-editor-export-git-editor))
+    (setq async-shell-command-buffer 'new-buffer)
+    (add-hook 'shell-mode-hook 'with-editor-export-git-editor)
+    (advice-add 'with-editor-return
+                :after (lambda (&optional args)
+                         (delete-window)))
     :config
     (progn
       (define-key (current-global-map)

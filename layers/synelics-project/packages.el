@@ -37,7 +37,21 @@
         "fp" 'projectile-find-file
 
         "px" 'projectile-run-shell
-        "pm" 'projectile-run-term
+        "pm" #'(lambda ()
+                 (interactive)
+                 (projectile-run-term (or explicit-shell-file-name
+                                          (getenv "ESHELL")
+                                          (getenv "SHELL")
+                                          "/bin/sh")))
+
+        "p!" #'(lambda ()
+                 (interactive)
+                 (projectile-with-default-dir (projectile-project-root)
+                   (call-interactively 'with-editor-shell-command)))
+        "p&" #'(lambda ()
+                 (interactive)
+                 (projectile-with-default-dir (projectile-project-root)
+                   (call-interactively 'with-editor-async-shell-command)))
 
         "sp" 'spacemacs/search-project-auto-region-or-symbol
         "sP" 'spacemacs/search-project-auto))))

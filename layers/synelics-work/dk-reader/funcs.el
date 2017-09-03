@@ -4,73 +4,35 @@
 ;; start server
 (defun synelics-work/server-start-preview ()
   (interactive)
-  (synelics-work||exec-command-with-shell "bash run.sh"))
+  (synelics-core/shell-command "npm run preview"))
 
 (defun synelics-work/server-start-staging ()
   (interactive)
-  (synelics-work||exec-command-with-shell "bash in.run.sh"))
-
-;; phone test
-(defun synelics-work/phone-test ()
-  "Test for phone module"
-  (interactive)
-  (synelics-work//exec-command-with-term "~/Works/dk-reader/frontend/kits/bin/test-phone-v3"))
+  (synelics-core/shell-command "npm run staging"))
 
 ;; phone cmd
 (defun synelics-work/phone-dev ()
-  "Sync to origin/master"
   (interactive)
-  (synelics-work||exec-command-with-shell (concat (synelics-work//hybrid-command "dev" "phone")
+  (synelics-core/shell-command (concat (synelics-work//hybrid-command "dev" "phone")
                                      " "
                                      (read-string "dev type: ")
                                      " "
                                      (read-string "dev usage: "))
-                             'sync))
+                             'background))
 
 (defun synelics-work/phone-sync ()
-  "Sync to origin/master"
   (interactive)
-  (synelics-work||exec-command-with-shell (synelics-work//hybrid-command "sync")))
-
-(defun synelics-work/phone-hotfix ()
-  "Sync to origin/master"
-  (interactive)
-  (synelics-work||exec-command-with-shell (synelics-work//hybrid-command "hotfix") 'sync))
+  (synelics-core/shell-command (synelics-work//hybrid-command "sync")))
 
 (defun synelics-work/phone-alpha ()
-  "Sync to origin/master"
   (interactive)
-  (synelics-work||exec-command-with-shell (synelics-work//hybrid-command "alpha")))
+  (synelics-core/shell-command (synelics-work//hybrid-command "alpha")))
 
 (defun synelics-work/phone-publish ()
-  "Sync to origin/master"
   (interactive)
-  (synelics-work||exec-command-with-shell (synelics-work//hybrid-command "publish")))
+  (synelics-core/shell-command (synelics-work//hybrid-command "publish")))
 
 
 ;;; helper
 (cl-defun synelics-work//hybrid-command (type &optional (project "phone"))
   (concat "~/Works/dk-reader/frontend/kits/bin/workflow " type))
-
-(defvar synelics-work||shell-index 0)  ; There are multiple work shells
-(defmacro synelics-work||exec-command-with-shell (cmd &optional sync)
-  `(projectile-with-default-dir (projectile-project-root)
-     (if ,sync
-         (shell-command ,cmd)
-       (let ((shell-buffer (format "*work<%s>*" (incf synelics-work||shell-index))))
-         (shell shell-buffer)
-         (comint-send-string shell-buffer (concat ,cmd "\n"))))))
-
-(defun synelics-work//exec-command-with-term (cmd)
-  (let ((term-buffer (multi-term)))
-    (term-send-string term-buffer (concat cmd "\n"))))
-
-(defun synelics-work//js-goto-definition ()
-  "Use default first, if failed, then use TAGS."
-  (interactive)
-  (add-hook 'ycmd-after-exception-hook
-            (lambda (&rest args)
-              (synelics-core/find-tag-no-confirm))
-            nil
-            'local)
-  (ycmd-goto))
