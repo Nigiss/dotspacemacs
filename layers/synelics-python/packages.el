@@ -12,58 +12,12 @@
 (setq synelics-python-packages
       '(
         anaconda-mode
-        company-ycmd
-        evil-matchit
-        flycheck
         ))
 
 (defun synelics-python/post-init-anaconda-mode ()
   (use-package anaconda-mode
     :defer t
     :init
-    (progn
-      (setq anaconda-mode-installation-directory
-            (concat spacemacs-cache-directory "anaconda-mode"))
-      (add-hook 'python-mode-hook 'paredit-mode)
-      (add-hook 'python-mode-hook 'anaconda-mode)
-      (add-hook 'python-mode-hook 'evil-matchit-mode)
-      (add-hook 'python-mode-hook 'ycmd-mode)
-      (synelics-core|add-hook 'python-mode 'subword-mode)
-      (add-hook 'python-mode-hook
-                (lambda ()
-                  (define-key evil-normal-state-local-map (kbd "C-t") (synelics-core|center-cursor-after-call 'synelics//py-go-back))
-                  (define-key evil-normal-state-local-map (kbd "C-]") (synelics-core|center-cursor-after-call 'synelics//py-goto-definition)))))
-    :config
-    (progn
-      (spacemacs/set-leader-keys-for-major-mode 'python-mode
-        "hh" 'anaconda-mode-show-doc
-        "gg" 'anaconda-mode-find-definitions
-        "ga" 'anaconda-mode-find-assignments
-        "gb" 'anaconda-mode-go-back
-        "gu" 'anaconda-mode-find-references)
-
-      (evilified-state-evilify anaconda-mode-view-mode anaconda-mode-view-mode-map
-        (kbd "q") 'quit-window)
-
-
-      (spacemacs|hide-lighter anaconda-mode))))
-
-(defun synelics-python/post-init-company-ycmd ()
-  (use-package company-ycmd
-    :if (and (configuration-layer/package-usedp 'company)
-             (configuration-layer/package-usedp 'ycmd))
-    :defer t
-    :init (spacemacs|add-company-backends
-            :backends company-ycmd
-            :modes python-mode)))
-
-;; (defun python/post-init-evil ()
-;;   (add-hook 'python-mode-hook #'(lambda ()
-;;                                     (local-set-key (kbd "C-]") 'synelics//goto-definition)
-;;                                     (local-set-key (kbd "C-t") 'synelics//go-back))))
-
-(defun synelics-python/post-init-evil-matchit ()
-  (add-hook 'python-mode-hook 'evil-matchit-mode))
-
-(defun synelics-python/post-init-flycheck ()
-  (spacemacs/add-flycheck-hook 'python-mode))
+    (add-to-list 'spacemacs-jump-handlers-python-mode
+                 '(anaconda-mode-find-assignments :async t))
+    (add-hook 'python-mode-hook 'synelics-python//find-definition-use-xref-marker)))

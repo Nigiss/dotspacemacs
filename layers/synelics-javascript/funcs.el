@@ -1,7 +1,10 @@
-(defun synelics-javascript//js-goto-definition ()
-  "Use default first, if failed, then use TAGS."
-  (interactive)
-  (condition-case nil
-      (js2-jump-to-definition)
-    (error
-     (synelics-core/find-tag-no-confirm))))
+(defun synelics-javascript//find-definition-use-xref-marker ()
+  (advice-add 'tern-show-definition
+              :around (lambda (old-fn data)
+                       (if data
+                           (progn
+                             (xref-push-marker-stack)
+                             (funcall old-fn data))
+                         (condition-case nil
+                             (synelics-jump/find-tag 'no-confirm)
+                           (user-error (message "No definition found.")))))))

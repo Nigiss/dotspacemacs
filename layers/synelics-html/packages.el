@@ -45,7 +45,6 @@ Version 2016-07-04"
         (font-lock-fontify-buffer))
 
       (add-hook 'css-mode-hook 'synelics-html//syntax-color)
-      (add-hook 'css-mode-hook 'paredit-mode)
       (add-hook 'css-mode-hook
                 (lambda ()
                   (set (make-variable-buffer-local 'company-backends)

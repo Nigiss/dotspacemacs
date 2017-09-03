@@ -15,9 +15,6 @@
         projectile
         js2-mode
         polymode
-        (js-mode :location built-in)
-        (tern :toggle (spacemacs//tern-detect))
-        company-tern :requires company
         ))
 
 (defun dk-reader/init-sgml-mode ()
@@ -42,9 +39,7 @@
                   (modify-syntax-entry ?. ".")
                   (modify-syntax-entry ?' ".")
                   (modify-syntax-entry ?- ".")
-                  (modify-syntax-entry ?= ".")
-
-                  (subword-mode 1))))))
+                  (modify-syntax-entry ?= "."))))))
 
 (defun dk-reader/post-init-projectile ()
   (use-package projectile
@@ -52,19 +47,18 @@
     :config
     (progn
       (spacemacs/declare-prefix "mx" "work commands")
+      (spacemacs/declare-prefix "mxr" "run server")
       (with-eval-after-load 'evil
         (evil-leader/set-key
           "mxu" 'synelics-core/update-tags-table
 
-          "mxt" 'synelics-work/phone-test
           "mxs" 'synelics-work/phone-sync
           "mxa" 'synelics-work/phone-alpha
           "mxp" 'synelics-work/phone-publish
-          "mxh" 'synelics-work/phone-hotfix
           "mxd" 'synelics-work/phone-dev
 
-          "mxi" 'synelics-work/server-start-staging
-          "mxv" 'synelics-work/server-start-preview)))))
+          "mxrs" 'synelics-work/server-start-staging
+          "mxrp" 'synelics-work/server-start-preview)))))
 
 (defun dk-reader/post-init-js2-mode ()
   (use-package js2-mode
@@ -75,44 +69,9 @@
               (lambda ()
                 (when (and (projectile-project-p)
                            (file-exists-p (concat (projectile-project-root) ".eslintrc.js")))
-                  (set (make-variable-buffer-local 'js-indent-level) 4)
-                  (poly-vp-mode +1))))))
-
-(defun dk-reader/init-js-mode ()
-  (use-package js-mode
-    :defer t
-    :init
-
-    (synelics-core|add-hook 'js-mode
-                            'subword-mode
-                            'evil-matchit-mode)
-
-    (add-hook 'js-mode-hook
-              (lambda ()
-                (let ((eslint-exec (and (projectile-project-p)
-                                        (concat (projectile-project-root) "node_modules/eslint/bin/eslint.js"))))
-                  (when (file-exists-p eslint-exec)
-                    (set (make-variable-buffer-local 'js-indent-level) 4)
-                    (flycheck-mode 1)
-                    (set (make-variable-buffer-local 'flycheck-enabled-checkers) '(javascript-eslint))
-                    (set (make-variable-buffer-local 'flycheck-javascript-eslint-executable) eslint-exec)))
-
-                (define-key evil-normal-state-local-map (kbd "C-]") 'tern-find-definition)
-                (define-key evil-normal-state-local-map (kbd "C-t") 'tern-pop-find-definition)))))
-
-(defun dk-reader/post-init-company-tern ()
-  (use-package company-tern
-    :if (and (configuration-layer/package-used-p 'company)
-             (configuration-layer/package-used-p 'tern))
-    :defer t
-    :init (spacemacs|add-company-backends
-            :backends company-tern
-            :modes js-mode)))
-
-(defun dk-reader/post-init-tern ()
-  (use-package tern
-    :defer t
-    :init (add-hook 'js-mode-hook 'tern-mode)))
+                  (setq-local js2-basic-offset 4)
+                  (if (string-match "^[ \t]*{{#[^}]+}}" (buffer-string))
+                      (poly-vp-mode 1)))))))
 
 (defun dk-reader/init-polymode ()
   (use-package polymode
@@ -201,7 +160,7 @@
                        :tail-reg "^</script>"
                        :head-mode 'host
                        :tail-mode 'body
-                       :mode 'js-mode
+                       :mode 'js2-mode
                        :indent-offset 0
                        :font-lock-narrow t)
       "Mix typical chunk."
