@@ -30,18 +30,22 @@
             company-echo-delay 1
 
             ;; sensitive
-            company-etags-ignore-case t
+            ;; company-etags-ignore-case t
             completion-ignore-case t
             read-file-name-completion-ignore-case t
-            read-buffer-completion-ignore-case t)
+            read-buffer-completion-ignore-case t
+            ;; tags-case-fold-search nil
+            )
 
-      (add-hook 'after-init-hook 'global-company-mode)
+      (add-hook 'after-init-hook (lambda ()
+                                   (interactive)
+                                   (synelics-completion//use-styles)
+                                   (synelics-completion//async-call-next)
+                                   (global-company-mode)))
 
       (synelics-core|add-hooks '(git-commit-mode org-mode)
                                (lambda ()
-                                 (set (make-local-variable 'company-idle-delay) nil)))
-
-      (synelics-completion//force-company-completion-use-styles))
+                                 (set (make-local-variable 'company-idle-delay) nil))))
     :config
     (let ((map company-active-map))
       (define-key map (kbd "C-w") 'backward-kill-word)

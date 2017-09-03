@@ -431,14 +431,13 @@ layers configuration."
   ;; calendar
   (setq calendar-week-start-day 1)
 
-  (which-function-mode 1)
-
   (window-numbering-mode 1)
+  (global-pretty-mode 1)
+  (global-subword-mode 1)
+  (global-evil-surround-mode 1)
 
   ;; work group
   (workgroups-mode 1)
-
-  (global-pretty-mode)
 
   ;; scroll one line at a time (less "jumpy" than defaults)
   (setq mouse-wheel-scroll-amount '(1 ((shift) . 1))) ;; one line at a time
