@@ -19,14 +19,11 @@
     :defer t
     :init
     (progn
-      (add-hook 'emacs-lisp-mode-hook 'paredit-mode)
       (add-hook 'emacs-lisp-mode-hook
                 (lambda ()
-                  (setq-local completion-styles '(basic partial-completion))
-                  (setq-local company-backends
-                              '(company-capf
-                                (company-dabbrev-code company-keywords)
-                                company-files company-dabbrev))
-                  (define-key evil-normal-state-local-map (kbd "C-]") 'elisp-slime-nav-find-elisp-thing-at-point))
-                'append
-                ))))
+                  (setq-local completion-styles '(partial-completion))
+                  ;; (setq-local company-backends
+                  ;;             '(company-capf
+                  ;;               (company-dabbrev-code company-keywords)
+                  ;;               company-files company-dabbrev))
+                  )))))

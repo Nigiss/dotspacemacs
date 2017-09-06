@@ -81,7 +81,7 @@ values."
      synelics-git
      synelics-completion
      synelics-jump
-     synelics-file
+     ;; synelics-file
 
      synelics-org
      synelics-shell
