@@ -78,7 +78,9 @@
                             (setq wconfig (current-window-configuration))))
       (advice-add 'with-editor-return
                   :after (lambda (&optional args)
-                           (set-window-configuration wconfig))))
+                           (if wconfig
+                               (set-window-configuration wconfig))
+                           (setq wconfig nil))))
 
     :config
     (progn
