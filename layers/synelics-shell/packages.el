@@ -72,9 +72,14 @@
     :init
     (setq async-shell-command-buffer 'new-buffer)
     (add-hook 'shell-mode-hook 'with-editor-export-git-editor)
-    (advice-add 'with-editor-return
-                :after (lambda (&optional args)
-                         (delete-window)))
+    (lexical-let (wconfig)
+      (advice-add 'with-editor-async-shell-command
+                  :before (lambda (&optional args)
+                            (setq wconfig (current-window-configuration))))
+      (advice-add 'with-editor-return
+                  :after (lambda (&optional args)
+                           (set-window-configuration wconfig))))
+
     :config
     (progn
       (define-key (current-global-map)
