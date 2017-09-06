@@ -11,8 +11,26 @@
 
 (setq synelics-html-packages
       '(
+        sgml-mode
         css-mode
         ))
+
+(defun synelics-html/init-sgml-mode ()
+  (use-package sgml-mode
+    :defer t
+    :mode ("\\.tpl\\'" . sgml-mode)
+    :init
+    (add-to-list 'spacemacs-jump-handlers-sgml-mode #'synelics-jump/find-tag-no-confirm)
+    (add-hook 'sgml-mode-hook
+              (lambda ()
+                (setq sgml-basic-offset 4)
+
+                ;; https://www.emacswiki.org/emacs/EmacsSyntaxTable
+                (modify-syntax-entry ?: ".")
+                (modify-syntax-entry ?. ".")
+                (modify-syntax-entry ?' ".")
+                (modify-syntax-entry ?- ".")
+                (modify-syntax-entry ?= ".")))))
 
 (defun synelics-html/post-init-css-mode ()
   (use-package css-mode

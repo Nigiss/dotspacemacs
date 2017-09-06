@@ -17,7 +17,7 @@
         polymode
         ))
 
-(defun dk-reader/init-sgml-mode ()
+(defun dk-reader/post-init-sgml-mode ()
   (use-package sgml-mode
     :defer t
     :mode ("\\.tpl\\'" . sgml-mode)
@@ -28,18 +28,7 @@
                                 (and
                                  (synelics-work/in-directory-p "dk-reader")
                                  (string-equal (file-name-extension (buffer-file-name)) "tpl")
-                                 (shell-command (concat "~/Works/dk-reader/frontend/kits/bin/tpl " buffer-file-name " > /dev/null")))))
-
-      (add-hook 'sgml-mode-hook
-                (lambda ()
-                  (setq sgml-basic-offset 4)
-
-                  ;; https://www.emacswiki.org/emacs/EmacsSyntaxTable
-                  (modify-syntax-entry ?: ".")
-                  (modify-syntax-entry ?. ".")
-                  (modify-syntax-entry ?' ".")
-                  (modify-syntax-entry ?- ".")
-                  (modify-syntax-entry ?= "."))))))
+                                 (shell-command (concat "~/Works/dk-reader/frontend/kits/bin/tpl " buffer-file-name " > /dev/null"))))))))
 
 (defun dk-reader/post-init-projectile ()
   (use-package projectile

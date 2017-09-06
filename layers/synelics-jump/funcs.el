@@ -1,3 +1,7 @@
+(defun synelics-jump/find-tag-no-confirm (&optional tag-name)
+  (interactive)
+  (synelics-jump/find-tag 'no-confirm tag-name))
+
 (defun synelics-jump/find-tag (&optional no-confirm tag-name)
   (interactive)
   (let ((tag-file (concat (projectile-project-root) "TAGS")))
@@ -19,8 +23,8 @@
 (defun syenlics-core//find-definitions (tag-name no-confirm)
   (let ((tag-name (or tag-name (symbol-name (symbol-at-point)))))
     (if no-confirm
-        (xref-find-definitions tag-name)
-      (call-interactively 'xref-find-definitions tag-name))))
+        (find-tag tag-name)
+      (call-interactively 'find-tag tag-name))))
 
 (defun synelics-jump//build-tags-table ()
   "Update tags table with shell script."

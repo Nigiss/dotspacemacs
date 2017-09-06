@@ -6,5 +6,5 @@
                              (xref-push-marker-stack)
                              (funcall old-fn data))
                          (condition-case nil
-                             (synelics-jump/find-tag 'no-confirm)
+                             (synelics-jump/find-tag-no-confirm)
                            (user-error (message "No definition found.")))))))
