@@ -13,7 +13,7 @@
       '(
         engine-mode
         pretty-mode
-        chinese-pyim
+        pyim
         ))
 
 (defun synelics-tool/post-init-engine-mode ()
@@ -30,8 +30,8 @@
 (defun synelics-tool/init-pretty-mode ()
   (use-package pretty-mode :defer t))
 
-(defun synelics-tool/post-init-chinese-pyim ()
-  (use-package chinese-pyim
+(defun synelics-tool/post-init-pyim ()
+  (use-package pyim
     :defer t
     :init
     (define-key pyim-mode-map (kbd ".") 'pyim-page-next-page)
@@ -53,7 +53,8 @@
     ;; 选词框显示5个候选词
     (setq pyim-page-length 5)
 
-    (setq pyim-dicts (let ((dir pyim-dicts-directory))
+    ;; 外部字典存放的目录
+    (setq pyim-dicts (let ((dir (locate-user-emacs-file ".cache/pyim/dicts/")))
                        (mapcar (lambda (x) `(:name ,(file-name-base x) :file ,(concat dir x)))
                                (remove-if-not (lambda (x) (equal (file-name-extension x) "pyim"))
                                               (and (file-exists-p dir) (directory-files dir))))))
