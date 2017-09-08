@@ -73,14 +73,13 @@
     (setq async-shell-command-buffer 'new-buffer)
     (add-hook 'shell-mode-hook 'with-editor-export-git-editor)
     (lexical-let (wconfig)
-      (advice-add 'with-editor-async-shell-command
+      (advice-add 'with-editor--setup
                   :before (lambda (&optional args)
                             (setq wconfig (current-window-configuration))))
       (advice-add 'with-editor-return
                   :after (lambda (&optional args)
                            (if wconfig
-                               (set-window-configuration wconfig))
-                           (setq wconfig nil))))
+                               (set-window-configuration wconfig)))))
 
     :config
     (progn
