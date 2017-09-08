@@ -23,6 +23,8 @@
                                (lambda ()
                                  (visual-line-mode 1)))
 
+      (setq magit-log-margin '(t "%m/%d %H:%M %a " magit-log-margin-width t 16))
+
       (spacemacs/set-leader-keys
         "gk" 'magit-checkout
         "gx" 'magit-reset-hard
