@@ -19,21 +19,21 @@
     :defer t
     :init
     (progn
-      ;; (add-hook 'org-mode-hook 'spacemacs/toggle-spelling-checking-off)
-      (add-hook 'org-mode-hook 'auto-fill-mode)
       (spacemacs|disable-company 'org-mode)
+      (evil-define-key 'normal org-mode-map (kbd "o")
+        #'(lambda ()
+            (interactive)
+            (evil-append-line 1)
+            (org-return)))
+      (evil-define-key 'normal org-mode-map (kbd "TAB") 'tab-to-tab-stop)
+      (evil-define-key 'normal org-mode-map (kbd "t") 'org-todo)
+
+      (add-hook 'org-mode-hook 'auto-fill-mode)
       (add-hook 'org-after-todo-state-change-hook
                 (lambda ()
                   (if (string-equal org-state "DONE")
                       (org-pomodoro-finished))))
-      (add-hook 'org-mode-hook
-                (lambda ()
-                  (define-key evil-normal-state-local-map (kbd "o")
-                    (lambda ()
-                      (interactive)
-                      (evil-append-line 1)
-                      (org-return)))
-                  (define-key evil-insert-state-local-map (kbd "TAB") 'tab-to-tab-stop)))
+
       (setq org-log-done t
             org-edit-timestamp-down-means-later t
             org-archive-mark-done nil
@@ -107,7 +107,9 @@
                       ((org-agenda-overriding-header "Opt: ")))
                 (tags (syenlics//last-week-work-match "+FIX")
                       ((org-agenda-overriding-header "Fix: ")))))
-              ("t" "All todos."
+              ("t" "All high level todos."
+               ((tags-todo "LEVEL=1+PRIORITY<=\"B\"" ((org-agenda-overriding-header "Todo: ")))))
+              ("T" "All todos."
                ((tags-todo "LEVEL=1" ((org-agenda-overriding-header "Todo: ")))))))
 
       (advice-add 'org-agenda-goto :after
@@ -118,9 +120,8 @@
       (add-hook 'org-agenda-mode-hook (lambda () (company-mode -1)))
 
       ;; keymap
+      (spacemacs/declare-prefix "aox" "Customed")
       (evil-leader/set-key
-        "aow" (synelics-core/curry-interactive #'org-agenda nil "w")
-        "aot" (synelics-core/curry-interactive #'org-agenda nil "t")))
-    :config
-    (progn
-      )))
+        "aoxw" (synelics-core/curry-interactive #'org-agenda nil "w")
+        "aoxt" (synelics-core/curry-interactive #'org-agenda nil "t")
+        "aoxT" (synelics-core/curry-interactive #'org-agenda nil "T")))))
