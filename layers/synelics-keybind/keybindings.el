@@ -27,3 +27,8 @@
 (define-key minibuffer-local-shell-command-map (kbd "C-n") 'next-line-or-history-element)
 (define-key minibuffer-local-shell-command-map (kbd "C-k") 'previous-line-or-history-element)
 (define-key minibuffer-local-shell-command-map (kbd "C-j") 'next-line-or-history-element)
+(define-key read-expression-map (kbd "C-p") 'previous-line-or-history-element)
+(define-key read-expression-map (kbd "C-n") 'next-line-or-history-element)
+(define-key read-expression-map (kbd "C-k") 'previous-line-or-history-element)
+(define-key read-expression-map (kbd "C-j") 'next-line-or-history-element)
+

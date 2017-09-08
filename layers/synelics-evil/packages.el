@@ -18,6 +18,8 @@
   (progn
     ;; Initialization
     (setq-default evil-escape-key-sequence "C-c C-g")
+    (define-key global-map (kbd "<escape>") 'evil-normal-state)
+    (define-key evil-normal-state-map (kbd "<escape>") 'evil-normal-state)
 
     ;; Edit
     (define-key evil-insert-state-map (kbd "C-w") 'backward-kill-word)
