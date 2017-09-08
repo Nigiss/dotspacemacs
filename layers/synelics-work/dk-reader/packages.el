@@ -15,6 +15,7 @@
         projectile
         js2-mode
         polymode
+        (tramp :built-in)
         ))
 
 (defun dk-reader/post-init-sgml-mode ()
@@ -169,3 +170,11 @@
     (define-polymode poly-vp-mode dk-reader//vp-poly)
     (define-polymode poly-mix-mode dk-reader//mix-poly)
     (define-polymode poly-vue-mode dk-reader//mix-poly)))
+
+(defun dk-reader/init-tramp ()
+  (use-package 'tramp
+    :defer t
+    :init
+    (with-eval-after-load 'tramp-sh
+      (add-to-list 'tramp-actions-before-shell '(dk-reader//tramp-token-prompt-regexp tramp-action-password))
+      (add-to-list 'tramp-actions-before-shell '(dk-reader//tramp-host-prompt-regexp dk-reader//tramp-action-login-host)))))
