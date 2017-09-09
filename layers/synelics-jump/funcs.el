@@ -17,8 +17,9 @@
 
         ;; retry after update tags table
         (user-error (progn
+                      (pop-tag-mark)
                       (synelics-jump//build-tags-table)
-                      (syenlics-core//find-definitions tag-name no-confirm)))))))
+                      (syenlics-core//find-definitions (car find-tag-history) t)))))))
 
 (defun syenlics-core//find-definitions (tag-name no-confirm)
   (let ((tag-name (or tag-name (symbol-name (symbol-at-point)))))
@@ -28,5 +29,6 @@
 
 (defun synelics-jump//build-tags-table ()
   "Update tags table with shell script."
-  (interactive)
-  (synelics-core/shell-command "bash gen-tags.sh" 'background))
+  (evil-write-all nil)
+  (projectile-with-default-dir (projectile-project-root)
+    (shell-command "bash gen-tags.sh")))
