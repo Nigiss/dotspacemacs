@@ -15,7 +15,7 @@
         with-editor
         js2-mode
         polymode
-        company-etags
+        company
         (tramp :built-in)
         ))
 
@@ -177,6 +177,16 @@
     (define-polymode poly-vp-mode dk-reader//vp-poly)
     (define-polymode poly-mix-mode dk-reader//mix-poly)
     (define-polymode poly-vue-mode dk-reader//mix-poly)))
+
+(defun dk-reader/post-init-company ()
+  (use-package company
+    :defer t
+    :init
+    (advice-add 'company-etags--candidates
+                :around (lambda (old-fn prefix)
+                          (mapcar (lambda (candidate)
+                                    (replace-regexp-in-string "{{# *\\([a-zA-Z0-9_]+\\)" "\\1" candidate))
+                                  (funcall old-fn prefix))))))
 
 (defun dk-reader/init-tramp ()
   (use-package 'tramp
