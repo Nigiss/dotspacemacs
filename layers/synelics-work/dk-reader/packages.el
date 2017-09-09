@@ -12,9 +12,10 @@
 (setq dk-reader-packages
       '(
         sgml-mode
-        projectile
+        with-editor
         js2-mode
         polymode
+        company-etags
         (tramp :built-in)
         ))
 
@@ -27,28 +28,34 @@
       (synelics-core|add-hook 'after-save
                               (lambda ()
                                 (and
-                                 (synelics-work/in-directory-p "dk-reader")
                                  (string-equal (file-name-extension (buffer-file-name)) "tpl")
                                  (shell-command (concat "~/Works/dk-reader/frontend/kits/bin/tpl " buffer-file-name " > /dev/null"))))))))
 
-(defun dk-reader/post-init-projectile ()
-  (use-package projectile
+(defun dk-reader/post-init-with-editor ()
+  (use-package with-editor
     :defer t
-    :config
-    (progn
-      (spacemacs/declare-prefix "mx" "work commands")
-      (spacemacs/declare-prefix "mxr" "run server")
-      (with-eval-after-load 'evil
-        (evil-leader/set-key
-          "mxu" 'synelics-core/update-tags-table
+    :init
+    (synelics-work||define-server-run-func "start" "staging" "staging:local" "preview" "preview:local")
+    (synelics-work||define-workflow-func ("sync" nil nil)
+                                         ("alpha" nil nil)
+                                         ("publish" nil nil)
+                                         ("dev" (list (read-string "dev type: ")
+                                                      (read-string "dev usage: ")) t))
 
-          "mxs" 'synelics-work/phone-sync
-          "mxa" 'synelics-work/phone-alpha
-          "mxp" 'synelics-work/phone-publish
-          "mxd" 'synelics-work/phone-dev
+    (spacemacs/declare-prefix "mm" "Custom commands")
+    (spacemacs/declare-prefix "mmw" "Workflow")
+    (spacemacs/declare-prefix "mmr" "run server")
+    (evil-leader/set-key
+      "mmwd" 'synelics-work/workflow-with-dev
+      "mmws" 'synelics-work/workflow-with-sync
+      "mmwa" 'synelics-work/workflow-with-alpha
+      "mmwp" 'synelics-work/workflow-with-publish
 
-          "mxrs" 'synelics-work/server-start-staging
-          "mxrp" 'synelics-work/server-start-preview)))))
+      "mmrs" 'synelics-work/run-server-with-start
+      "mmri" 'synelics-work/run-server-with-staging
+      "mmrI" 'synelics-work/run-server-with-staging:local
+      "mmrp" 'synelics-work/run-server-with-preview
+      "mmrP" 'synelics-work/run-server-with-preview:local)))
 
 (defun dk-reader/post-init-js2-mode ()
   (use-package js2-mode

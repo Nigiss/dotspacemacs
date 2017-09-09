@@ -1,50 +1,39 @@
-(defun synelics-work/in-directory-p (work-directory)
-  (string-match-p (concat "/Works/" work-directory "/") (buffer-file-name)))
-
 ;; start server
-(defun synelics-work/server-start-preview ()
-  (interactive)
-  (synelics-core/shell-command "npm run preview"))
+(defmacro synelics-work||define-server-run-func (&rest cmd-list)
+  `(progn ,@(mapcar (lambda (cmd)
+                      `(defun ,(intern (format "synelics-work/run-server-with-%s" cmd)) ()
+                         (interactive)
+                         (synelics-core/shell-command (format "npm run %s" ,cmd))))
+                    cmd-list)))
 
-(defun synelics-work/server-start-staging ()
-  (interactive)
-  (synelics-core/shell-command "npm run staging"))
+;; workflow
+(defmacro synelics-work||define-workflow-func (&rest workflow-list)
+  `(progn ,@(mapcar (lambda (workflow)
+                      (let ((type (nth 0 workflow))
+                            (background-p (nth 2 workflow)))
+                        `(defun ,(intern (format "synelics-work/workflow-with-%s" type)) ()
+                           (interactive)
+                           (synelics-core/shell-command (synelics-work//hybrid-command ,type
+                                                                                       (mapconcat 'identity
+                                                                                                  ;; args may read interactive
+                                                                                                  ;; can't descruct out of defun
+                                                                                                   ,(nth 1 workflow)
+                                                                                                   " "))
+                                                        ,background-p))))
+                    workflow-list)))
 
-;; phone cmd
-(defun synelics-work/phone-dev ()
-  (interactive)
-  (synelics-core/shell-command (concat (synelics-work//hybrid-command "dev" "phone")
-                                     " "
-                                     (read-string "dev type: ")
-                                     " "
-                                     (read-string "dev usage: "))
-                             'background))
-
-(defun synelics-work/phone-sync ()
-  (interactive)
-  (synelics-core/shell-command (synelics-work//hybrid-command "sync")))
-
-(defun synelics-work/phone-alpha ()
-  (interactive)
-  (synelics-core/shell-command (synelics-work//hybrid-command "alpha")))
-
-(defun synelics-work/phone-publish ()
-  (interactive)
-  (synelics-core/shell-command (synelics-work//hybrid-command "publish")))
-
-(cl-defun synelics-work//hybrid-command (type &optional (project "phone"))
-  (concat "~/Works/dk-reader/frontend/kits/bin/workflow " type))
-
+(defun synelics-work//hybrid-command (type args)
+  (concat "~/Works/dk-reader/frontend/kits/bin/workflow " (concat type " " args)))
 
 ;;; tramp
-(defconst synelics-tool//tramp-token-prompt-regexp ".*\\(token\\)\.*: *")
+(defconst dk-reader//tramp-token-prompt-regexp ".*\\(token\\)\.*: *")
 
-(defconst synelics-tool//tramp-host-prompt-regexp ".*\\(relay-shell\\).*> *")
+(defconst dk-reader//tramp-host-prompt-regexp ".*\\(relay-shell\\).*> *")
 
-(defun synelics-tool//tramp-action-login-host ()
-  (let ((host-name (synelics-tool//get-relay-host)))
+(defun dk-reader//tramp-action-login-host ()
+  (let ((host-name (dk-reader//get-relay-host)))
     (tramp-message vec 3 "Sending host name `%s'" host-name)
     (tramp-send-string vec (concat host-name tramp-local-end-of-line))))
 
-(defun synelics-tool//get-relay-host ()
+(defun dk-reader//get-relay-host ()
   (ivy-completing-read "Choose host: " (split-string "c3-dk-yd-log01.bj") nil t))
