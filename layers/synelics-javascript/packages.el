@@ -19,7 +19,7 @@
     :defer t
     :init
     (progn
-      (setq js2-basic-offset 2)
+      (setq js-indent-level 2)
 
       (synelics-core|add-hook 'js2-mode
                               (lambda ()
