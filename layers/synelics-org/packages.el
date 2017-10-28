@@ -81,6 +81,8 @@
                "* TODO \n  CAPTURED: %u")
               ("d" "Diary" entry (file "~/Library/Mobile Documents/com~apple~CloudDocs/org/diary.org")
                "* %?\n" :clock-in t :clock-resume t)
+              ("w" "Wiki" entry (file "~/Library/Mobile Documents/com~apple~CloudDocs/org/wiki.org")
+               "* %?\n" :clock-in t :clock-resume t)
               ("i" "Idea" entry (file "~/Library/Mobile Documents/com~apple~CloudDocs/org/idea.org")
                "* %? :IDEA:")
               ("e" "Dev" entry (file "~/Library/Mobile Documents/com~apple~CloudDocs/org/dev.org")
