@@ -16,6 +16,7 @@
         js2-mode
         polymode
         company
+        anaconda-mode
         (tramp :built-in)
         ))
 
@@ -187,6 +188,19 @@
                           (mapcar (lambda (candidate)
                                     (replace-regexp-in-string "{{# *\\([a-zA-Z0-9_]+\\)" "\\1" candidate))
                                   (funcall old-fn prefix))))))
+
+(defun dk-reader/post-init-anaconda-mode ()
+  (use-package anaconda-mode
+    :defer t
+    :init
+    (add-hook 'wg-after-switch-to-workgroup-hook
+              (lambda ()
+                (let* ((rep-dir (projectile-project-root))
+                       (python-path (concat (or rep-dir "") "src/")))
+                  (if (and (file-exists-p python-path)
+                          (file-exists-p (concat python-path "start.py")))
+                      (setq python-shell-extra-pythonpaths (list python-path))
+                    (setq python-shell-extra-pythonpaths nil)))))))
 
 (defun dk-reader/init-tramp ()
   (use-package tramp
