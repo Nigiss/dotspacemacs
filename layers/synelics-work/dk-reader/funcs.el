@@ -1,9 +1,9 @@
 ;; start server
 (defmacro synelics-work||define-server-run-func (&rest cmd-list)
   `(progn ,@(mapcar (lambda (cmd)
-                      `(defun ,(intern (format "synelics-work/run-server-with-%s" cmd)) ()
+                      `(defun ,(intern (format "synelics-work/dev-with-%s" cmd)) ()
                          (interactive)
-                         (synelics-core/shell-command (format "npm run %s" ,cmd))))
+                         (synelics-core/shell-command (format "npm run dev:%s" ,cmd))))
                     cmd-list)))
 
 ;; workflow
@@ -13,7 +13,7 @@
                             (background-p (nth 2 workflow)))
                         `(defun ,(intern (format "synelics-work/workflow-with-%s" type)) ()
                            (interactive)
-                           (synelics-core/shell-command (synelics-work//hybrid-command ,type
+                           (synelics-core/shell-command (synelics-work//hybrid-command ,(concat "workflow:" type)
                                                                                        (mapconcat 'identity
                                                                                                   ;; args may read interactive
                                                                                                   ;; can't descruct out of defun
@@ -23,7 +23,12 @@
                     workflow-list)))
 
 (defun synelics-work//hybrid-command (type args)
-  (concat "~/Works/dk-reader/frontend/kits/bin/workflow " (concat type " " args)))
+  (concat "npm run " (concat type " " args)))
+
+(defun synelics-work//build-debug (&optional route-name)
+  (interactive)
+  (evil-write-all nil)
+  (synelics-core/shell-command (format "npm run build:debug %s" (or route-name "")) t))
 
 ;;; tramp
 (defconst dk-reader//tramp-token-prompt-regexp ".*\\(token\\)\.*: *")

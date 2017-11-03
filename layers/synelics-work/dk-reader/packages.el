@@ -36,27 +36,36 @@
   (use-package with-editor
     :defer t
     :init
-    (synelics-work||define-server-run-func "start" "staging" "staging:local" "preview" "preview:local")
+    (synelics-work||define-server-run-func "staging" "preview" "preview-local")
     (synelics-work||define-workflow-func ("sync" nil nil)
                                          ("alpha" nil nil)
+                                         ("alpha-specific" (list (read-string "route name: ")) nil)
                                          ("publish" nil nil)
+                                         ("publish-upgrade" nil nil)
                                          ("dev" (list (read-string "dev type: ")
                                                       (read-string "dev usage: ")) t))
 
     (spacemacs/declare-prefix "mm" "Custom commands")
     (spacemacs/declare-prefix "mmw" "Workflow")
-    (spacemacs/declare-prefix "mmr" "run server")
+    (spacemacs/declare-prefix "mmd" "dev")
+
+    (global-set-key (kbd "C-H-s") 'synelics-work//build-raw)
     (evil-leader/set-key
       "mmwd" 'synelics-work/workflow-with-dev
       "mmws" 'synelics-work/workflow-with-sync
       "mmwa" 'synelics-work/workflow-with-alpha
+      "mmwA" 'synelics-work/workflow-with-alpha-specific
       "mmwp" 'synelics-work/workflow-with-publish
+      "mmwP" 'synelics-work/workflow-with-publish-upgrade
 
-      "mmrs" 'synelics-work/run-server-with-start
-      "mmri" 'synelics-work/run-server-with-staging
-      "mmrI" 'synelics-work/run-server-with-staging:local
-      "mmrp" 'synelics-work/run-server-with-preview
-      "mmrP" 'synelics-work/run-server-with-preview:local)))
+      "mmdb" 'synelics-work//build-debug
+      "mmdB" '(lambda (route-name)
+                (interactive (read-string "route name: "))
+                (synelics-work//build-debug route-name))
+
+      "mmds" 'synelics-work/dev-with-staging
+      "mmdp" 'synelics-work/dev-with-preview
+      "mmdP" 'synelics-work/dev-with-preview-local)))
 
 (defun dk-reader/post-init-js2-mode ()
   (use-package js2-mode
