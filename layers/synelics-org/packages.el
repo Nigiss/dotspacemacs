@@ -27,6 +27,7 @@
             (org-return)))
       (evil-define-key 'normal org-mode-map (kbd "TAB") 'tab-to-tab-stop)
       (evil-define-key 'normal org-mode-map (kbd "t") 'org-todo)
+      (evil-define-key 'normal org-agenda-mode-map (kbd "t") 'org-todo)
 
       (add-hook 'org-mode-hook 'auto-fill-mode)
       (add-hook 'org-after-todo-state-change-hook
@@ -91,18 +92,29 @@
       ;; agenda
       (setq org-agenda-files '("~/Library/Mobile Documents/com~apple~CloudDocs/org"))
       (setq org-agenda-start-on-weekday 1)
-      (defun syenlics//last-week-work-match (tags)
+      (defun syenlics//work-of-week-match (tags offset-of-week)
         (interactive)
-        (let* ((time (synelics-org//time-add (current-time) 'day -7))
+        (let* ((time (synelics-org//time-add (current-time) 'day (* offset-of-week 7)))
                (beg (synelics-org//beginning-of-week time))
                (end (synelics-org//time-add (synelics-org//end-of-week time) 'day 1))
                (format-string "[%.4d-%.2d-%.2d]"))
-          (format "TODO=\"DONE\"+LEVEL=1+CLOSED>=\"%s\"+CLOSED<=\"%s\"%s"
+          (format "TODO=\"DONE\"+CLOSED>=\"%s\"+CLOSED<=\"%s\"%s"
                   (synelics-org//format-time beg format-string)
                   (synelics-org//format-time end format-string)
                   tags)))
+      (defun syenlics//last-week-work-match (tags)
+        (syenlics//work-of-week-match tags -1))
+      (defun syenlics//current-week-work-match (tags)
+        (syenlics//work-of-week-match tags 0))
       (setq org-agenda-custom-commands
             '(("w" "Works in last week."
+               ((tags (syenlics//current-week-work-match "-FIX-OPT")
+                      ((org-agenda-overriding-header "Feature: ")))
+                (tags (syenlics//current-week-work-match "+OPT")
+                      ((org-agenda-overriding-header "Opt: ")))
+                (tags (syenlics//current-week-work-match "+FIX")
+                      ((org-agenda-overriding-header "Fix: ")))))
+              ("W" "Works in last week."
                ((tags (syenlics//last-week-work-match "-FIX-OPT")
                       ((org-agenda-overriding-header "Feature: ")))
                 (tags (syenlics//last-week-work-match "+OPT")
@@ -125,5 +137,6 @@
       (spacemacs/declare-prefix "aox" "Customed")
       (evil-leader/set-key
         "aoxw" (synelics-core/curry-interactive #'org-agenda nil "w")
+        "aoxW" (synelics-core/curry-interactive #'org-agenda nil "W")
         "aoxt" (synelics-core/curry-interactive #'org-agenda nil "t")
         "aoxT" (synelics-core/curry-interactive #'org-agenda nil "T")))))
