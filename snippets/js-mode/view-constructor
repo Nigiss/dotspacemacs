@@ -1,0 +1,10 @@
+# key: c
+# name: view-constructor
+# --
+function () {
+         return {
+                next: function (view) {
+                      $0
+}
+};
+}

@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: view
+# key: v
+# --
+View(${}, ${}).apply(this, arguments);
