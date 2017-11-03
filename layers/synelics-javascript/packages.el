@@ -25,6 +25,7 @@
                               (lambda ()
                                 (setq mode-name "JS")
                                 (js2-mode-hide-warnings-and-errors)
+                                (evil-matchit-mode +1)
                                 (synelics-javascript//find-definition-use-xref-marker)))
 
       (add-hook 'js2-mode-hook

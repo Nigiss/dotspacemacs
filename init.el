@@ -438,9 +438,12 @@ layers configuration."
   (global-pretty-mode 1)
   (global-subword-mode 1)
   (global-evil-surround-mode 1)
+  (global-evil-matchit-mode 1)
 
   ;; work group
   (workgroups-mode 1)
+
+  (setq kill-ring-max 10000)
 
   ;; scroll one line at a time (less "jumpy" than defaults)
   (setq mouse-wheel-scroll-amount '(1 ((shift) . 1))) ;; one line at a time
