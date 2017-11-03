@@ -50,7 +50,11 @@
     (let ((map company-active-map))
       (define-key map (kbd "C-w") 'backward-kill-word)
       (define-key map (kbd "<return>") 'newline-and-indent)
-      (define-key map (kbd "<tab>") 'company-complete-selection))))
+      (define-key map (kbd "<tab>") (lambda ()
+                                      (interactive)
+                                      (if (or (not yas/minor-mode)
+                                              (null (synelics-completion//do-yas-expand)))
+                                          (company-complete-selection)))))))
 
 (defun synelics-completion/init-company-flx ()
   (use-package company-flx
