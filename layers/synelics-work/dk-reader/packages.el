@@ -39,7 +39,13 @@
     (synelics-work||define-server-run-func "staging" "preview" "preview-local")
     (synelics-work||define-workflow-func ("sync" nil nil)
                                          ("alpha" nil nil)
-                                         ("alpha-specific" (list (read-string "route name: ")) nil)
+                                         ("alpha-specific" (list (ivy-read "route name: " '("index"
+                                                                                        "book-detail"
+                                                                                        "secondary"
+                                                                                        "user-center"
+                                                                                        "activity"
+                                                                                        "browser"
+                                                                                        "v3"))) nil)
                                          ("publish" nil nil)
                                          ("publish-upgrade" nil nil)
                                          ("dev" (list (read-string "dev type: ")
