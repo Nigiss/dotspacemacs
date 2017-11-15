@@ -1,1 +1,5 @@
 My vim vike emacs config
+
+# INSTALL
+
+git clone https://github.com/syl20bnr/spacemacs.git .spacemacs.d
