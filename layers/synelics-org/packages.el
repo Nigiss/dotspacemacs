@@ -18,7 +18,7 @@
   (use-package org
     :defer t
     :init
-    (progn
+    (with-eval-after-load 'org
       (spacemacs|disable-company 'org-mode)
       (evil-define-key 'normal org-mode-map (kbd "o")
         #'(lambda ()
