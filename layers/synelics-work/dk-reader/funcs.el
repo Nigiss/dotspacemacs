@@ -31,9 +31,9 @@
   (synelics-core/shell-command (format "npm run build:debug %s" (or route-name "")) t))
 
 ;;; tramp
-(defconst dk-reader//tramp-token-prompt-regexp ".*\\(token\\)\.*: *")
+(defconst dk-reader//tramp-token-prompt-regexp ".*\\(EMAIL.*token\\)\.*: *")
 
-(defconst dk-reader//tramp-host-prompt-regexp ".*\\(relay-shell\\).*> *")
+(defconst dk-reader//tramp-vpn-prompt-regexp ".*\\(VPN.*relay-shell\\).*> *")
 
 (defconst dk-reader//tramp-mirelay-host-list "
 10.57.23.203                c3-dk-yd-webadmin00.bj      c4-miui-l7-read00.bj        help                        lg-dk-yd-web00.bj
@@ -64,10 +64,6 @@ c3-dk-yd-web02.bj           c3-miui-read-web03.bj       exit                    
 (defvar dk-reader//tramp-token nil)
 (defun dk-reader//tramp-compute-token-adv (&rest args)
   (setq dk-reader//tramp-token (substring (shell-command-to-string "python ~/Learns/totp/decode-token.py") 0 -1)))
-
-;; (defadvice tramp-check-for-regexp (around dk-reader//tramp-compute-token-adv disable)
-;;   (if (string-equal (substring "asdfasdf\\'" -1) "'"))
-;;   )
 
 (defun dk-reader//tramp-action-password (proc vec)
   (with-current-buffer (process-buffer proc)

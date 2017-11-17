@@ -217,14 +217,12 @@
                       (setq python-shell-extra-pythonpaths (list python-path))
                     (setq python-shell-extra-pythonpaths nil)))))))
 
-(defun dk-reader/init-tramp ()
-  (use-package tramp
-    :defer t
-    :init
-    (setq tramp-default-method "ssh")
-    (with-eval-after-load 'tramp-sh
-      (advice-add 'tramp-maybe-open-connection :before 'dk-reader//tramp-compute-token-adv)
-      (add-to-list 'tramp-actions-before-shell '(tramp-password-prompt-regexp dk-reader//tramp-action-password))
-      ;; (add-to-list 'tramp-actions-before-shell '(dk-reader//tramp-token-prompt-regexp tramp-action-password))
-      (add-to-list 'tramp-actions-before-shell '(dk-reader//tramp-token-prompt-regexp dk-reader//tramp-action-token))
-      (add-to-list 'tramp-actions-before-shell '(dk-reader//tramp-host-prompt-regexp dk-reader//tramp-action-login-host)))))
+;; (defun dk-reader/init-tramp ()
+;;   (use-package tramp
+;;     :defer t
+;;     :init
+;;     (setq tramp-default-method "ssh")
+;;     (with-eval-after-load 'tramp-sh
+;;       ;; (advice-add 'tramp-maybe-open-connection :before 'dk-reader//tramp-compute-token-adv)
+;;       (add-to-list 'tramp-actions-before-shell '(dk-reader//tramp-token-prompt-regexp dk-reader//tramp-action-token))
+;;       (add-to-list 'tramp-actions-before-shell '(dk-reader//tramp-vpn-prompt-regexp dk-reader//tramp-action-login-host)))))
