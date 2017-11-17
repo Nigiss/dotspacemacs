@@ -65,6 +65,14 @@ Version 2016-07-04"
       (add-hook 'css-mode-hook 'synelics-html//syntax-color)
       (add-hook 'css-mode-hook
                 (lambda ()
+                  (let ((lint-exec (and (projectile-project-p)
+                                       (concat (projectile-project-root) "node_modules/stylelint/bin/stylelint.js"))))
+                    (when (file-exists-p lint-exec)
+                      (setq-local flycheck-enabled-checkers '(css-stylelint))
+                      (setq-local flycheck-css-stylelint-executable lint-exec)
+                      (flycheck-mode 1)))))
+      (add-hook 'css-mode-hook
+                (lambda ()
                   (set (make-variable-buffer-local 'company-backends)
                        '(company-css
                          company-capf
