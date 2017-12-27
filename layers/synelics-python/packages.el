@@ -20,9 +20,14 @@
     :init
     (add-to-list 'spacemacs-jump-handlers-python-mode
                  '(anaconda-mode-find-assignments :async t))
+    (add-hook 'python-mode-hook 'synelics-python//find-definition-use-xref-marker)
     (add-hook 'python-mode-hook
               (lambda ()
-                (setq-local flycheck-enabled-checkers '(python-pylint))
-                (setq-local flycheck-python-pylint-executable "pylint")
-                (flycheck-mode 1)))
-    (add-hook 'python-mode-hook 'synelics-python//find-definition-use-xref-marker)))
+                (let ((pylint-exec "/usr/local/bin/pylint")
+                      (pylint-config (and (projectile-project-p)
+                                          (concat (projectile-project-root) ".pylintrc"))))
+                  (when (and (file-exists-p pylint-exec)
+                            (file-exists-p pylint-config))
+                    (setq-local flycheck-enabled-checkers '(python-pylint))
+                    (setq-local flycheck-python-pylint-executable pylint-exec)
+                    (flycheck-mode 1)))))))

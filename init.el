@@ -445,6 +445,8 @@ layers configuration."
 
   (setq kill-ring-max 10000)
 
+  (setq flycheck-check-syntax-automatically '(idle-change save mode-enabled))
+
   ;; scroll one line at a time (less "jumpy" than defaults)
   (setq mouse-wheel-scroll-amount '(1 ((shift) . 1))) ;; one line at a time
   (setq mouse-wheel-progressive-speed nil) ;; don't accelerate scrolling
