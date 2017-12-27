@@ -21,6 +21,7 @@
     :mode ("\\.tpl\\'" . sgml-mode)
     :init
     (add-to-list 'spacemacs-jump-handlers-sgml-mode #'synelics-jump/find-tag-no-confirm)
+    (add-hook 'sgml-mode-hook 'emmet-mode)
     (add-hook 'sgml-mode-hook
               (lambda ()
                 (setq sgml-basic-offset 4)
