@@ -425,7 +425,7 @@ layers configuration."
   (setq ivy-re-builders-alist
         '((t . ivy--regex-fuzzy)))
   (smartparens-global-mode t)
-  ;; (spacemacs/toggle-golden-ratio-on)
+  (spacemacs/toggle-golden-ratio-off)
   (global-auto-revert-mode t)
 
   ;; alert style
