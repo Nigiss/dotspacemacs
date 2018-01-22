@@ -384,7 +384,7 @@ in `dotspacemacs/user-config'."
   (setq byte-compile-warnings '(not obsolete))
 
   ;; correct find and highlight url by exclude "()'"
-  (setq thing-at-point-url-path-regexp "[^]\t\n \"'<>[^`{}]*[^]\t\n \"'<>[^`{}.,;()']+"))
+  (setq markdown-regex-uri "\\(\\(?:acap\\|cid\\|da\\(?:ta\\|v\\)\\|f\\(?:ax\\|ile\\|tp\\)\\|gopher\\|https?\\|imap\\|ldap\\|m\\(?:ailto\\|essage\\|id\\|odem\\)\\|n\\(?:ews\\|fs\\|ntp\\)\\|p\\(?:op\\|rospero\\)\\|rtsp\\|s\\(?:ervice\\|ip\\)\\|t\\(?:el\\(?:net\\)?\\|ip\\)\\|urn\\|vemmi\\|wais\\):[^]	\n<>',;() ]+\\)"))
 
 (defun dotspacemacs/user-config ()
   "Configuration function.
