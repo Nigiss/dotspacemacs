@@ -10,3 +10,8 @@
 ;;; License: GPLv3
 
 ;; Variables
+
+(spacemacs|define-jump-handlers js-mode)
+
+(defvar javascript-disable-tern-port-files t
+  "Stops tern from creating tern port files.")

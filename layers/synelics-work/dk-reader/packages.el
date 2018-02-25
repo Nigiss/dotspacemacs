@@ -13,11 +13,11 @@
       '(
         sgml-mode
         with-editor
-        js2-mode
         polymode
         company
         anaconda-mode
         (tramp :built-in)
+        (js-mode :location built-in)
         ))
 
 (defun dk-reader/post-init-sgml-mode ()
@@ -73,18 +73,35 @@
       "mmdp" 'synelics-work/dev-with-preview
       "mmdP" 'synelics-work/dev-with-preview-local)))
 
-(defun dk-reader/post-init-js2-mode ()
-  (use-package js2-mode
+(defun dk-reader/init-js-mode ()
+  (use-package js-mode
     :defer t
     :init
+    (setq js-indent-level 2)
 
-    (add-hook 'js2-mode-hook
+    (spacemacs|add-company-backends :backends company-tern :modes js-mode)
+    (spacemacs//set-tern-key-bindings 'js-mode)
+    (add-hook 'js-mode-hook 'tern-mode)
+
+    (synelics-core|add-hook 'js-mode
+                            (lambda ()
+                              (evil-matchit-mode +1)
+                              (advice-add 'tern-show-definition
+                                          :around (lambda (old-fn data)
+                                                    (if data
+                                                        (progn
+                                                          (xref-push-marker-stack)
+                                                          (funcall old-fn data))
+                                                      (user-error (message "No definition found.")))))))
+
+    (add-hook 'js-mode-hook
               (lambda ()
-                (when (and (projectile-project-p)
-                           (file-exists-p (concat (projectile-project-root) ".eslintrc.js")))
-                  (setq-local js2-basic-offset 4)
-                  (if (string-match "^[ \t]*{{#[^}]+}}" (buffer-string))
-                      (poly-vp-mode 1)))))))
+                (let ((eslint-exec (and (projectile-project-p)
+                                        (concat (projectile-project-root) "node_modules/eslint/bin/eslint.js"))))
+                  (when (file-exists-p eslint-exec)
+                    (setq-local flycheck-enabled-checkers '(javascript-eslint))
+                    (setq-local flycheck-javascript-eslint-executable eslint-exec)
+                    (flycheck-mode 1)))))))
 
 (defun dk-reader/init-polymode ()
   (use-package polymode
@@ -95,7 +112,7 @@
     ;; vp
     (defcustom dk-reader//vp-host
       (pm-bchunkmode "JS mode"
-                     :mode 'js2-mode)
+                     :mode 'js-mode)
       "Html host innermode"
       :group 'hostmodes
       :type 'object)
@@ -136,7 +153,7 @@
 
     ;; mix or vue
     (defcustom dk-reader//mix-host
-      (pm-bchunkmode "mix" :mode 'fundamental-mode)
+      (pm-bchunkmode "mix" :mode 'sgml-mode)
       "mix"
       :group 'hostmodes
       :type 'object)
@@ -146,9 +163,9 @@
                        :head-reg "^<template[^>]*>"
                        :tail-reg "^</template>"
                        :head-mode 'host
-                       :tail-mode 'body
+                       :tail-mode 'host
                        :mode 'sgml-mode
-                       :indent-offset 0
+                       :indent-offset 2
                        :font-lock-narrow t)
       "Mix typical chunk."
       :group 'innermodes
@@ -159,9 +176,9 @@
                        :head-reg "^<style[^>]*>"
                        :tail-reg "^</style>"
                        :head-mode 'host
-                       :tail-mode 'body
+                       :tail-mode 'host
                        :mode 'css-mode
-                       :indent-offset 0
+                       :indent-offset 2
                        :font-lock-narrow t)
       "Mix typical chunk."
       :group 'innermodes
@@ -172,9 +189,9 @@
                        :head-reg "^<script[^>]*>"
                        :tail-reg "^</script>"
                        :head-mode 'host
-                       :tail-mode 'body
-                       :mode 'js2-mode
-                       :indent-offset 0
+                       :tail-mode 'host
+                       :mode 'js-mode
+                       :indent-offset 2
                        :font-lock-narrow t)
       "Mix typical chunk."
       :group 'innermodes
