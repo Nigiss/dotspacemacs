@@ -148,6 +148,7 @@
 
         ;; workgroup actions
         "pwc" 'wg-create-workgroup
+        "pwp" 'wg-switch-to-previous-workgroup
         "pws" 'wg-switch-to-workgroup
         "pwr" 'wg-rename-workgroup
         "pww" 'wg-save-session

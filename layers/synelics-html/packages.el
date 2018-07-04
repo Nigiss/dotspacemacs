@@ -22,6 +22,12 @@
     :init
     (add-to-list 'spacemacs-jump-handlers-sgml-mode #'synelics-jump/find-tag-no-confirm)
     (add-hook 'sgml-mode-hook 'emmet-mode)
+    (add-hook 'sgml-mode-hook 'yas-minor-mode)
+    (add-hook 'after-save-hook
+              (lambda ()
+                (and
+                 (string-equal (file-name-extension (buffer-file-name)) "tpl")
+                 (shell-command (concat "~/Works/dk-reader/frontend/kits/bin/tpl " buffer-file-name " > /dev/null")))))
     (add-hook 'sgml-mode-hook
               (lambda ()
                 (setq sgml-basic-offset 4)

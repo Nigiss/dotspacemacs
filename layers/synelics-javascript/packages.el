@@ -12,6 +12,7 @@
 (setq synelics-javascript-packages
       '(
         js2-mode
+        rjsx-mode
         ))
 
 (defun synelics-javascript/post-init-js2-mode ()
@@ -20,7 +21,6 @@
     :init
     (progn
       (setq js-indent-level 2)
-
       (synelics-core|add-hook 'js2-mode
                               (lambda ()
                                 (setq mode-name "JS")
@@ -30,9 +30,22 @@
 
       (add-hook 'js2-mode-hook
                 (lambda ()
-                  (let ((eslint-exec (and (projectile-project-p)
+                  (let ((standard-exec (and (projectile-project-p)
+                                           (concat (projectile-project-root) "node_modules/standard/bin/cmd.js")))
+                        (eslint-exec (and (projectile-project-p)
                                           (concat (projectile-project-root) "node_modules/eslint/bin/eslint.js"))))
-                    (when (file-exists-p eslint-exec)
-                      (setq-local flycheck-enabled-checkers '(javascript-eslint))
-                      (setq-local flycheck-javascript-eslint-executable eslint-exec)
-                      (flycheck-mode 1))))))))
+                    (if (file-exists-p standard-exec)
+                        (progn
+                          (setq-local flycheck-enabled-checkers '(javascript-standard))
+                          (setq-local flycheck-javascript-standard-executable standard-exec)
+                          (flycheck-mode 1))
+                      (when (file-exists-p eslint-exec)
+                        (setq-local flycheck-enabled-checkers '(javascript-eslint))
+                        (setq-local flycheck-javascript-eslint-executable eslint-exec)
+                        (flycheck-mode 1)))))))))
+
+(defun synelics-javascript/init-rjsx-mode ()
+  (use-package rjsx-mode
+    :defer t
+    ;; :mode ("\\.js\\'" . rjsx-mode)
+    ))

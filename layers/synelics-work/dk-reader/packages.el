@@ -15,6 +15,7 @@
         with-editor
         polymode
         company
+        js2-mode
         anaconda-mode
         (tramp :built-in)
         (js-mode :location built-in)
@@ -26,15 +27,27 @@
     :mode ("\\.tpl\\'" . sgml-mode)
     :init
     (progn
-      (synelics-core|add-hook 'after-save
+      (add-hook 'after-save-hook
                               (lambda ()
                                 (and
                                  (string-equal (file-name-extension (buffer-file-name)) "tpl")
                                  (shell-command (concat "~/Works/dk-reader/frontend/kits/bin/tpl " buffer-file-name " > /dev/null"))))))))
 
+(defun dk-reader/post-init-sgml-mode ()
+  (use-package sgml-mode
+    :defer t
+    :init
+    (progn
+      (add-hook 'sgml-mode-hook
+                (lambda ()
+                  (and
+                   (string-equal (file-name-extension (buffer-file-name)) "mix")
+                   (setq-local sgml-basic-offset 2)))
+                'append))))
+
 (defun dk-reader/post-init-with-editor ()
   (use-package with-editor
-    :defer t
+    :defer
     :init
     (synelics-work||define-server-run-func "staging" "preview" "preview-local")
     (synelics-work||define-workflow-func ("sync" nil nil)
@@ -77,8 +90,6 @@
   (use-package js-mode
     :defer t
     :init
-    (setq js-indent-level 2)
-
     (spacemacs|add-company-backends :backends company-tern :modes js-mode)
     (spacemacs//set-tern-key-bindings 'js-mode)
     (add-hook 'js-mode-hook 'tern-mode)
@@ -96,23 +107,40 @@
 
     (add-hook 'js-mode-hook
               (lambda ()
-                (let ((eslint-exec (and (projectile-project-p)
-                                        (concat (projectile-project-root) "node_modules/eslint/bin/eslint.js"))))
-                  (when (file-exists-p eslint-exec)
-                    (setq-local flycheck-enabled-checkers '(javascript-eslint))
-                    (setq-local flycheck-javascript-eslint-executable eslint-exec)
-                    (flycheck-mode 1)))))))
+                (when (and (projectile-project-p)
+                           (file-exists-p (concat (projectile-project-root) ".eslintrc.json")))
+                  (let ((eslint-exec (and (projectile-project-p)
+                                          (concat (projectile-project-root) "node_modules/eslint/bin/eslint.js"))))
+                    (when (file-exists-p eslint-exec)
+                      (setq-local js-indent-level 2)
+                      (setq-local flycheck-enabled-checkers '(javascript-eslint))
+                      (setq-local flycheck-javascript-eslint-executable eslint-exec)
+                      (flycheck-mode 1))))))))
+
+(defun dk-reader/post-init-js2-mode ()
+  (use-package js2-mode
+    :defer t
+    :init
+    (add-hook 'js2-mode-hook
+              (lambda ()
+                (when (and (projectile-project-p)
+                           (file-exists-p (concat (projectile-project-root) ".eslintrc.js")))
+                  (setq-local js2-basic-offset 4)
+                  (when (string-match "^[ \t]*{{#[^}]+}}" (buffer-string))
+                      (poly-vp-mode 1)
+                      (rjsx-mode nil)))))))
 
 (defun dk-reader/init-polymode ()
   (use-package polymode
     :init
     (add-to-list 'auto-mode-alist '("\\.mix$" . poly-mix-mode))
+    (add-to-list 'auto-mode-alist '("\\.ux$" . poly-mix-mode))
     (add-to-list 'auto-mode-alist '("\\.vue$" . poly-mix-mode))
     :config
     ;; vp
     (defcustom dk-reader//vp-host
       (pm-bchunkmode "JS mode"
-                     :mode 'js-mode)
+                     :mode 'js2-mode)
       "Html host innermode"
       :group 'hostmodes
       :type 'object)
