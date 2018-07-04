@@ -1,0 +1,6 @@
+# key: pf
+# name: export function
+# --
+export function ${}(${}) {
+       $0
+}

@@ -1,0 +1,17 @@
+# -*- mode: snippet -*-
+# name: frame
+# key: fm
+# --
+<script>
+  export default {
+
+  }
+</script>
+
+<template>
+
+</template>
+
+<style>
+
+</style>
