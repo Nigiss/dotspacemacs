@@ -13,6 +13,7 @@
       '(
         js2-mode
         rjsx-mode
+        indium
         ))
 
 (defun synelics-javascript/post-init-js2-mode ()
@@ -49,3 +50,6 @@
     :defer t
     ;; :mode ("\\.js\\'" . rjsx-mode)
     ))
+
+(defun synelics-javascript/init-indium ()
+  (use-package indium :defer t))

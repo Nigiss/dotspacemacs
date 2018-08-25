@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: export default function
+# key: pdf
+# --
+export default function $1 () {
+       $0
+}
