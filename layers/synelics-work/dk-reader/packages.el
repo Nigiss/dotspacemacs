@@ -59,6 +59,8 @@
                                                                                         "activity"
                                                                                         "browser"
                                                                                         "v3"))) nil)
+                                         ("ci" '("foreground") nil)
+                                         ("ci-staging" '("foreground") nil)
                                          ("publish" nil nil)
                                          ("publish-upgrade" nil nil)
                                          ("dev" (list (read-string "dev type: ")
@@ -73,7 +75,8 @@
       "mmwd" 'synelics-work/workflow-with-dev
       "mmws" 'synelics-work/workflow-with-sync
       "mmwa" 'synelics-work/workflow-with-alpha
-      "mmwA" 'synelics-work/workflow-with-alpha-specific
+      "mmwc" 'synelics-work/workflow-with-ci
+      "mmwC" 'synelics-work/workflow-with-ci-staging
       "mmwp" 'synelics-work/workflow-with-publish
       "mmwP" 'synelics-work/workflow-with-publish-upgrade
 
