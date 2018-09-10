@@ -418,7 +418,6 @@ layers configuration."
   ;;                          (lambda ()
   ;;                            (linum-mode -1)))
 
-  (setq powerline-default-separator 'utf-8)
   (spaceline-toggle-minor-modes-off)
   (setq ivy-re-builders-alist
         '((t . ivy--regex-fuzzy)))
