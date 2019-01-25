@@ -71,6 +71,7 @@ values."
      clojure
      nginx
      haskell
+     lua
 
      (syntax-checking :variables syntax-checking-enable-by-default nil)
 
