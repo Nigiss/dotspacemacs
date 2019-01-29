@@ -72,7 +72,7 @@ c3-dk-yd-web02.bj           c3-miui-read-web03.bj       exit                    
       (unless (tramp-get-connection-property vec "first-password-request" nil)
         (tramp-clear-passwd vec))
       (tramp-message vec 3 "Sending password")
-      (process-send-string proc (concat "Lyr04110228" tramp-local-end-of-line))
+      (process-send-string proc (concat "" tramp-local-end-of-line))
       (narrow-to-region (point-max) (point-max)))))
 
 (defun dk-reader//tramp-action-token (proc vec)
