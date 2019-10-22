@@ -12,12 +12,19 @@
 (setq synelics-org-packages
       '(
         org
+        calfw
+        calfw-org
+        calfw-ical
         ))
 
 (defun synelics-org/post-init-org ()
   (use-package org
     :defer t
     :init
+    (setq-default org-use-sub-superscripts nil)
+    (setq org-src-fontify-natively t)
+    (setq org-startup-indented t)
+
     (with-eval-after-load 'org
       (spacemacs|disable-company 'org-mode)
       (evil-define-key 'normal org-mode-map (kbd "o")
@@ -30,6 +37,8 @@
       (evil-define-key 'normal org-agenda-mode-map (kbd "t") 'org-todo)
 
       (add-hook 'org-mode-hook 'auto-fill-mode)
+      (add-hook 'org-mode-hook
+                (lambda () (pangu-spacing-mode -1)))
       (add-hook 'org-after-todo-state-change-hook
                 (lambda ()
                   (if (string-equal org-state "DONE")
@@ -65,6 +74,7 @@
                               "REVIEW(r)"
                               "TEST(s)"
                               "|"
+                              "REDUNDANCY(y!)"
                               "DONE(d!/!)"
                               "DONE-WITH-LOG(o@/!)"
                               "DELEGATED(l!)"
@@ -76,9 +86,9 @@
                     ("PROJECT" :inherit font-lock-string-face))))
 
       ;; capture
-      (setq org-default-notes-file "~/Library/Mobile Documents/com~apple~CloudDocs/org/notes.org")
+      (setq org-default-notes-file "~/Library/Mobile Documents/com~apple~CloudDocs/org/notes/2019-Q4.org")
       (setq org-capture-templates
-            '(("t" "Todo" entry (file "~/Library/Mobile Documents/com~apple~CloudDocs/org/notes.org")
+            '(("t" "Todo" entry (file "~/Library/Mobile Documents/com~apple~CloudDocs/org/notes/2019-Q4.org")
                "* TODO \n  CAPTURED: %u")
               ("d" "Diary" entry (file "~/Library/Mobile Documents/com~apple~CloudDocs/org/diary.org")
                "* %?\n" :clock-in t :clock-resume t)
@@ -90,7 +100,11 @@
                "* %?\n  CAPTURED: %u")))
 
       ;; agenda
-      (setq org-agenda-files '("~/Library/Mobile Documents/com~apple~CloudDocs/org"))
+      (setq org-agenda-files '("~/Library/Mobile Documents/com~apple~CloudDocs/org/notes"
+                               "~/Library/Mobile Documents/com~apple~CloudDocs/org/communication"
+                               "~/Library/Mobile Documents/com~apple~CloudDocs/org/summary"
+                               "~/Library/Mobile Documents/com~apple~CloudDocs/org/meeting"
+                               ))
       (setq org-agenda-start-on-weekday 1)
       (defun syenlics//work-of-week-match (tags offset-of-week)
         (interactive)
@@ -133,10 +147,27 @@
       (spacemacs|disable-company 'org-agenda-mode)
       (add-hook 'org-agenda-mode-hook (lambda () (company-mode -1)))
 
+      ;; Fix editing org-table' bug
+      ;; org-self-insert-command: Invalid function: org-table-with-shrunk-field
+      ;; (require 'org-macs)
+
       ;; keymap
       (spacemacs/declare-prefix "aox" "Customed")
       (evil-leader/set-key
+        "aoxc" 'cfw:open-org-calendar
         "aoxw" (synelics-core/curry-interactive #'org-agenda nil "w")
         "aoxW" (synelics-core/curry-interactive #'org-agenda nil "W")
         "aoxt" (synelics-core/curry-interactive #'org-agenda nil "t")
-        "aoxT" (synelics-core/curry-interactive #'org-agenda nil "T")))))
+        "aoxT" (synelics-core/curry-interactive #'org-agenda nil "T"))
+      )))
+
+(defun synelics-org/init-calfw ()
+  (use-package calfw))
+
+(defun synelics-org/init-calfw-org ()
+  (use-package calfw-org
+    :config
+    (define-key cfw:calendar-mode-map (kbd "c") 'org-capture)
+    (define-key cfw:calendar-mode-map (kbd "j") 'next-line)
+    (define-key cfw:calendar-mode-map (kbd "k") 'previous-line)
+    (define-key cfw:calendar-mode-map (kbd "C-]") 'synelics-org/jump-item)))

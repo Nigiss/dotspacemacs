@@ -19,3 +19,12 @@
 (defun synelics-org//format-time (time format-string)
   (let ((date (synelics-org//time-to-date time)))
     (format format-string (caddr date) (car date) (cadr date))))
+
+(defun synelics-org/jump-item ()
+  "Jump to org item and narrow."
+  (interactive)
+  (if (not (ring-empty-p xref--marker-ring))
+      (ring-remove xref--marker-ring 0))
+  (xref-push-marker-stack)
+  (cfw:org-onclick)
+  (org-narrow-to-subtree))
