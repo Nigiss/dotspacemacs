@@ -220,8 +220,8 @@ values."
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
-   dotspacemacs-default-font '("Source Code Pro for Powerline"
-                               :size 15
+   dotspacemacs-default-font '("Source Code Pro"
+                               :size 13
                                :weight normal
                                :width normal
                                :powerline-scale 1.1)
@@ -391,8 +391,8 @@ in `dotspacemacs/user-config'."
 layers configuration."
   ;; 解决中英文对齐的问题
   (if (and (configuration-layer/layer-usedp 'chinese)
-           (spacemacs/window-system-is-mac))
-      (spacemacs//set-monospaced-font "Source Code Pro for Powerline" "Hiragino Sans GB" 15 15))
+          (spacemacs/window-system-is-mac))
+     (spacemacs//set-monospaced-font "Source Code Pro" "Hiragino Sans GB" 13 16))
 
   ;; show smartparens mode will cause Emacs frozen when use swiper...
   ;; (turn-off-show-smartparens-mode)
@@ -450,6 +450,7 @@ layers configuration."
   (setq mouse-wheel-progressive-speed nil) ;; don't accelerate scrolling
   (setq mouse-wheel-follow-mouse 't) ;; scroll window under mouse
   (setq scroll-step 1) ;; keyboard scroll one line at a time
+  (setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin"))
   )
 
 (setq custom-file (expand-file-name "custom.el" dotspacemacs-directory))
