@@ -13,6 +13,7 @@
 (setq synelics-shell-packages
       '(
         term
+        multi-term
         xterm-color
         with-editor
         ))
@@ -46,7 +47,15 @@
     (evil-define-key 'normal term-raw-map (kbd "RET") 'term-send-return)
     ))
 
-(defun shell/post-init-shell ()
+(defun synelics-shell/init-multi-term ()
+  (use-package multi-term
+    :defer t
+    :init
+    (setq multi-term-program "/bin/zsh")
+    ;; Use Emacs terminfo, not system terminfo, mac系统出现了4m
+    (setq system-uses-terminfo nil)))
+
+(defun synelics-shell/post-init-shell ()
   (evil-define-key 'insert comint-mode-map (kbd "<tab>") 'company-complete-selection)
   (evil-define-key 'insert comint-mode-map (kbd "C-l") 'company-complete-selection)
   (evil-define-key 'insert comint-mode-map (kbd "C-j") 'company-select-next)
@@ -62,10 +71,7 @@
       (add-hook 'comint-preoutput-filter-functions
                 (lambda (string)
                   "Remove default bg-color in shell."
-                  (replace-regexp-in-string ";40" "" string))))
-    :config
-    (progn
-      (setq font-lock-unfontify-region-function 'xterm-color-unfontify-region))))
+                  (replace-regexp-in-string ";40" "" string))))))
 
 (defun synelics-shell/init-with-editor ()
   (use-package with-editor
